@@ -88,7 +88,7 @@ class CategoryController extends Controller {
 		return Admin::form(Category::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$form->text('name', '名称');
+			$form->text('name', '名称')->help('请输入2-20个字符！');
 			$form->select('parent_id', '父类')->options(Category::all()->pluck('name', 'id'));
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_category'");
 			// $form->text('parent_id', '父类id');
