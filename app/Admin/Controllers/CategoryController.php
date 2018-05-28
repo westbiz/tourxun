@@ -68,14 +68,20 @@ class CategoryController extends Controller {
 	protected function grid() {
 		return Admin::grid(Category::class, function (Grid $grid) {
 
+			$grid->model()->withTrashed();
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
-			$grid->parent_id('父类');
+			// dd($grid->parent('父类'));
+			$grid->child('父类')->display(function ($child) {
+				return "<span class='label label-warning'>{$child['name']}</span>";
+			});
+			// $grid->parent_id('父类');
 			$grid->level('等级');
-			$grid->column('description', '说明');
+			$grid->description('说明');
 
-			$grid->created_at();
-			$grid->updated_at();
+			$grid->deleted_at();
+			// $grid->created_at();
+			// $grid->updated_at();
 		});
 	}
 
@@ -88,15 +94,18 @@ class CategoryController extends Controller {
 		return Admin::form(Category::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$form->text('name', '名称')->help('请输入2-20个字符！');
-			$form->select('parent_id', '父类')->options(Category::all()->pluck('name', 'id'));
+			$form->text('name', '名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
+			$cates = collect([0 => '---创建到父分类---']);
+			$merged = $cates->merge(Category::all()->pluck('name', 'id'));
+			// dd($merged);
+			$form->select('parent_id', '父类')->options($merged);
+			// $form->select('parent_id', '父类')->options(Category::all()->pluck('name', 'id'));
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_category'");
-			// $form->text('parent_id', '父类id');
 			$form->text('level', '层级')->value($nextid[0]->Auto_increment);
 			$form->textarea('description', '说明');
 
-			$form->display('created_at', 'Created At');
-			$form->display('updated_at', 'Updated At');
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
 		});
 	}
 }
