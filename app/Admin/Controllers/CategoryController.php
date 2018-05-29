@@ -24,6 +24,10 @@ class CategoryController extends Controller {
 
 			$content->header('分类管理');
 			$content->description('列表');
+			$content->breadcrumb(
+				['text' => '首页', 'url' => '/'],
+				['text' => '分类列表']
+			);
 
 			$content->body($this->grid());
 		});
@@ -40,6 +44,12 @@ class CategoryController extends Controller {
 
 			$content->header('分类管理');
 			$content->description('编辑');
+			$content->breadcrumb(
+				['text' => '首页', 'url' => '/'],
+				['text' => '分类管理', 'url' => '/categories'],
+				['text' => '编辑分类']
+			);
+			// $content->name();
 
 			$content->body($this->form()->edit($id));
 		});
@@ -55,6 +65,11 @@ class CategoryController extends Controller {
 
 			$content->header('分类');
 			$content->description('新增');
+			$content->breadcrumb(
+				['text' => '首页', 'url' => '/'],
+				['text' => '分类管理', 'url' => '/categories'],
+				['text' => '新增分类']
+			);
 
 			$content->body($this->form());
 		});
