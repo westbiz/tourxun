@@ -87,11 +87,16 @@ class CategoryController extends Controller {
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
 			// dd($grid->parent('父类'));
-			$grid->child('父类')->display(function ($child) {
+			$grid->child('归属父类')->display(function ($child) {
 				return "<span class='label label-warning'>{$child['name']}</span>";
 			});
 			$grid->parent_id('父类');
-			$grid->description('说明')->limit(20);
+			$grid->description('说明')->limit(30)->editable();
+
+			$grid->filter(function ($filter) {
+				// 设置created_at字段的范围查询
+				$filter->between('created_at', 'Created Time')->datetime();
+			});
 
 			// $grid->deleted_at();
 			// $grid->created_at();
@@ -108,12 +113,10 @@ class CategoryController extends Controller {
 		return Admin::form(Category::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$form->text('name', '名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 			$cates = collect([0 => '---创建父分类---']);
 			$merged = $cates->merge(Category::all()->pluck('name', 'id'));
-			// dd($merged);
 			$form->select('parent_id', '父类')->options($merged);
-			// $form->select('parent_id', '父类')->options(Category::all()->pluck('name', 'id'));
+			$form->text('name', '名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_category'");
 			$form->text('level', '层级')->value($nextid[0]->Auto_increment);
 			$form->textarea('description', '说明');
