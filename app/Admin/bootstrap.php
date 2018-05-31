@@ -1,6 +1,8 @@
 <?php
 
 use App\Admin\Extensions\Popover;
+use App\Admin\Extensions\WangEditor;
+use Encore\Admin\Form;
 use Encore\Admin\Grid\Column;
 
 /**
@@ -26,5 +28,7 @@ Encore\Admin\Form::forget(['map', 'editor']);
 Column::extend('color', function ($value, $color) {
 	return "<span style='color:$color'>{$value}</span>";
 });
+
+Form::extend('editor', WangEditor::class);
 
 Column::extend('popover', Popover::class);
