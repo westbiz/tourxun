@@ -95,7 +95,7 @@ class ProductController extends Controller {
 
 			$form->display('id', 'ID');
 			$form->text('name', '名称');
-			$form->text('category_id', '分类');
+			$form->select('category_id', '分类')->options('/api/categories');
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 			$form->number('hotel', '酒店星级')->min(3)->max(5)->default(3);
@@ -105,7 +105,7 @@ class ProductController extends Controller {
 			$form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
 			$form->text('summary', '概述');
 			$form->editor('content', '正文');
-			$form->radio('active', '激活')->options(['0' => '否', '1' => '是']);;
+			$form->switch('active', '激活？');
 
 			$form->display('created_at', 'Created At');
 			$form->display('updated_at', 'Updated At');
