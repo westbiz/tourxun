@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -95,7 +96,15 @@ class ProductController extends Controller {
 
 			$form->display('id', 'ID');
 			$form->text('name', '名称');
-			$form->select('category_id', '分类')->options('/api/categories');
+			// $categories = Category::all()->pluck('name', 'id');
+			// dd($categories);
+			$form->select('category_id', '分类')->options('/api/v1/categories');
+			// $form->select('category_id', '分类')->options(function ($id) {
+			// 	$category = Category::find($id);
+			// 	if ($category) {
+			// 		return [$category->category_id => $category->name];
+			// 	}
+			// })->ajax('/api/v1/categories');
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 			$form->number('hotel', '酒店星级')->min(3)->max(5)->default(3);
@@ -110,5 +119,10 @@ class ProductController extends Controller {
 			$form->display('created_at', 'Created At');
 			$form->display('updated_at', 'Updated At');
 		});
+	}
+
+	public function categories(Request $request) {
+		$q = $request->get('q');
+		return Category::where('name', 'like', "%$q%")->paginate(null, ['id', 'name as text']);
 	}
 }

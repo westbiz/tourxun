@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -22,12 +24,23 @@ Route::get('test', function () {
 	return 'hello world';
 });
 
-Route::get('categories', function () {
-	// return Category::all(['id', 'name']);
-	$categories = Category::all(['id', 'name']);
-	return response()->json($categories);
-});
+// Route::prefix('api/v1')->group(function () {
+// 	Route::get('categories/{id}', function ($api, $id) {
+// 		return Category::find($id);
+// 	});
+// });
 
 Route::get('categories/{id}', function ($id) {
-	return Category::find($id);
+	// return Category::find($id);
+	return new CategoryResource(Category::findOrFail($id));
 });
+
+Route::get('categories', function () {
+	return new CategoryCollection(Category::all());
+	// return $categories = Category::all()->pluck('name', 'id');
+	// dd($categories);
+	// $categories = Category::all(['id', 'name']);
+	// // return $categories->toArray();
+	// return response()->json($categories);
+});
+// Route::controller('categories', 'CategoryController');
