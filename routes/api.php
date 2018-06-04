@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Resources\CategoryCollection;
+// use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -31,12 +31,13 @@ Route::get('test', function () {
 // });
 
 Route::get('categories/{id}', function ($id) {
-	// return Category::find($id);
-	return new CategoryResource(Category::findOrFail($id));
+	return Category::find($id);
+	// return new CategoryResource(Category::find($id));
 });
 
 Route::get('categories', function () {
-	return new CategoryCollection(Category::all());
+	return CategoryResource::collection(Category::paginate());
+	// return $categories = Category::all(['id', 'name as text']);
 	// return $categories = Category::all()->pluck('name', 'id');
 	// dd($categories);
 	// $categories = Category::all(['id', 'name']);

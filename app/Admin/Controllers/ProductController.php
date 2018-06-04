@@ -98,13 +98,14 @@ class ProductController extends Controller {
 			$form->text('name', '名称');
 			// $categories = Category::all()->pluck('name', 'id');
 			// dd($categories);
-			$form->select('category_id', '分类')->options('/api/v1/categories');
-			// $form->select('category_id', '分类')->options(function ($id) {
-			// 	$category = Category::find($id);
-			// 	if ($category) {
-			// 		return [$category->category_id => $category->name];
-			// 	}
-			// })->ajax('/api/v1/categories');
+			// $form->select('category_id', '分类')->options('/api/v1/categories');
+			$form->select('category_id')->options(function ($id) {
+				$category = Category::find($id);
+				if ($category) {
+					return [$category->id => $category->name];
+				}
+			})->ajax('/api/v1/categories');
+
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 			$form->number('hotel', '酒店星级')->min(3)->max(5)->default(3);
