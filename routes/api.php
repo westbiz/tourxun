@@ -31,9 +31,11 @@ Route::get('test', function () {
 // });
 
 Route::get('categories/{id}', function ($id) {
-	return Category::find($id);
-	// return new CategoryResource(Category::find($id));
+	// return Category::find($id);
+	return new CategoryResource(Category::find($id));
 });
+
+// Route::get('categories/{id}', 'Admin\CategoryController@children');
 
 Route::get('categories', function () {
 	return CategoryResource::collection(Category::paginate());
@@ -44,4 +46,9 @@ Route::get('categories', function () {
 	// // return $categories->toArray();
 	// return response()->json($categories);
 });
+
+// Route::get('categories/children/{id}', function () {
+// 	return new CategoryResource(Category::find($id));
+// });
+
 // Route::controller('categories', 'CategoryController');

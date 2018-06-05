@@ -14,7 +14,7 @@ class CategoryResource extends JsonResource {
 	public function toArray($request) {
 		return [
 			'id' => $this->id,
-			'text' => $this->name,
+			'text' => $this->name, //用于select的options
 			'parent_id' => $this->parent_id,
 			'level' => $this->level,
 			'description' => $this->descritpion,

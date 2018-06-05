@@ -129,4 +129,9 @@ class CategoryController extends Controller {
 			// $form->display('updated_at', 'Updated At');
 		});
 	}
+
+	public function children(Request $request) {
+		$categoryId = $request->get('q');
+		return Category::children()->where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
+	}
 }
