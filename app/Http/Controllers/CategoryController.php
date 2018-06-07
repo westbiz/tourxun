@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller {
 	/**
@@ -15,6 +17,10 @@ class CategoryController extends Controller {
 	public function index() {
 		//
 	}
+
+	// public function child() {
+	// 	return Category::all();
+	// }
 
 	/**
 	 * Store a newly created resource in storage.
@@ -59,6 +65,11 @@ class CategoryController extends Controller {
 
 	public function children(Request $request) {
 		$categoryId = $request->get('q');
-		return Category::children()->where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
+		return Category::where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
+	}
+
+	public function categoryajax(Request $request) {
+		$q = $request->get('q');
+		return Category::where('name', 'like', "%$q%")->paginate(null, ['id', 'name as text']);
 	}
 }

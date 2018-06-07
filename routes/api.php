@@ -1,8 +1,6 @@
 <?php
 
 // use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 /*
@@ -30,25 +28,28 @@ Route::get('test', function () {
 // 	});
 // });
 
-Route::get('categories/{id}', function ($id) {
-	// return Category::find($id);
-	return new CategoryResource(Category::find($id));
-});
+// Route::get('categories/{id}', function ($id) {
+// 	// return Category::find($id);
+// 	return new CategoryResource(Category::find($id));
+// });
 
 // Route::get('categories/{id}', 'Admin\CategoryController@children');
 
-Route::get('categories', function () {
-	return CategoryResource::collection(Category::paginate());
-	// return $categories = Category::all(['id', 'name as text']);
-	// return $categories = Category::all()->pluck('name', 'id');
-	// dd($categories);
-	// $categories = Category::all(['id', 'name']);
-	// // return $categories->toArray();
-	// return response()->json($categories);
-});
+// Route::get('categories/{id}', 'CategoryController@children');
+
+// Route::get('categories', function () {
+// 	return CategoryResource::collection(Category::paginate());
+// 	// return $categories = Category::all(['id', 'name as text']);
+// 	// return $categories = Category::all()->pluck('name', 'id');
+// 	// dd($categories);
+// 	// $categories = Category::all(['id', 'name']);
+// 	// // return $categories->toArray();
+// 	// return response()->json($categories);
+// });
 
 // Route::get('categories/children/{id}', function () {
 // 	return new CategoryResource(Category::find($id));
 // });
 
-// Route::controller('categories', 'CategoryController');
+// Route::get('categories', 'CategoryController@categoryajax');
+Route::get('categories', 'CategoryController@children');

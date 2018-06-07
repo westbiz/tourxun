@@ -80,9 +80,9 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称');
-			$parents = Category::where('parent_id', 0)->pluck('name', 'id');
+			$parents = Category::all()->pluck('name', 'id');
 			// dd($categories);
-			$form->select('category_id')->options($parents)->load('children', '/api/v1/categories');
+			$form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories');
 			// $form->select('category_id', '父类')->options(function ($id) {
 			// 	$category = Category::find($id);
 			// 	if ($category) {
