@@ -16,6 +16,7 @@ class CategoryController extends Controller {
 	 */
 	public function index() {
 		//
+		return Category::all(['id', 'name as text']);
 	}
 
 	// public function child() {

@@ -96,10 +96,17 @@ class CategoryController extends Controller {
 			});
 			$grid->parent_id('父类');
 			$grid->description('说明')->limit(30)->editable();
+			$grid->options()->select([
+				1 => 'Sed ut perspiciatis unde omni',
+				2 => 'voluptatem accusantium doloremque',
+				3 => 'dicta sunt explicabo',
+				4 => 'laudantium, totam rem aperiam',
+			]);
 
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
 				$filter->between('created_at', 'Created Time')->datetime();
+				$filter->equal('name')->select('/api/v1/categories');
 			});
 
 			// $grid->deleted_at();
@@ -120,7 +127,7 @@ class CategoryController extends Controller {
 			$cates = collect([0 => '---创建父分类---']);
 			$merged = $cates->merge(Category::all()->pluck('name', 'id'));
 			$form->select('parent_id', '父类')->options($merged);
-			$form->text('name', '名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
+			$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_category'");
 			$form->text('level', '层级')->value($nextid[0]->Auto_increment);
 			$form->textarea('description', '说明');
@@ -130,8 +137,4 @@ class CategoryController extends Controller {
 		});
 	}
 
-	public function children(Request $request) {
-		$categoryId = $request->get('q');
-		return Category::children()->where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
-	}
 }

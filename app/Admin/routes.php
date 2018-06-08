@@ -17,3 +17,10 @@ Route::group([
 	$router->resource('products', 'ProductController');
 
 });
+
+//子域名路由
+// Route::domain('{api}.tourxun.test')->group(function () {
+// 	Route::get('categories/{id}', function ($api, $id) {
+// 		return 'This is ' . $api . ' page of User ' . $id;
+// 	});
+// });

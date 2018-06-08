@@ -28,6 +28,8 @@ Route::get('test', function () {
 // 	});
 // });
 
+Route::get('categories/list', 'CategoryController@index')->name('list');
+
 // Route::get('categories/{id}', function ($id) {
 // 	// return Category::find($id);
 // 	return new CategoryResource(Category::find($id));
@@ -51,5 +53,5 @@ Route::get('test', function () {
 // 	return new CategoryResource(Category::find($id));
 // });
 
-// Route::get('categories', 'CategoryController@categoryajax');
-Route::get('categories', 'CategoryController@children');
+Route::get('categories/ajax', 'CategoryController@categoryajax')->name('ajax');
+Route::get('categories/children', 'CategoryController@children')->name('children');
