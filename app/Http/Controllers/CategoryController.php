@@ -16,12 +16,15 @@ class CategoryController extends Controller {
 	 */
 	public function index() {
 		//
-		return Category::all(['id', 'name as text']);
-	}
+		// return Category::all(['id', 'name as text']);
+		$parents = Category::where('parent_id', 0)->get();
+		// $labels = Category::where('parent_id', 0)->get([DB::RAW('name as label')]);
 
-	// public function child() {
-	// 	return Category::all();
-	// }
+		foreach ($parents as $parent) {
+			return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
+		}
+
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -73,4 +76,5 @@ class CategoryController extends Controller {
 		$q = $request->get('q');
 		return Category::where('name', 'like', "%$q%")->paginate(null, ['id', 'name as text']);
 	}
+
 }

@@ -30,6 +30,8 @@ Route::get('test', function () {
 
 Route::get('categories/list', 'CategoryController@index')->name('list');
 
+Route::get('categories/groups', 'CategoryController@groups')->name('groups');
+
 // Route::get('categories/{id}', function ($id) {
 // 	// return Category::find($id);
 // 	return new CategoryResource(Category::find($id));

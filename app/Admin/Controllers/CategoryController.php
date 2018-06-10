@@ -96,12 +96,6 @@ class CategoryController extends Controller {
 			});
 			$grid->parent_id('父类');
 			$grid->description('说明')->limit(30)->editable();
-			$grid->options()->select([
-				1 => 'Sed ut perspiciatis unde omni',
-				2 => 'voluptatem accusantium doloremque',
-				3 => 'dicta sunt explicabo',
-				4 => 'laudantium, totam rem aperiam',
-			]);
 
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询

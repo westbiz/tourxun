@@ -23,6 +23,9 @@ use Encore\Admin\Grid\Column;
  *
  */
 
+Admin::js('/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js');
+Admin::js('/vendor/laravel-admin/AdminLTE/plugins/select2/i18n/zh-CN.js');
+
 Encore\Admin\Form::forget(['map', 'editor']);
 
 Column::extend('color', function ($value, $color) {

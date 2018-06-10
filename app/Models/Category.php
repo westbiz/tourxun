@@ -17,6 +17,10 @@ class Category extends Model {
 		'name', 'parent_id', 'level', 'description',
 	];
 
+	public function scopeParents($query) {
+		return $query->where('parent_id', 0);
+	}
+
 	//一对多
 	public function parent() {
 		return $this->hasMany(Category::class, 'id', 'parent_id');
