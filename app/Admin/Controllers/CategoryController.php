@@ -91,8 +91,8 @@ class CategoryController extends Controller {
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
 			// dd($grid->parent('父类'));
-			$grid->child('归属父类')->display(function ($child) {
-				return "<span class='label label-warning'>{$child['name']}</span>";
+			$grid->parent('归属父类')->display(function ($parent) {
+				return "<span class='label label-warning'>{$parent['name']}</span>";
 			});
 			$grid->parent_id('父类');
 			$grid->description('说明')->limit(30)->editable();

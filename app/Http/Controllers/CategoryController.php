@@ -17,12 +17,15 @@ class CategoryController extends Controller {
 	public function index() {
 		//
 		// return Category::all(['id', 'name as text']);
-		$parents = Category::where('parent_id', 0)->get();
+		// $parents = Category::where('parent_id', 0)->get();
 		// $labels = Category::where('parent_id', 0)->get([DB::RAW('name as label')]);
 
-		foreach ($parents as $parent) {
-			return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
-		}
+		// foreach ($parents as $parent) {
+		// 	return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
+		// }
+		// $parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
+		$parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
+		return $parents;
 
 	}
 
