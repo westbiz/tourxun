@@ -24,7 +24,7 @@ class CategoryController extends Controller {
 		// 	return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
 		// }
 		// $parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
-		$parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
+		$parents = Category::with('childCategory:id,name,parent_id')->get(['id', DB::RAW('name as text')]);
 		return $parents;
 
 	}
