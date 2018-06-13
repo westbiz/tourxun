@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryCollection;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,11 @@ class CategoryController extends Controller {
 	 */
 	public function index() {
 		//
+		return new CategoryCollection(Category::all());
+	}
+
+	public function groups() {
+		//
 		// return Category::all(['id', 'name as text']);
 		// $parents = Category::where('parent_id', 0)->get();
 		// $labels = Category::where('parent_id', 0)->get([DB::RAW('name as label')]);
@@ -24,7 +30,7 @@ class CategoryController extends Controller {
 		// 	return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
 		// }
 		// $parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
-		$parents = Category::with('childCategory:id,name,parent_id')->get(['id', DB::RAW('name as text')]);
+		$parents = Category::with('childCategory:id,name as text,parent_id')->get(['id', DB::RAW('name as label')]);
 		return $parents;
 
 	}

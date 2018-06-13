@@ -23,7 +23,7 @@ class Category extends Model {
 
 	//一对多
 	public function childcategory() {
-		return $this->hasMany(Category::class, 'parent_id');
+		return $this->hasMany(Category::class, 'parent_id', 'id');
 	}
 
 	public function parentcategory() {
