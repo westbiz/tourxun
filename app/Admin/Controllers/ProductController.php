@@ -81,29 +81,29 @@ class ProductController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 			$parents = Category::all()->pluck('name', 'id');
-			$form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
+			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
 
-			// $group = [
-			// 	[
-			// 		'label' => 'xxxx',
-			// 		'options' => [
-			// 			1 => 'foo',
-			// 			2 => 'bar',
-			// 		],
-			// 	],
+			$group = [
+				[
+					'label' => 'xxxx',
+					'options' => [
+						1 => 'foo',
+						2 => 'bar',
+					],
+				],
 
-			// 	[
-			// 		'label' => 'aaaa',
-			// 		'options' => [
-			// 			3 => 'doo',
-			// 			4 => 'fffar',
-			// 			5 => 'doo',
-			// 			6 => 'fffar',
-			// 		],
-			// 	],
-			// ];
+				[
+					'label' => 'aaaa',
+					'options' => [
+						3 => 'doo',
+						4 => 'fffar',
+						5 => 'doo',
+						6 => 'fffar',
+					],
+				],
+			];
 
-			// $form->select('category_id')->options()->groups($group);
+			$form->select('category_id')->options()->groups($group);
 
 			// $form->select('category_id', '父类')->options(function ($id) {
 			// 	$category = Category::find($id);
@@ -113,7 +113,7 @@ class ProductController extends Controller {
 			// })->ajax('/api/v1/categories/ajax');
 
 			// $form->select('category_id', '分类')->options('/api/v1/categories/list');
-			$form->select('children', '分类');
+			// $form->select('children', '分类');
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 			$form->number('hotel', '酒店星级')->min(3)->max(5)->default(3);

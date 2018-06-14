@@ -2,9 +2,14 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource {
+	use CategoryCollection;
 	/**
 	 * Transform the resource into an array.
 	 *
@@ -15,7 +20,7 @@ class CategoryResource extends JsonResource {
 		return [
 			'id' => $this->id,
 			'text' => $this->name, //用于select的options
-			'parent_id' => $this->parent_id,
+			'parents' => Category::collection($this->whenLoaded('parentcategory')),
 			'level' => $this->level,
 			'description' => $this->descritpion,
 			'created_at' => $this->created_at,
