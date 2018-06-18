@@ -57,3 +57,7 @@ Route::get('categories/groups', 'CategoryController@groups')->name('groups');
 
 Route::get('categories/ajax', 'CategoryController@categoryajax')->name('ajax');
 Route::get('categories/children', 'CategoryController@children')->name('children');
+
+Route::get('categories/{category}', 'CategoryController@show')->name('show');
+
+Route::put('categories/{category}', 'CategoryController@update');

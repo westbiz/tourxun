@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryCollection;
+// use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,8 @@ class CategoryController extends Controller {
 	 */
 	public function index() {
 		//
-		return new CategoryCollection(Category::all());
+		return CategoryResource::collection(Category::all());
+		// return new CategoryCollection(Category::paginate());
 	}
 
 	public function groups() {
@@ -42,7 +44,8 @@ class CategoryController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+		$category = Categroy::create($request->all());
+		return response()->json($category, 201);
 	}
 
 	/**
@@ -51,8 +54,8 @@ class CategoryController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id) {
-		//
+	public function show(Category $category) {
+		return new CategoryResource($category);
 	}
 
 	/**
@@ -62,8 +65,10 @@ class CategoryController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id) {
-		//
+	public function update(Request $request, Category $category) {
+		$category->update($request->all());
+
+		return response()->json($category, 200);
 	}
 
 	/**

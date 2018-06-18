@@ -125,6 +125,9 @@ class CategoryController extends Controller {
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_category'");
 			$form->text('level', '层级')->value($nextid[0]->Auto_increment);
 			$form->textarea('description', '说明');
+			$form->hasMany('products', '产品', function (Form\NestedForm $form) {
+				$form->text('name');
+			});
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
