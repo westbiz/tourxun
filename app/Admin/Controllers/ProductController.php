@@ -82,22 +82,18 @@ class ProductController extends Controller {
 			$form->text('name', '名称')->rules('required|min:3');
 			// $parents = Category::all()->pluck('name', 'id');
 			$group = [];
-			$parents = Category::with('childcategory')->get();
+			$parents = Category::all();
 			// $group = [];
 			foreach ($parents as $category) {
 				if ($category->parent_id == 0) {
 					$group[]['label'] = $category->name;
+
+					foreach ($category->childcategory as $option) {
+						$group[]['options'] = $option->id . '=>' . $option->name;
+
+					}
 				}
-
-				// if ($category->parent_id == 1) {
-				foreach ($category as $key => $value) {
-					$group[$key]['options'] = $category->name;
-
-					// }
-				}
-
 			}
-
 			dd($group);
 			$form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
 			$form->select('children', '分类');
