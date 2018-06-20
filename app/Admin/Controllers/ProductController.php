@@ -85,7 +85,7 @@ class ProductController extends Controller {
 			$parents = Category::all();
 			// $group = [];
 			foreach ($parents as $category) {
-				if ($category->parent_id == 0) {
+				if ($category->parent_id == 1) {
 					$group[]['label'] = $category->name;
 
 					foreach ($category->childcategory as $option) {
