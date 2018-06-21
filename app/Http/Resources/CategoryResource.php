@@ -18,7 +18,7 @@ class CategoryResource extends JsonResource {
 		return [
 			'id' => $this->id,
 			'label' => $this->name, //用于select的options
-			// 'parent_id' => $this->parent_id,
+			'parent_id' => $this->parent_id,
 			// 'options' => new CategoryCollection($this->childcategory),
 			'children' => CategoryResource::collection($this->childcategory),
 			// 'level' => $this->level,

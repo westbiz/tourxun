@@ -18,6 +18,14 @@ class CategoryController extends Controller {
 	 */
 	public function index() {
 		//
+		return Category::orWhereDoesntHave('childcategory', function ($query) {
+			$query->where('parent_id', '>', 0);
+		})->get(['id', 'name as text']);
+		// return new CategoryCollection(Category::paginate());
+	}
+
+	public function list() {
+		//
 		return CategoryResource::collection(Category::all());
 		// return new CategoryCollection(Category::paginate());
 	}

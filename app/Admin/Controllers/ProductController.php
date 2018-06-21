@@ -80,9 +80,9 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			$parents = Category::all()->pluck('name', 'id');
-			$form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
-			$form->select('children', '分类');
+			// $parents = Category::all()->pluck('name', 'id');
+			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
+			// $form->select('children', '分类');
 
 			// $group = [
 			// 	[
@@ -113,7 +113,7 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/categories/ajax');
 
-			// $form->select('category_id', '分类')->options('/api/v1/categories/list');
+			$form->select('category_id', '分类')->options('/api/v1/categories/all');
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);

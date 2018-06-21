@@ -28,7 +28,9 @@ Route::get('test', function () {
 // 	});
 // });
 
-Route::get('categories/list', 'CategoryController@index')->name('list');
+Route::get('categories/all', 'CategoryController@index')->name('all');
+
+Route::get('categories/list', 'CategoryController@list')->name('list');
 
 Route::get('categories/groups', 'CategoryController@groups')->name('groups');
 
