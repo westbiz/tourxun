@@ -67,6 +67,7 @@ class ProductController extends Controller {
 			$grid->summary('概述');
 			$grid->content('正文');
 			$grid->active('激活');
+
 			// $grid->created_at();
 			// $grid->updated_at();
 		});
@@ -106,6 +107,7 @@ class ProductController extends Controller {
 
 			// $form->select('category_id')->options()->groups($group);
 
+			//ajax 方法加载分类
 			// $form->select('category_id', '父类')->options(function ($id) {
 			// 	$category = Category::find($id);
 			// 	if ($category) {

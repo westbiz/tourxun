@@ -26,14 +26,17 @@ class Category extends Model {
 		return $this->hasMany(Category::class, 'parent_id', 'id');
 	}
 
+	//一对多，多个产品
 	public function products() {
 		return $this->hasMany(Product::class, 'category_id', 'id');
 	}
 
+	//一对多，父类 反向
 	public function parentcategory() {
 		return $this->belongsTo(Category::class, 'parent_id', 'id');
 	}
 
+	//所有子类
 	public function allchildcategories() {
 		return $this->childcategory()->with('allchildcategories');
 	}

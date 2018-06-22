@@ -30,6 +30,7 @@ class CategoryResource extends JsonResource {
 		//return parent::toArray($request);
 	}
 
+	//with方法，可以获取数据库记录以外的其他相关数据
 	public function with($request) {
 		return [
 			'link' => [
