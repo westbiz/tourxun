@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model {
 	use SoftDeletes;
 
-	protected $table = 'tx_product';
+	protected $table = 'tx_products';
 
-	protected $fillable = ['name', 'category_id', 'day', 'night', 'hotel', 'comment_id', 'price_id', 'star', 'summary', 'content', 'active'];
+	protected $fillable = ['name', 'category_id', 'day', 'night', 'hotel', 'star', 'summary', 'content', 'active'];
 
 	//产品分类，一对多反向
-	protected function category() {
+	public function category() {
 		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
 }

@@ -20,7 +20,7 @@ class CategoryResource extends JsonResource {
 			'label' => $this->name, //用于select的options
 			'parent_id' => $this->parent_id,
 			// 'options' => new CategoryCollection($this->childcategory),
-			'children' => CategoryResource::collection($this->childcategory),
+			'children' => CategoryResource::collection($this->childcategories),
 			// 'level' => $this->level,
 			// 'description' => $this->description,
 			// 'created_at' => $this->created_at,

@@ -16,6 +16,8 @@ Route::group([
 
 	$router->resource('products', 'ProductController');
 
+	$router->resource('navs', 'NavController');
+
 });
 
 //子域名路由

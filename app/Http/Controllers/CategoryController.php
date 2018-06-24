@@ -18,11 +18,13 @@ class CategoryController extends Controller {
 	 */
 	public function index() {
 		//
-		return Category::orWhereDoesntHave('childcategory', function ($query) {
-			$query->where('parent_id', '>', 0);
-		})->get(['id', 'name as text']);
+		return Category::whereDoesntHave('childcategories')->get(['id', 'name as text']);
 		// return new CategoryCollection(Category::paginate());
 	}
+
+	// whereDoesntHave('childcategories', function ($query) {
+	// 		$query->where('parent_id', '>', 0);
+	// 	})->
 
 	public function list() {
 		//
@@ -40,7 +42,7 @@ class CategoryController extends Controller {
 		// 	return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
 		// }
 		// $parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
-		$parents = Category::with('childcategory:id,name as text,parent_id')->get(['id', DB::RAW('name as label')]);
+		$parents = Category::with('childcategories:id,name as text,parent_id')->get(['id', DB::RAW('name as label')]);
 		return $parents;
 
 	}

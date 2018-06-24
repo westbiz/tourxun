@@ -96,6 +96,7 @@ class CategoryController extends Controller {
 			});
 			$grid->parent_id('父类');
 			$grid->description('说明')->limit(30)->editable();
+			$grid->order('排序');
 
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
@@ -104,10 +105,10 @@ class CategoryController extends Controller {
 			});
 
 			$grid->actions(function ($actions) {
-				$actions->row;
-				$actions->append('<a href=""><i class="fa fa-eye"></i></a>')->getKey();
+				$cate_id = $actions->getKey();
 
-				$actions->getKey();
+				$actions->append('<a href="/admin/categories/create?cate=' . $cate_id . '"><i class="fa fa-plus-square" aria-hidden="true"></i>');
+
 				$actions->prepend('<a href=""><i class="fa fa-paper-plane"></i></a>');
 
 			});
@@ -130,9 +131,10 @@ class CategoryController extends Controller {
 			$cates = collect([0 => '---创建父分类---']);
 			$merged = $cates->merge(Category::all()->pluck('name', 'id'));
 			$form->select('parent_id', '父类')->options($merged);
+
 			$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
-			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_category'");
-			$form->text('level', '层级')->value($nextid[0]->Auto_increment);
+			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
+			$form->text('order', '排序')->value($nextid[0]->Auto_increment);
 			$form->textarea('description', '说明');
 
 			// $form->display('created_at', 'Created At');

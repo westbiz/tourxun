@@ -57,12 +57,10 @@ class ProductController extends Controller {
 		return Admin::grid(Product::class, function (Grid $grid) {
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
-			$grid->category_id('分类');
+			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
 			$grid->hotel('酒店星级');
-			$grid->comment_id('评论');
-			$grid->price_id('价格id');
 			$grid->star('评星');
 			$grid->summary('概述');
 			$grid->content('正文');
@@ -120,8 +118,7 @@ class ProductController extends Controller {
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 			$form->number('hotel', '酒店星级')->min(3)->max(5)->default(3);
-			$form->text('comment_id', '评论');
-			$form->text('price_id', '价格id');
+
 			// $form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
 			$form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
 			$form->text('summary', '概述');
