@@ -135,7 +135,7 @@ class CategoryController extends Controller {
 			$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 			$form->text('order', '排序')->value($nextid[0]->Auto_increment);
-			$form->textarea('description', '说明');
+			$form->textarea('description', '说明')->help('请输入2-50个字符！');
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');

@@ -69,6 +69,7 @@ class NavController extends Controller {
 		return Admin::grid(Nav::class, function (Grid $grid) {
 
 // $grid->model()->withTrashed();
+			$grid->model()->orderBy('id', 'asc');
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
 			// dd($grid->parent('父类'));
@@ -76,10 +77,9 @@ class NavController extends Controller {
 				return "<span class='label label-warning'>{$parentcategory['name']}</span>";
 			});
 			$grid->parent_id('父类');
-			$grid->order('排序');
 			$grid->url('链接');
 			$grid->description('说明')->limit(30)->editable();
-			$grid->order('排序');
+			$grid->order('排序')->sortable()->editable();
 
 			// $grid->deleted_at();
 			// $grid->created_at();
@@ -102,7 +102,7 @@ class NavController extends Controller {
 			$form->select('parent_id', '父类')->options($merged);
 			$form->text('name', '导航名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_navs'");
-			$form->text('order', '默认排序')->value($nextid[0]->Auto_increment);
+			$form->text('order', '默认排序')->value($nextid[0]->Auto_increment)->rules('required|min:1');
 			$form->text('url', '链接');
 			$form->textarea('description', '说明');
 		});
