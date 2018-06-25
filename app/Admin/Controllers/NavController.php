@@ -76,6 +76,8 @@ class NavController extends Controller {
 				return "<span class='label label-warning'>{$parentcategory['name']}</span>";
 			});
 			$grid->parent_id('父类');
+			$grid->order('排序');
+			$grid->url('链接');
 			$grid->description('说明')->limit(30)->editable();
 			$grid->order('排序');
 
@@ -101,6 +103,7 @@ class NavController extends Controller {
 			$form->text('name', '导航名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_navs'");
 			$form->text('order', '默认排序')->value($nextid[0]->Auto_increment);
+			$form->text('url', '链接');
 			$form->textarea('description', '说明');
 		});
 	}

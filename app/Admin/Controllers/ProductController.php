@@ -113,7 +113,9 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/categories/ajax');
 
-			$form->select('category_id', '分类')->options('/api/v1/categories/all');
+			$categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
+			$form->select('category_id', '分类')->options($categories);
+			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
