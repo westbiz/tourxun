@@ -57,13 +57,18 @@ class ProductController extends Controller {
 		return Admin::grid(Product::class, function (Grid $grid) {
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
+			// $grid->avatar('图片');
+
+			$grid->avatar('图片')->display(function ($avatar) {
+				return "<img src='http://tourxun.test/uploads/images/$avatar' alt='' height='50%' class='img img-thumbnail'>";
+			});
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
 			$grid->hotel('酒店星级');
 			$grid->star('评星');
 			$grid->summary('概述');
-			$grid->content('正文');
+			$grid->content('正文')->limit(30);
 			$grid->active('激活');
 
 			// $grid->created_at();
@@ -79,6 +84,10 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
+			$form->image('avatar', '图片')->move('images');
+			// $form->display('avatar', 'tup')->with(function ($avatar) {
+			// 	return "<img src='http://tourxun.test/storage/images/$avatar' alt='' height='50%' class='img img-thumbnail'>";
+			// });
 			// $parents = Category::all()->pluck('name', 'id');
 			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
 			// $form->select('children', '分类');
@@ -105,7 +114,7 @@ class ProductController extends Controller {
 
 			// $form->select('category_id')->options()->groups($group);
 
-			//ajax 方法加载分类
+			//选项过多的ajax 方法加载方法
 			// $form->select('category_id', '父类')->options(function ($id) {
 			// 	$category = Category::find($id);
 			// 	if ($category) {

@@ -16,8 +16,9 @@ class CategoryController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
+	//返回不含有子类的子类
 	public function index() {
-		//
+
 		return Category::whereDoesntHave('childcategories')->get(['id', 'name as text']);
 		// return new CategoryCollection(Category::paginate());
 	}
@@ -26,12 +27,14 @@ class CategoryController extends Controller {
 	// 		$query->where('parent_id', '>', 0);
 	// 	})->
 
+	//返回所有父子层级资源
 	public function list() {
 		//
 		return CategoryResource::collection(Category::all());
 		// return new CategoryCollection(Category::paginate());
 	}
 
+	//返回所有父子层级，可用于select分组group options
 	public function groups() {
 		//
 		// return Category::all(['id', 'name as text']);
@@ -92,11 +95,13 @@ class CategoryController extends Controller {
 		//
 	}
 
+	//用于ajax的select联动api的子级返回选项
 	public function children(Request $request) {
 		$categoryId = $request->get('q');
 		return Category::where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
 	}
 
+	//选项过多，可通过ajax方式动态分页载入选项
 	public function categoryajax(Request $request) {
 		$q = $request->get('q');
 		return Category::where('name', 'like', "%$q%")->paginate(null, ['id', 'name as text']);

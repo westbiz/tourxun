@@ -77,7 +77,7 @@ class NavController extends Controller {
 				return "<span class='label label-warning'>{$parentcategory['name']}</span>";
 			});
 			$grid->parent_id('父类');
-			$grid->url('链接');
+			$grid->url('映射链接');
 			$grid->description('说明')->limit(30)->editable();
 			$grid->order('排序')->sortable()->editable();
 

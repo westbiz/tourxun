@@ -104,14 +104,15 @@ class CategoryController extends Controller {
 				$filter->equal('name')->select('/api/v1/categories');
 			});
 
-			$grid->actions(function ($actions) {
-				$cate_id = $actions->getKey();
+			//自定义action
+			// $grid->actions(function ($actions) {
+			// 	$cate_id = $actions->getKey();
 
-				$actions->append('<a href="/admin/categories/create?cate=' . $cate_id . '"><i class="fa fa-plus-square" aria-hidden="true"></i>');
+			// 	$actions->append('<a href="/admin/categories/create?cate=' . $cate_id . '"><i class="fa fa-plus-square" aria-hidden="true"></i>');
 
-				$actions->prepend('<a href=""><i class="fa fa-paper-plane"></i></a>');
+			// 	$actions->prepend('<a href=""><i class="fa fa-paper-plane"></i></a>');
 
-			});
+			// });
 
 			// $grid->deleted_at();
 			// $grid->created_at();
