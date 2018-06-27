@@ -1,5 +1,6 @@
 <?php
 namespace App\Admin\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -8,6 +9,10 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+
+// use Intervention\Image\ImageManager;
+
+// require 'vendor/autoload.php';
 
 class ProductController extends Controller {
 	use ModelForm;
@@ -60,8 +65,9 @@ class ProductController extends Controller {
 			// $grid->avatar('图片');
 
 			$grid->avatar('图片')->display(function ($avatar) {
-				return "<img src='http://tourxun.test/uploads/images/$avatar' alt='' height='50%' class='img img-thumbnail'>";
+				return "<img src='http://tourxun.test/uploads/$avatar' alt='' height='10%' width='10%' class='img img-thumbnail'>";
 			});
+			$grid->pictures('多图')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
@@ -85,6 +91,9 @@ class ProductController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 			$form->image('avatar', '图片')->move('images');
+			$form->multipleImage('pictures', '多图');
+			// $manager = new ImageManager(array('driver' => 'imagick'));
+			// $image = $manager->make('images/74e75b1f10e96d3bee6cf945f96a44ca.jpg')->resize(100, 80);
 			// $form->display('avatar', 'tup')->with(function ($avatar) {
 			// 	return "<img src='http://tourxun.test/storage/images/$avatar' alt='' height='50%' class='img img-thumbnail'>";
 			// });
