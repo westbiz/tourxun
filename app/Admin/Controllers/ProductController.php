@@ -10,8 +10,6 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
-// use Intervention\Image\ImageManager;
-
 // require 'vendor/autoload.php';
 
 class ProductController extends Controller {
@@ -90,13 +88,13 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			$form->image('avatar', '图片')->move('images');
-			$form->multipleImage('pictures', '多图');
-			// $manager = new ImageManager(array('driver' => 'imagick'));
-			// $image = $manager->make('images/74e75b1f10e96d3bee6cf945f96a44ca.jpg')->resize(100, 80);
-			// $form->display('avatar', 'tup')->with(function ($avatar) {
-			// 	return "<img src='http://tourxun.test/storage/images/$avatar' alt='' height='50%' class='img img-thumbnail'>";
-			// });
+			$form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
+				// $constraint->aspectRatio();
+				$constraint->upsize();
+			})->removable();
+			$form->multipleImage('pictures', '多图')->removable();
+			// $form->image('avatar', '裁切')->resize(200, 200);
+
 			// $parents = Category::all()->pluck('name', 'id');
 			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
 			// $form->select('children', '分类');
