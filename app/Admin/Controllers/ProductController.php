@@ -63,7 +63,7 @@ class ProductController extends Controller {
 			// $grid->avatar('图片');
 
 			$grid->avatar('图片')->display(function ($avatar) {
-				return "<img src='http://tourxun.test/uploads/$avatar' alt='' height='10%' width='10%' class='img img-thumbnail'>";
+				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
 			$grid->pictures('多图')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
@@ -88,7 +88,7 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			$form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
+			$form->image('avatar', '图片')->move('images')->fit(170, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
 			})->removable();
