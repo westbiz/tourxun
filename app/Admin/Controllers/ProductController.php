@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Widgets\InfoBox;
 
 require '../vendor/autoload.php';
 
@@ -88,7 +89,7 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-<<<<<<< HEAD
+
 			// $form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
 			// 	// $constraint->aspectRatio();
 			// 	$constraint->upsize();
@@ -97,15 +98,12 @@ class ProductController extends Controller {
 			// $image = $manager->make('images/AAA170509322152256644.jpg')->resize(300, 200);
 			// $form->multipleImage('pictures', '多图')->removable();
 			$text = 'HOT';
-			$form->image('avatar', '裁切')->resize(175, 256, function ($constraint) {
-=======
-			$form->image('avatar', '图片')->move('images')->fit(170, 256, function ($constraint) {
+			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
->>>>>>> 6c8ecc5ca188691d8831e015a6639ef0f0921577
 				$constraint->upsize();
 			})->text($text, 12, 12, function ($font) {
 				$font->file('font/Elephant.ttf');
-				$font->size(12);
+				$font->size(10);
 				$font->color('#fdf6e3');
 				$font->align('center');
 				$font->valign('middle');
