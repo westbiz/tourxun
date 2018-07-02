@@ -10,7 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
-// require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 class ProductController extends Controller {
 	use ModelForm;
@@ -63,7 +63,7 @@ class ProductController extends Controller {
 			// $grid->avatar('图片');
 
 			$grid->avatar('图片')->display(function ($avatar) {
-				return "<img src='http://tourxun.test/uploads/$avatar' alt='' height='10%' width='10%' class='img img-thumbnail'>";
+				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
 			$grid->pictures('多图')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
@@ -88,12 +88,27 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			$form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
-				// $constraint->aspectRatio();
+			// $form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
+			// 	// $constraint->aspectRatio();
+			// 	$constraint->upsize();
+			// })->removable();
+			// $manager = new ImageManager(array('driver' => 'imagick'));
+			// $image = $manager->make('images/AAA170509322152256644.jpg')->resize(300, 200);
+			// $form->multipleImage('pictures', '多图')->removable();
+			$text = 'HOT';
+			$form->image('avatar', '裁切')->resize(175, 256, function ($constraint) {
 				$constraint->upsize();
+			})->text($text, 12, 12, function ($font) {
+				$font->file('font/Elephant.ttf');
+				$font->size(12);
+				$font->color('#fdf6e3');
+				$font->align('center');
+				$font->valign('middle');
+				$font->angle(45);
+			})->rectangle(140, 240, 175, 256, function ($draw) {
+				$draw->background('#00BB00');
+				// $draw->border(1, '#000');
 			})->removable();
-			$form->multipleImage('pictures', '多图')->removable();
-			// $form->image('avatar', '裁切')->resize(200, 200);
 
 			// $parents = Category::all()->pluck('name', 'id');
 			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
