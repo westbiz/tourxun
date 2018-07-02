@@ -88,6 +88,7 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
+<<<<<<< HEAD
 			// $form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
 			// 	// $constraint->aspectRatio();
 			// 	$constraint->upsize();
@@ -97,6 +98,10 @@ class ProductController extends Controller {
 			// $form->multipleImage('pictures', '多图')->removable();
 			$text = 'HOT';
 			$form->image('avatar', '裁切')->resize(175, 256, function ($constraint) {
+=======
+			$form->image('avatar', '图片')->move('images')->fit(170, 256, function ($constraint) {
+				// $constraint->aspectRatio();
+>>>>>>> 6c8ecc5ca188691d8831e015a6639ef0f0921577
 				$constraint->upsize();
 			})->text($text, 12, 12, function ($font) {
 				$font->file('font/Elephant.ttf');
