@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Areas;
+use App\Models\Area;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -65,14 +65,14 @@ class AreaController extends Controller {
 	 * @return Grid
 	 */
 	protected function grid() {
-		return Admin::grid(Areas::class, function (Grid $grid) {
+		return Admin::grid(Area::class, function (Grid $grid) {
 
 			$grid->id('id')->sortable();
 			$grid->areaName('区域名');
 			$grid->level('等级');
 			$grid->cityCode('城市编码');
 			$grid->center('经纬度');
-			$grid->parentId('父节点');
+			$grid->parent_id('父节点');
 
 			// $grid->created_at();
 			// $grid->updated_at();
@@ -84,19 +84,34 @@ class AreaController extends Controller {
 	 *
 	 * @return Form
 	 */
-	protected function form() {
-		return Admin::form(Areas::class, function (Form $form) {
+	// protected function form() {
+	// 	return Admin::form(Area::class, function (Form $form) {
 
-			$form->display('id', 'ID');
-			$form->text('areaCode', '区域编码');
-			$form->text('areaName', '地区名');
-			$form->number('level', '级别');
-			$form->text('cityCode', '城市编码');
-			$form->text('center', '经纬度');
-			$form->text('parentId', '父节点');
+	// 		$form->display('id', 'ID');
+	// 		$form->text('areaCode', '区域编码');
+	// 		$form->text('areaName', '地区名');
+	// 		$form->number('level', '级别');
+	// 		$form->text('cityCode', '城市编码');
+	// 		$form->text('center', '经纬度');
+	// 		$form->text('parent_id', '父节点');
 
-			// $form->display('created_at', 'Created At');
-			// $form->display('updated_at', 'Updated At');
+	// 		// $form->display('created_at', 'Created At');
+	// 		// $form->display('updated_at', 'Updated At');
+	// 	});
+	// }
+
+	protected function selectone() {
+		return Admin::form(Area::class, function (Form $form) {
+
+			$provinces = Area::where('parent_id', -1)->pluck('areaName','id');
+			// dd($provinces);
+			$form->select('Provinces')->options($provinces)->load('city','/api/v1/areas/city');
+			// $form->text('areaCode', '区域编码');
+			$form->select('city', '地区名');
+
+
+
 		});
 	}
+
 }

@@ -13,7 +13,7 @@ class CreateTxCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('tx_category', function (Blueprint $table) {
+        Schema::create('tx_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->comment('分类名称');
             $table->integer('parent_id')->comment('父id');

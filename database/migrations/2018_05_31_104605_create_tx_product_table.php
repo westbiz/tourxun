@@ -11,7 +11,7 @@ class CreateTxProductTable extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		Schema::create('tx_product', function (Blueprint $table) {
+		Schema::create('tx_products', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('name')->comment('名称');
 			$table->integer('category_id')->comment('分类id');

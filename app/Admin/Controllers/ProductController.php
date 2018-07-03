@@ -165,8 +165,5 @@ class ProductController extends Controller {
 			$form->display('updated_at', 'Updated At');
 		});
 	}
-	public function categories(Request $request) {
-		$q = $request->get('q');
-		return Category::where('name', 'like', "%$q%")->paginate(null, ['id', 'name as text']);
-	}
+
 }

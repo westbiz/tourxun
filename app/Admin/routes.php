@@ -18,6 +18,8 @@ Route::group([
 
 	$router->resource('navs', 'NavController');
 
+	$router->get('areas/selectone','AreaController@selectone');
+
 	$router->resource('areas', 'AreaController');
 
 });
