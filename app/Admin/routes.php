@@ -18,6 +18,8 @@ Route::group([
 
 	$router->resource('navs', 'NavController');
 
+	$router->resource('areas', 'AreaController');
+
 });
 
 //子域名路由

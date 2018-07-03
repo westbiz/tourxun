@@ -9,7 +9,6 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Widgets\InfoBox;
 
 require '../vendor/autoload.php';
 
@@ -90,28 +89,30 @@ class ProductController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
-			// $form->image('avatar', '图片')->move('images')->fit(400, 300, function ($constraint) {
-			// 	// $constraint->aspectRatio();
-			// 	$constraint->upsize();
-			// })->removable();
-			// $manager = new ImageManager(array('driver' => 'imagick'));
-			// $image = $manager->make('images/AAA170509322152256644.jpg')->resize(300, 200);
-			// $form->multipleImage('pictures', '多图')->removable();
-			$text = 'HOT';
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
-			})->text($text, 12, 12, function ($font) {
-				$font->file('font/Elephant.ttf');
-				$font->size(10);
-				$font->color('#fdf6e3');
-				$font->align('center');
-				$font->valign('middle');
-				$font->angle(45);
-			})->rectangle(140, 240, 175, 256, function ($draw) {
-				$draw->background('#00BB00');
-				// $draw->border(1, '#000');
 			})->removable();
+			// $manager = new ImageManager(array('driver' => 'imagick'));
+			// $image = $manager->make('images/AAA170509322152256644.jpg')->resize(300, 200);
+			$form->multipleImage('pictures', '多图')->removable();
+
+			//裁切175X256，添加文字HOT,添加右下角评分栏，移除
+			// $text = 'HOT';
+			// $form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
+			// 	// $constraint->aspectRatio();
+			// 	$constraint->upsize();
+			// })->text($text, 12, 12, function ($font) {
+			// 	$font->file('font/Elephant.ttf');
+			// 	$font->size(10);
+			// 	$font->color('#fdf6e3');
+			// 	$font->align('center');
+			// 	$font->valign('middle');
+			// 	$font->angle(45);
+			// })->rectangle(140, 240, 175, 256, function ($draw) {
+			// 	$draw->background('#00BB00');
+			// 	$draw->border(1, '#000');
+			// })->removable();
 
 			// $parents = Category::all()->pluck('name', 'id');
 			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
