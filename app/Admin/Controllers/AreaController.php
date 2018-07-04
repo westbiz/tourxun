@@ -40,7 +40,7 @@ class AreaController extends Controller {
 			$content->header('header');
 			$content->description('description');
 
-			$content->body($this->form()->edit($id));
+			$content->body($this->biaodan()->edit($id));
 		});
 	}
 
@@ -55,9 +55,21 @@ class AreaController extends Controller {
 			$content->header('header');
 			$content->description('description');
 
-			$content->body($this->chuangjian());
+			$content->body($this->biaodan());
 		});
 	}
+
+	public function addarea($id) {
+		return Admin::content(function (Content $content) use ($id) {
+
+			$content->header('addarea');
+			$content->description('create');
+			// dd($id);
+
+			$content->body($this->add_biaodan());
+		});
+	}
+
 
 	public function cascading() {
 		return Admin::content(function (Content $content) {
@@ -77,6 +89,10 @@ class AreaController extends Controller {
 	protected function grid() {
 		return Admin::grid(Area::class, function (Grid $grid) {
 
+			$grid->filter(function($filter){
+				$filter->disableIdFilter();
+				$filter->like('areaName','name');
+			});
 			$grid->id('id')->sortable();
 			$grid->areaName('区域名')->editable();
 			$grid->level('等级');
@@ -109,7 +125,7 @@ class AreaController extends Controller {
 		});
 	}
 
-	protected function chuangjian() {
+	protected function biaodan() {
 		return Admin::form(Area::class, function (Form $form) {
 
 			$form->display('id', 'ID');
@@ -124,5 +140,21 @@ class AreaController extends Controller {
 			// $form->display('updated_at', 'Updated At');
 		});
 	}
+
+	protected function add_biaodan() {
+		return Admin::form(Area::class, function (Form $form) {
+
+			$form->display('id', 'ID');
+			$form->text('areaCode', '区域编码');
+			$form->text('areaName', '地区名');
+			$form->number('level', '级别');
+			$form->text('cityCode', '城市编码');
+			$form->text('center', '经纬度');
+			$form->display('parent_id', '父节点');
+
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
+		});
+	}	
 
 }
