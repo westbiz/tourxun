@@ -114,9 +114,9 @@ class ProductController extends Controller {
 			// 	$draw->border(1, '#000');
 			// })->removable();
 
-			// $parents = Category::all()->pluck('name', 'id');
-			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
-			// $form->select('children', '分类');
+			$parents = Category::all()->pluck('name', 'id');
+			$form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
+			$form->select('children', '分类');
 
 			// $group = [
 			// 	[

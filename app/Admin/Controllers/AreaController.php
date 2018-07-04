@@ -55,6 +55,16 @@ class AreaController extends Controller {
 			$content->header('header');
 			$content->description('description');
 
+			$content->body($this->chuangjian());
+		});
+	}
+
+	public function cascading() {
+		return Admin::content(function (Content $content) {
+
+			$content->header('header');
+			$content->description('description');
+
 			$content->body($this->form());
 		});
 	}
@@ -68,7 +78,7 @@ class AreaController extends Controller {
 		return Admin::grid(Area::class, function (Grid $grid) {
 
 			$grid->id('id')->sortable();
-			$grid->areaName('区域名');
+			$grid->areaName('区域名')->editable();
 			$grid->level('等级');
 			$grid->cityCode('城市编码');
 			$grid->center('经纬度');
@@ -84,33 +94,34 @@ class AreaController extends Controller {
 	 *
 	 * @return Form
 	 */
-	// protected function form() {
-	// 	return Admin::form(Area::class, function (Form $form) {
-
-	// 		$form->display('id', 'ID');
-	// 		$form->text('areaCode', '区域编码');
-	// 		$form->text('areaName', '地区名');
-	// 		$form->number('level', '级别');
-	// 		$form->text('cityCode', '城市编码');
-	// 		$form->text('center', '经纬度');
-	// 		$form->text('parent_id', '父节点');
-
-	// 		// $form->display('created_at', 'Created At');
-	// 		// $form->display('updated_at', 'Updated At');
-	// 	});
-	// }
-
-	protected function selectone() {
+	protected function form() {
 		return Admin::form(Area::class, function (Form $form) {
 
-			$provinces = Area::where('parent_id', -1)->pluck('areaName','id');
+			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
 			// dd($provinces);
-			$form->select('Provinces')->options($provinces)->load('city','/api/v1/areas/city');
+			$form->select('Provinces')->options($provinces)->load('cities', '/api/v1/areas/city');
 			// $form->text('areaCode', '区域编码');
-			$form->select('city', '地区名');
+			$form->select('cities')->options($provinces)->load('county', '/api/v1/areas/city');
+			$form->select('county');
 
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
+		});
+	}
 
+	protected function chuangjian() {
+		return Admin::form(Area::class, function (Form $form) {
 
+			$form->display('id', 'ID');
+			$form->text('areaCode', '区域编码');
+			$form->text('areaName', '地区名');
+			$form->number('level', '级别');
+			$form->text('cityCode', '城市编码');
+			$form->text('center', '经纬度');
+			$form->text('parent_id', '父节点');
+
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
 		});
 	}
 

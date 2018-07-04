@@ -18,7 +18,7 @@ Route::group([
 
 	$router->resource('navs', 'NavController');
 
-	$router->get('areas/selectone','AreaController@selectone');
+	$router->get('areas/cascading', 'AreaController@cascading');
 
 	$router->resource('areas', 'AreaController');
 

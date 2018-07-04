@@ -64,4 +64,6 @@ Route::get('categories/{category}', 'CategoryController@show')->name('show');
 
 Route::put('categories/{category}', 'CategoryController@update');
 
-Route::get('areas/city','AreaController@city')->name('city');
+Route::get('areas/city', 'AreaController@cities')->name('cities');
+
+Route::get('areas/getprovince', 'AreaController@getprovince')->name('getprovince');
