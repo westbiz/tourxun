@@ -20,6 +20,8 @@ Route::group([
 
 	$router->get('areas/cascading', 'AreaController@cascading');
 
+	$router->get('areas/cities','AreaController@cities');
+
 	$router->get('areas/{id}/add','AreaController@addarea');
 
 	$router->resource('areas', 'AreaController');

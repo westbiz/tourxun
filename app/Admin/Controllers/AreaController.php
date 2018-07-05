@@ -28,6 +28,17 @@ class AreaController extends Controller {
 		});
 	}
 
+	public function cities() {
+		return Admin::content(function (Content $content) {
+
+			$content->header('China Area');
+			$content->description('管理');
+
+			$content->body($this->citygrid());
+		});
+	}
+
+
 	/**
 	 * Edit interface.
 	 *
@@ -106,6 +117,28 @@ class AreaController extends Controller {
 			// $grid->updated_at();
 		});
 	}
+
+	protected function citygrid() {
+		return Admin::grid(Area::class, function (Grid $grid) {
+
+			$grid->filter(function ($filter) {
+				$filter->disableIdFilter();
+				$filter->like('areaName', 'name');
+			});
+			$grid->model()->where('level', 2);
+			$grid->id('id')->sortable();
+			$grid->areaName('区域名')->editable();
+			$grid->cities()->display(function ($cityies) {
+				$cityies = array_map(function ($city) {
+					return "<span class='label label-success'>{$city['areaName']}</span>";
+				}, $cityies);
+				return join('&nbsp;', $cityies);
+			});
+
+			// $grid->created_at();
+			// $grid->updated_at();
+		});
+	}	
 
 	/**
 	 * Make a form builder.
