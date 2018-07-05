@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Area extends Model {
 	protected $table = 't_areas';
 
+	protected $fillable = [
+		'areaCode', 'areaName', 'level', 'center', 'parent_id',
+	];
+
 	public function cities() {
 		return $this->hasMany(Area::class, 'parent_id', 'id');
 	}

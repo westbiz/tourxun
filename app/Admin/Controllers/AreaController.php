@@ -40,7 +40,7 @@ class AreaController extends Controller {
 			$content->header('header');
 			$content->description('description');
 
-			$content->body($this->biaodan()->edit($id));
+			$content->body($this->form()->edit($id));
 		});
 	}
 
@@ -55,7 +55,7 @@ class AreaController extends Controller {
 			$content->header('header');
 			$content->description('description');
 
-			$content->body($this->biaodan());
+			$content->body($this->form());
 		});
 	}
 
@@ -70,14 +70,13 @@ class AreaController extends Controller {
 		});
 	}
 
-
 	public function cascading() {
 		return Admin::content(function (Content $content) {
 
 			$content->header('header');
 			$content->description('description');
 
-			$content->body($this->form());
+			$content->body($this->cascadingform());
 		});
 	}
 
@@ -89,16 +88,19 @@ class AreaController extends Controller {
 	protected function grid() {
 		return Admin::grid(Area::class, function (Grid $grid) {
 
-			$grid->filter(function($filter){
+			$grid->filter(function ($filter) {
 				$filter->disableIdFilter();
-				$filter->like('areaName','name');
+				$filter->like('areaName', 'name');
 			});
+			$grid->model()->where('parent_id', -1);
 			$grid->id('id')->sortable();
 			$grid->areaName('区域名')->editable();
-			$grid->level('等级');
-			$grid->cityCode('城市编码');
-			$grid->center('经纬度');
-			$grid->parent_id('父节点');
+			$grid->cities()->display(function ($cityies) {
+				$cityies = array_map(function ($city) {
+					return "<span class='label label-success'>{$city['areaName']}</span>";
+				}, $cityies);
+				return join('&nbsp;', $cityies);
+			});
 
 			// $grid->created_at();
 			// $grid->updated_at();
@@ -111,6 +113,22 @@ class AreaController extends Controller {
 	 * @return Form
 	 */
 	protected function form() {
+		return Admin::form(Area::class, function (Form $form) {
+
+			$form->display('id', 'ID');
+			$form->text('areaCode', '区域编码');
+			$form->text('areaName', '地区名');
+			$form->number('level', '级别');
+			$form->text('cityCode', '城市编码');
+			$form->text('center', '经纬度');
+			$form->text('parent_id', '父节点');
+
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
+		});
+	}
+
+	protected function cascadingform() {
 		return Admin::form(Area::class, function (Form $form) {
 
 			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
@@ -155,6 +173,6 @@ class AreaController extends Controller {
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
 		});
-	}	
+	}
 
 }
