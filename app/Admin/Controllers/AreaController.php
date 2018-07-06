@@ -28,7 +28,7 @@ class AreaController extends Controller {
 		});
 	}
 
-	public function cities() {
+	public function getcities() {
 		return Admin::content(function (Content $content) {
 
 			$content->header('China Area');
@@ -37,7 +37,6 @@ class AreaController extends Controller {
 			$content->body($this->citygrid());
 		});
 	}
-
 
 	/**
 	 * Edit interface.
@@ -138,7 +137,7 @@ class AreaController extends Controller {
 			// $grid->created_at();
 			// $grid->updated_at();
 		});
-	}	
+	}
 
 	/**
 	 * Make a form builder.
@@ -155,6 +154,14 @@ class AreaController extends Controller {
 			$form->text('cityCode', '城市编码');
 			$form->text('center', '经纬度');
 			$form->text('parent_id', '父节点');
+			$form->devide();
+			$form->hasMany('cities', '添加子类', function (Form\NestedForm $form) {
+				$form->text('areaCode', '区域编码');
+				$form->text('areaName', '地区名');
+				$form->number('level', '级别');
+				$form->text('cityCode', '城市编码');
+				$form->text('center', '经纬度');
+			});
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
