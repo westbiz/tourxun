@@ -114,9 +114,9 @@ class ProductController extends Controller {
 			// 	$draw->border(1, '#000');
 			// })->removable();
 
-			$parents = Category::all()->pluck('name', 'id');
-			$form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
-			$form->select('children', '分类');
+			// $parents = Category::all()->pluck('name', 'id');
+			// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
+			// $form->select('children', '分类');
 
 			// $group = [
 			// 	[
@@ -163,6 +163,13 @@ class ProductController extends Controller {
 			$form->switch('active', '激活？');
 			$form->display('created_at', 'Created At');
 			$form->display('updated_at', 'Updated At');
+
+			$form->hasMany('graphs',function(Form\NestedForm $form){
+				$form->image('imageurl', '图片')->move('images')->removable();
+				$form->text('description');
+			});
+
+
 		});
 	}
 

@@ -20,11 +20,17 @@ Route::group([
 
 	$router->get('areas/cascading', 'AreaController@cascading');
 
-	$router->get('areas/cities', 'AreaController@getcities');
+	//准备删除 $router->get('cities/{id}/edit', 'AreaController@edit');
 
-	$router->get('areas/{id}/add', 'AreaController@addarea');
+	//准备删除  $router->get('cities/create', 'AreaController@create');	
+
+	$router->resource('cities', 'CityController');
+
+	//准备删除  $router->get('areas/{id}/add', 'AreaController@addarea');
 
 	$router->resource('areas', 'AreaController');
+
+	$router->resource('pictures','PictureController');
 
 });
 

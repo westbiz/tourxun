@@ -9,8 +9,9 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Support\MessageBag;
 
-class AreaController extends Controller {
+class CityController extends Controller {
 	use ModelForm;
 
 	/**
@@ -28,16 +29,7 @@ class AreaController extends Controller {
 		});
 	}
 
-	//调用citygrid获取地市grid
-	public function getcities() {
-		return Admin::content(function (Content $content) {
 
-			$content->header('China 地市');
-			$content->description('管理');
-
-			$content->body($this->citygrid());
-		});
-	}
 
 	/**
 	 * Edit interface.
@@ -71,46 +63,14 @@ class AreaController extends Controller {
 	}
 
 
-	//select调用cascadingfomr
-	public function cascading() {
-		return Admin::content(function (Content $content) {
-
-			$content->header('header');
-			$content->description('description');
-
-			$content->body($this->cascadingform());
-		});
-	}
 
 	/**
 	 * Make a grid builder.
 	 *
 	 * @return Grid
 	 */
+	//地市grid	
 	protected function grid() {
-		return Admin::grid(Area::class, function (Grid $grid) {
-
-			$grid->filter(function ($filter) {
-				$filter->disableIdFilter();
-				$filter->like('areaName', 'name');
-			});
-			$grid->model()->where('parent_id', -1);
-			$grid->id('id')->sortable();
-			$grid->areaName('区域名')->editable();
-			$grid->cities()->display(function ($cityies) {
-				$cityies = array_map(function ($city) {
-					return "<span class='label label-success'>{$city['areaName']}</span>";
-				}, $cityies);
-				return join('&nbsp;', $cityies);
-			});
-
-			// $grid->created_at();
-			// $grid->updated_at();
-		});
-	}
-
-	//地市grid
-	protected function citygrid() {
 		return Admin::grid(Area::class, function (Grid $grid) {
 
 			$grid->filter(function ($filter) {
@@ -132,6 +92,7 @@ class AreaController extends Controller {
 		});
 	}
 
+
 	/**
 	 * Make a form builder.
 	 *
@@ -140,9 +101,13 @@ class AreaController extends Controller {
 	protected function form() {
 		return Admin::form(Area::class, function (Form $form) {
 
+			
 			$form->display('id', 'ID');
-			$form->text('areaCode', '区域编码');
-			$form->text('areaName', '地区名');
+			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6',[
+				'regex'=>'区域编码 必须全部为数字',
+				'min'=>'区域编码 不能少于6各字符',
+			]);
+			$form->text('areaName', '地区名')->rules('required|min:2');
 			$form->number('level', '级别');
 			$form->text('cityCode', '城市编码');
 			$form->text('center', '经纬度');
@@ -154,23 +119,17 @@ class AreaController extends Controller {
 				$form->text('cityCode', '城市编码');
 				$form->text('center', '经纬度');
 			});
+			// $form->saving(function(Form $form){
+			// 	throw new \Exception('出错...');
+				
+			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
 		});
 	}
 
-	//ajax三级联动select
-	protected function cascadingform() {
-		return Admin::form(Area::class, function (Form $form) {
 
-			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
-			// dd($provinces);
-			$form->select('Provinces')->options($provinces)->load('cities', '/api/v1/areas/city');
-			$form->select('cities')->options($provinces)->load('county', '/api/v1/areas/city');
-			$form->select('county');
-		});
-	}
 
 
 
