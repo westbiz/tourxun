@@ -17,10 +17,8 @@ class Product extends Model {
 		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
 
-
-	public function graphs()
-	{
-		return $this->hasMany(Picture::class,'product_id');
+	public function graphs() {
+		return $this->hasOne(Picture::class, 'product_id');
 	}
 
 	//多图、文件上传的时候提交的数据为文件路径数组,可以直接用mysql的JSON类型字段存储,定义字段的mutator

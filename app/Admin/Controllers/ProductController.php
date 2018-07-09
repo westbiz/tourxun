@@ -65,7 +65,7 @@ class ProductController extends Controller {
 			$grid->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
-			$grid->pictures('多图')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->graphs()->imageurl()->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
@@ -93,9 +93,12 @@ class ProductController extends Controller {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
 			})->removable();
+
+			$form->multipleImage('graphs.imageurl', '多图')->removable();
+			$form->text('graphs.description', '图片描述');
+
 			// $manager = new ImageManager(array('driver' => 'imagick'));
 			// $image = $manager->make('images/AAA170509322152256644.jpg')->resize(300, 200);
-			$form->multipleImage('pictures', '多图')->removable();
 
 			//裁切175X256，添加文字HOT,添加右下角评分栏，移除
 			// $text = 'HOT';
@@ -163,12 +166,6 @@ class ProductController extends Controller {
 			$form->switch('active', '激活？');
 			$form->display('created_at', 'Created At');
 			$form->display('updated_at', 'Updated At');
-
-			$form->hasMany('graphs',function(Form\NestedForm $form){
-				$form->image('imageurl', '图片')->move('images')->removable();
-				$form->text('description');
-			});
-
 
 		});
 	}
