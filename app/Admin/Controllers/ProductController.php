@@ -71,6 +71,7 @@ class ProductController extends Controller {
 			$grid->night('晚数');
 			$grid->hotel('酒店星级');
 			$grid->star('评星');
+			$grid->prices('价格');
 			$grid->summary('概述');
 			$grid->content('正文')->limit(30);
 			$grid->active('激活');
@@ -164,8 +165,17 @@ class ProductController extends Controller {
 			$form->text('summary', '概述');
 			$form->editor('content', '正文');
 			$form->switch('active', '激活？');
-			$form->display('created_at', 'Created At');
-			$form->display('updated_at', 'Updated At');
+			// $form->text('prices.price', '价格');
+			// $form->date('prices.date', '日期');
+
+			$form->hasMany('prices', function (Form\NestedForm $form) {
+				$form->currency('price', '价格')->symbol('￥');
+				$form->datetime('date', '日期');
+				$form->text('remark', '说明');
+			});
+
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
 
 		});
 	}
