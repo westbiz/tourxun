@@ -65,13 +65,19 @@ class ProductController extends Controller {
 			$grid->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
-			$grid->graphs()->imageurl()->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->graphs()->imageurl('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
-			$grid->hotel('酒店星级');
+			$grid->hotel('酒店');
 			$grid->star('评星');
-			$grid->prices('价格');
+			$grid->prices('价格')->display(function ($prices) {
+				$prices = array_map(function ($price) {
+					return "<span class='label label-info'>{$price['departure']} : {$price['price']}</span>";
+				}, $prices);
+				return join('&nbsp;', $prices);
+
+			});
 			$grid->summary('概述');
 			$grid->content('正文')->limit(30);
 			$grid->active('激活');
@@ -170,7 +176,7 @@ class ProductController extends Controller {
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');
-				$form->datetime('date', '日期');
+				$form->date('departure', '出发日期');
 				$form->text('remark', '说明');
 			});
 

@@ -22,7 +22,7 @@ Route::group([
 
 	//准备删除 $router->get('cities/{id}/edit', 'AreaController@edit');
 
-	//准备删除  $router->get('cities/create', 'AreaController@create');	
+	//准备删除  $router->get('cities/create', 'AreaController@create');
 
 	$router->resource('cities', 'CityController');
 
@@ -30,7 +30,9 @@ Route::group([
 
 	$router->resource('areas', 'AreaController');
 
-	$router->resource('pictures','PictureController');
+	$router->resource('pictures', 'PictureController');
+
+	$router->resource('prices', 'PriceController');
 
 });
 
