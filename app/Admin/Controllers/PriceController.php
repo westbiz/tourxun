@@ -68,6 +68,9 @@ class PriceController extends Controller {
 		return Admin::grid(Price::class, function (Grid $grid) {
 
 			$grid->id('ID')->sortable();
+			$grid->product()->avatar('图片')->display(function ($avatar) {
+				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
+			});
 			$grid->product()->name();
 			$grid->price('价格');
 			$grid->departure('日期');
