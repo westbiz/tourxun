@@ -23,6 +23,9 @@ class PriceController extends Controller {
 
 			$content->header('header');
 			$content->description('description');
+			$content->breadcrumb(
+				['text' => '价格列表', 'url' => 'prices']
+			);
 
 			$content->body($this->grid());
 		});
@@ -39,6 +42,10 @@ class PriceController extends Controller {
 
 			$content->header('header');
 			$content->description('description');
+			$content->breadcrumb(
+				['text' => '价格列表', 'url' => 'prices'],
+				['text' => '价格编辑']
+			);
 
 			$content->body($this->form()->edit($id));
 		});
@@ -76,8 +83,8 @@ class PriceController extends Controller {
 			$grid->departure('日期');
 			$grid->remark('说明');
 
-			$grid->created_at();
-			$grid->updated_at();
+			// $grid->created_at();
+			// $grid->updated_at();
 		});
 	}
 
@@ -90,6 +97,7 @@ class PriceController extends Controller {
 		return Admin::form(Price::class, function (Form $form) {
 
 			$form->display('id', 'ID');
+			$form->image('product.avatar');
 			$form->currency('price', '价格')->symbol('￥');
 			$form->date('departure', '日期');
 			$form->textarea('remark', '说明');
