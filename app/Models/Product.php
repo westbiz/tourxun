@@ -12,11 +12,15 @@ class Product extends Model {
 
 	protected $fillable = ['name', 'category_id', 'day', 'night', 'hotel', 'star', 'summary', 'content', 'active'];
 
+	//和图片的 多态关联，
+	public function pictures() {
+		return $this->morphMany(Picture::class, 'picturetable');
+	}
+
 	//产品分类，一对多反向
 	public function category() {
 		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
-
 
 	//图片一对多,json格式
 	public function graphs() {
