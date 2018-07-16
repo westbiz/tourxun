@@ -21,8 +21,8 @@ class PictureController extends Controller {
 	public function index() {
 		return Admin::content(function (Content $content) {
 
-			$content->header('header');
-			$content->description('description');
+			$content->header('图片');
+			$content->description('列表');
 
 			$content->body($this->grid());
 		});
@@ -37,7 +37,7 @@ class PictureController extends Controller {
 	public function edit($id) {
 		return Admin::content(function (Content $content) use ($id) {
 
-			$content->header('header');
+			$content->header('图片');
 			$content->description('description');
 
 			$content->body($this->form()->edit($id));
@@ -52,8 +52,8 @@ class PictureController extends Controller {
 	public function create() {
 		return Admin::content(function (Content $content) {
 
-			$content->header('header');
-			$content->description('description');
+			$content->header('图片');
+			$content->description('创建');
 
 			$content->body($this->form());
 		});
@@ -68,12 +68,13 @@ class PictureController extends Controller {
 		return Admin::grid(Picture::class, function (Grid $grid) {
 
 			$grid->id('ID')->sortable();
+			$grid->picture_type('类型');
 			$grid->product()->name('产品');
-			$grid->imageurl('图片路径')->image('http://tourxun.test/uploads/', 100, 100);
+			$grid->pictureuri('图片路径')->image('http://tourxun.test/uploads/', 100, 100);
 			$grid->description('描述');
 
-			$grid->created_at();
-			$grid->updated_at();
+			// $grid->created_at();
+			// $grid->updated_at();
 		});
 	}
 
@@ -86,12 +87,13 @@ class PictureController extends Controller {
 		return Admin::form(Picture::class, function (Form $form) {
 
 			$form->display('id', 'ID');
+			$form->select('picture_type','类别')->options([1=>'风景',2=>'产品',3=>'人物']);
 			$form->text('product_id');
-			$form->multipleImage('imageurl', '图片');
+			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('description', '图片描述');
 
-			$form->display('created_at', 'Created At');
-			$form->display('updated_at', 'Updated At');
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
 		});
 	}
 }

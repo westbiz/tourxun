@@ -147,7 +147,7 @@ class AreaController extends Controller {
 			$form->text('cityCode', '城市编码');
 			$form->text('center', '经纬度');
 			$form->text('parent_id', '父节点');
-			$form->hasMany('cities', '添加子类', function (Form\NestedForm $form) {
+			$form->hasMany('cities', '添加地市', function (Form\NestedForm $form) {
 				$form->text('areaCode', '区域编码');
 				$form->text('areaName', '地区名');
 				$form->number('level', '级别');

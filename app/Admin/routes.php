@@ -34,6 +34,8 @@ Route::group([
 
 	$router->resource('prices', 'PriceController');
 
+	$router->resource('sights','SightController');
+
 });
 
 //子域名路由

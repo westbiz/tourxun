@@ -59,13 +59,13 @@ class ProductController extends Controller {
 	protected function grid() {
 		return Admin::grid(Product::class, function (Grid $grid) {
 			$grid->id('ID')->sortable();
-			$grid->name('名称');
+			$grid->name('名称')->editable();
 			// $grid->avatar('图片');
 
 			$grid->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
-			$grid->graphs()->imageurl('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->graphs()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
@@ -101,7 +101,7 @@ class ProductController extends Controller {
 				$constraint->upsize();
 			})->removable();
 
-			$form->multipleImage('graphs.imageurl', '多图')->removable();
+			$form->multipleImage('graphs.pictureuri', '多图')->removable();
 			$form->text('graphs.description', '图片描述');
 
 			// $manager = new ImageManager(array('driver' => 'imagick'));

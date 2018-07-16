@@ -16,7 +16,7 @@ class CreateTxPicturesTable extends Migration
         Schema::create('tx_pictures', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id')->index()->comment('商品id');
-            $table->string('imageurl')->default('[]')->comment('图片路径');
+            $table->string('pictureuri')->default('[]')->comment('图片路径');
             $table->string('description')->default('[]')->comment('描述')->nullable();
 
             $table->timestamps();

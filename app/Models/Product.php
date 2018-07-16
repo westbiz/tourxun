@@ -17,10 +17,13 @@ class Product extends Model {
 		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
 
+
+	//图片一对多,json格式
 	public function graphs() {
 		return $this->hasOne(Picture::class, 'product_id');
 	}
 
+	//价格一对多
 	public function prices() {
 		return $this->hasMany(Price::class, 'product_id');
 	}
