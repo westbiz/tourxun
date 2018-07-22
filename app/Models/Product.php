@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Picture;
 
 class Product extends Model {
 	use SoftDeletes;
@@ -14,7 +15,7 @@ class Product extends Model {
 
 	//和图片的 多态关联，
 	public function pictures() {
-		return $this->morphMany(Picture::class, 'picturetable');
+		return $this->morphMany('App\Models\Picture', 'pictureable');
 	}
 
 	//产品分类，一对多反向
@@ -23,9 +24,9 @@ class Product extends Model {
 	}
 
 	//图片一对多,json格式
-	public function graphs() {
-		return $this->hasOne(Picture::class, 'product_id');
-	}
+	// public function graphs() {
+	// 	return $this->hasOne(Picture::class, 'product_id');
+	// }
 
 	//价格一对多
 	public function prices() {

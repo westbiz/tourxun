@@ -15,9 +15,10 @@ class CreateTxPicturesTable extends Migration
     {
         Schema::create('tx_pictures', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id')->index()->comment('商品id');
-            $table->string('pictureuri')->default('[]')->comment('图片路径');
-            $table->string('description')->default('[]')->comment('描述')->nullable();
+            $table->integer('pictureable_id')->index()->comment('商品id');
+            $table->string('pictureable_type')->index()->comment('商品id');
+            $table->string('pictureuri')->comment('图片路径');
+            $table->string('description')->comment('描述')->nullable();
 
             $table->timestamps();
         });

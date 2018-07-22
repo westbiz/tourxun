@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Picture;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -58,14 +59,16 @@ class ProductController extends Controller {
 	 */
 	protected function grid() {
 		return Admin::grid(Product::class, function (Grid $grid) {
+
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
-			// $grid->avatar('图片');
+			// $grid->avatar('图片');			
 
 			$grid->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
-			$grid->graphs()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			// $grid->graphs()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->pictures()->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');

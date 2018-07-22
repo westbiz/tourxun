@@ -3,16 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
+use App\Models\Sight;
+use App\Models\Picture;
 
 class Picture extends Model {
 	protected $table = 'tx_pictures';
 
 	protected $fillable = [
-		'product_id', 'picture_type', 'pictureuri', 'description',
+		'pictureable_id', 'pictureable_type', 'pictureuri', 'description',
 	];
 
 	//多态关联
-	public function picturetable() {
+	public function pictureable() {
 		return $this->morphTo();
 	}
 
