@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Picture;
 
 class Product extends Model {
 	use SoftDeletes;
@@ -14,8 +13,12 @@ class Product extends Model {
 	protected $fillable = ['name', 'category_id', 'day', 'night', 'hotel', 'star', 'summary', 'content', 'active'];
 
 	//和图片的 多态关联，
+	// public function pictures() {
+	// 	return $this->morphMany(Picture::class, 'pictureable');
+	// }
+
 	public function pictures() {
-		return $this->morphMany('App\Models\Picture', 'pictureable');
+		return $this->belongsToMany(Picture::class, 'tx_picture_products', 'picture_id', 'product_id');
 	}
 
 	//产品分类，一对多反向

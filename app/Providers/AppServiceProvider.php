@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider {
 
 	private function bootEloquentMorphs() {
 		Relation::morphMap([
-			'sight' => 'App\Models\Sight',
-			'product' => 'App\Models\Product',
+			'tx_sights' => Sight::class,
+			'tx_products' => Picture::class,
 		]);
 
 	}

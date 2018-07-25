@@ -2,21 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Picture;
 use App\Models\Product;
 use App\Models\Sight;
-use App\Models\Picture;
+use Illuminate\Database\Eloquent\Model;
 
 class Picture extends Model {
 	protected $table = 'tx_pictures';
 
 	protected $fillable = [
-		'pictureable_id', 'pictureable_type', 'pictureuri', 'description',
+		'pictureuri', 'description',
 	];
 
 	//多态关联
-	public function pictureable() {
-		return $this->morphTo();
+	// public function pictureable() {
+	// 	return $this->morphTo();
+	// }
+
+	public function products() {
+		return $this->belongsToMany(Product::class, 'tx_picture_products', 'picture_id', 'product_id');
 	}
 
 	public function product() {
