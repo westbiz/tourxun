@@ -18,7 +18,7 @@ class Product extends Model {
 	// }
 
 	public function pictures() {
-		return $this->belongsToMany(Picture::class, 'tx_picture_products', 'picture_id', 'product_id');
+		return $this->hasOne(Picture::class, 'tx_picture_products', 'picture_id', 'product_id');
 	}
 
 	//产品分类，一对多反向
@@ -27,9 +27,9 @@ class Product extends Model {
 	}
 
 	//图片一对多,json格式
-	// public function graphs() {
-	// 	return $this->hasOne(Picture::class, 'product_id');
-	// }
+	public function graphs() {
+		return $this->hasOne(Picture::class, 'product_id');
+	}
 
 	//价格一对多
 	public function prices() {

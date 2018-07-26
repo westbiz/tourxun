@@ -21,6 +21,9 @@ class PictureController extends Controller {
 	public function index() {
 		return Admin::content(function (Content $content) {
 
+			// $picture = Picture::find(1);
+			// dd($picture->pictureable());
+
 			$content->header('图片');
 			$content->description('列表');
 
@@ -87,7 +90,7 @@ class PictureController extends Controller {
 		return Admin::form(Picture::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$form->select('pictureable_type','类别')->options(['sight'=>'风景','product'=>'产品','people'=>'人物']);
+			$form->select('pictureable_type', '类别')->options(['sight' => '风景', 'product' => '产品', 'people' => '人物']);
 			$form->text('pictureable_id');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('description', '图片描述');

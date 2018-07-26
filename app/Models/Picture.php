@@ -11,7 +11,7 @@ class Picture extends Model {
 	protected $table = 'tx_pictures';
 
 	protected $fillable = [
-		'pictureuri', 'description',
+		'product_id', 'pictureuri', 'description',
 	];
 
 	//多态关联
@@ -19,9 +19,9 @@ class Picture extends Model {
 	// 	return $this->morphTo();
 	// }
 
-	public function products() {
-		return $this->belongsToMany(Product::class, 'tx_picture_products', 'picture_id', 'product_id');
-	}
+	// public function products() {
+	// 	return $this->belongsToMany(Product::class, 'tx_picture_products', 'picture_id', 'product_id');
+	// }
 
 	public function product() {
 		return $this->belongsTo(Product::class, 'product_id');

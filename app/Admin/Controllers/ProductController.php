@@ -60,24 +60,17 @@ class ProductController extends Controller {
 		return Admin::grid(Product::class, function (Grid $grid) {
 
 			// $product = Product::find(1);
-			// dd($product->pictures()->picture_id());
+			// dd($product->pictures());
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
 			// $grid->avatar('图片');
 
 			$grid->avatar('图片')->display(function ($avatar) {
-				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
+				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='20%' class='img img-thumbnail'>";
 			});
 
-			$grid->pictures('图片')->display(function ($pictures) {
-				$pictures = array_map(function ($picture) {
-					return "<img src='http://tourxun.test/uploads/{$picture['pictureuri']}' height='10%' width='10%' class='img img-thumbnail'>";
-				}, $pictures);
-				return join('&nbsp;', $pictures);
-			});
-
-			// $grid->graphs()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			$grid->pictures()->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->graphs()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			// $grid->pictures()->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');
