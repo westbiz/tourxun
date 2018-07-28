@@ -71,9 +71,15 @@ class PictureController extends Controller {
 		return Admin::grid(Picture::class, function (Grid $grid) {
 
 			$grid->id('ID')->sortable();
-			$grid->pictureable_id('类型');
+			$grid->pictureable_id('类型id');
 			$grid->product()->name('产品');
-			$grid->pictureuri('图片路径')->image('http://tourxun.test/uploads/', 100, 100);
+
+			// $grid->pictureuri()->display(function ($pictureuri) {
+			// 	return "<img src='http://tourxun.test/uploads/$pictureuri' alt='$this->pictureuri' height='10%' width='20%' class='img img-thumbnail'>";
+			// });
+			$picture = Picture::find(1);
+			$grid->pictureable()->name('关联名称');
+			$grid->pictureuri('图片路径')->image();
 			$grid->description('描述');
 
 			// $grid->created_at();

@@ -81,7 +81,6 @@ class ProductController extends Controller {
 					return "<span class='label label-info'>{$price['departure']} : {$price['price']}</span>";
 				}, $prices);
 				return join('&nbsp;', $prices);
-
 			});
 			$grid->summary('概述');
 			$grid->content('正文')->limit(30);
