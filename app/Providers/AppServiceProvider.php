@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Picture;
 use App\Models\Product;
 use App\Models\Sight;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -17,22 +16,17 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot() {
 		Resource::withoutWrapping();
-		// $this->bootEloquentMorphs();
-		Relation::morphMap([
-			'Sight' => Sight::class,
-			'Product' => Product::class,
-			'Picture' => Picture::class,
-		]);
+		$this->bootEloquentMorphs();
 
 	}
 
-	// private function bootEloquentMorphs() {
-	// 	Relation::morphMap([
-	// 		'Sight' => Sight::class,
-	// 		'Product' => Product::class,
-	// 	]);
+	private function bootEloquentMorphs() {
+		Relation::morphMap([
+			'Sight' => Sight::class,
+			'Product' => Product::class,
+		]);
 
-	// }
+	}
 
 	/**
 	 * Register any application services.

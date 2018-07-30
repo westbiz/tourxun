@@ -67,13 +67,13 @@ class SightController extends Controller {
 	protected function grid() {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
-			$sight = Sight::find(1);
-			dd($sight->pictures()->pluck('pictureuri')->all());
+			// $sight = Sight::find(1);
+			// dd($sight->pictures->pluck('pictureuri'));
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city_id('区域');
-			dd($grid->pictures()->pluck('pictureuri')->image());
+			$grid->pictures()->pluck('pictureuri');
 
 			$grid->summary('概况');
 			$grid->content('内容');
@@ -94,7 +94,7 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称');
 			$form->text('city_id', '区域');
-			$form->text('picture_id', '图片');
+			$form->image('pictures.pictureuri', '图片');
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
 

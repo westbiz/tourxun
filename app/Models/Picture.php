@@ -11,12 +11,12 @@ class Picture extends Model {
 	protected $table = 'tx_pictures';
 
 	protected $fillable = [
-		'product_id', 'pictureuri', 'description',
+		'product_id', 'pictureable_id', 'pictureable_type', 'pictureuri', 'description',
 	];
 
 	//多态关联
 	public function pictureable() {
-		return $this->morphTo();
+		return $this->morphTo('pictureable', 'pictureable_type', 'pictureable_id');
 	}
 
 	// public function products() {
