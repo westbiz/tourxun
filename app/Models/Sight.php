@@ -12,8 +12,8 @@ class Sight extends Model {
 	];
 
 	//图片，多态关联
-	public function pictures() {
-		return $this->morphMany(Picture::class, 'pictureable');
+	public function pics() {
+		return $this->morphMany(Picture::class, 'pictureable', 'pictureable_type', 'pictureable_id', 'id');
 	}
 
 	//一对多

@@ -68,12 +68,15 @@ class SightController extends Controller {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
 			// $sight = Sight::find(1);
-			// dd($sight->pictures->pluck('pictureuri'));
+			// dd($sight->pics()->pluck('pictureuri'));
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city_id('区域');
-			$grid->pictures()->pluck('pictureuri');
+			$grid->images()->display(function ($pictureuri) {
+				return json_decode($pictureuri, true);
+
+			})->image('http://tourxun.test/uploads/', 50, 50);
 
 			$grid->summary('概况');
 			$grid->content('内容');

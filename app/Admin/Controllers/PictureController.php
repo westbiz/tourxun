@@ -77,7 +77,7 @@ class PictureController extends Controller {
 			// $grid->pictureuri()->display(function ($pictureuri) {
 			// 	return "<img src='http://tourxun.test/uploads/$pictureuri' alt='$this->pictureuri' height='10%' width='20%' class='img img-thumbnail'>";
 			// });
-			$picture = Picture::find(1);
+
 			$grid->pictureable()->name('关联名称');
 			$grid->pictureuri('图片路径')->image();
 			$grid->description('描述');
