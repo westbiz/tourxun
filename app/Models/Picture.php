@@ -11,7 +11,7 @@ class Picture extends Model {
 	protected $table = 'tx_pictures';
 
 	protected $fillable = [
-		'product_id', 'pictureable_id', 'pictureable_type', 'pictureuri', 'description',
+		'product_id', 'pictureuri', 'description',
 	];
 
 	//多态关联
@@ -27,9 +27,9 @@ class Picture extends Model {
 		return $this->belongsTo(Product::class, 'product_id');
 	}
 
-	//一对多反向
+	//多对多反向
 	public function sight() {
-		return $this->belongsTo(Sight::class, 'picture_id');
+		return $this->belongsToMany(Sight::class, 'tx_picture_sights', 'sight_id', 'picture_id');
 	}
 
 	//多图、文件上传的时候提交的数据为文件路径数组,可以直接用mysql的JSON类型字段存储,定义字段的mutator

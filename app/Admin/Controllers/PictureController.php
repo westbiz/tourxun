@@ -78,7 +78,6 @@ class PictureController extends Controller {
 			// 	return "<img src='http://tourxun.test/uploads/$pictureuri' alt='$this->pictureuri' height='10%' width='20%' class='img img-thumbnail'>";
 			// });
 
-			$grid->pictureable()->name('关联名称');
 			$grid->pictureuri('图片路径')->image();
 			$grid->description('描述');
 
@@ -96,10 +95,17 @@ class PictureController extends Controller {
 		return Admin::form(Picture::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$form->select('pictureable_type', '类别')->options(['sight' => '风景', 'product' => '产品', 'people' => '人物']);
-			$form->text('pictureable_id');
-			$form->multipleImage('pictureuri', '图片')->removable();
+			// $form->select('pictureable_type', '类别')->options(['sight' => '风景', 'product' => '产品', 'people' => '人物']);
+			$form->image('pictureuri', '图片')->move('images')->fit(175, 256, function ($constraint) {
+				// $constraint->aspectRatio();
+				$constraint->upsize();
+			})->removable();
 			$form->text('description', '图片描述');
+			$form->saving(function (Form $form) {
+
+				$form->model()->id;
+
+			});
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');

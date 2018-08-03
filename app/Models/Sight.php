@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Picture;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 
 class Sight extends Model {
@@ -16,9 +18,9 @@ class Sight extends Model {
 		return $this->morphMany(Picture::class, 'pictureable', 'pictureable_type', 'pictureable_id', 'id');
 	}
 
-	//一对多
-	// public function pictures(){
-	// 	return $this->hasMany(Pictures::class,'picture_id');
-	// }
+	//多对多
+	public function pictures() {
+		return $this->belongsToMany(Picture::class, 'tx_picture_sights', 'sight_id', 'picture_id');
+	}
 
 }

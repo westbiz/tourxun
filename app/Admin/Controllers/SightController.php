@@ -68,16 +68,23 @@ class SightController extends Controller {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
 			// $sight = Sight::find(1);
-			// dd($sight->pics()->pluck('pictureuri'));
+			// dd($sight->pics->pluck('pictureuri'));
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city_id('区域');
-			$grid->images()->display(function ($pictureuri) {
+
+			$grid->pics()->pluck('pictureuri')->display(function ($pictureuri) {
 				return json_decode($pictureuri, true);
-
-			})->image('http://tourxun.test/uploads/', 50, 50);
-
+			})->map(function ($path) {
+				return 'http://tourxun.test/uploads/' . $path;
+			})->image();
+			// $grid->pictures()->display(function ($pictures) {
+			// 	$pictures = array_map(function ($picture) {
+			// 		return "<img src='http://tourxun.test/uploads/{$picture['pictureuri']}' height='10%' width='20%' class='img img-thumbnail'>";
+			// 	}, $pictures);
+			// 	return join('&nbsp;', $pictures);
+			// });
 			$grid->summary('概况');
 			$grid->content('内容');
 
@@ -97,7 +104,7 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称');
 			$form->text('city_id', '区域');
-			$form->image('pictures.pictureuri', '图片');
+			$form->multipleImage('pictures.pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
 
