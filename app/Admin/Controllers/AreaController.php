@@ -25,6 +25,7 @@ class AreaController extends Controller {
 			$content->description('管理');
 
 			$content->body($this->grid());
+
 		});
 	}
 
@@ -70,7 +71,6 @@ class AreaController extends Controller {
 		});
 	}
 
-
 	//select调用cascadingfomr
 	public function cascading() {
 		return Admin::content(function (Content $content) {
@@ -90,6 +90,11 @@ class AreaController extends Controller {
 	protected function grid() {
 		return Admin::grid(Area::class, function (Grid $grid) {
 
+			$grid->actions(function ($actions) {
+				// prepend一个操作
+				$actions->prepend("<a href='cities/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			});
+
 			$grid->filter(function ($filter) {
 				$filter->disableIdFilter();
 				$filter->like('areaName', 'name');
@@ -99,7 +104,7 @@ class AreaController extends Controller {
 			$grid->areaName('区域名')->editable();
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
-					return "<span class='label label-success'>{$city['areaName']}</span>";
+					return "<a href='areas/{$city['id']}/edit'><span class='label label-info'>{$city['areaName']}</span></a>";
 				}, $cityies);
 				return join('&nbsp;', $cityies);
 			});
@@ -110,27 +115,27 @@ class AreaController extends Controller {
 	}
 
 	//地市grid
-	protected function citygrid() {
-		return Admin::grid(Area::class, function (Grid $grid) {
+	// protected function citygrid() {
+	// 	return Admin::grid(Area::class, function (Grid $grid) {
 
-			$grid->filter(function ($filter) {
-				$filter->disableIdFilter();
-				$filter->like('areaName', 'name');
-			});
-			$grid->model()->where('level', 2);
-			$grid->id('id')->sortable();
-			$grid->areaName('区域名')->editable();
-			$grid->cities()->display(function ($cityies) {
-				$cityies = array_map(function ($city) {
-					return "<span class='label label-success'>{$city['areaName']}</span>";
-				}, $cityies);
-				return join('&nbsp;', $cityies);
-			});
+	// 		$grid->filter(function ($filter) {
+	// 			$filter->disableIdFilter();
+	// 			$filter->like('areaName', 'name');
+	// 		});
+	// 		$grid->model()->where('level', 2);
+	// 		$grid->id('id')->sortable();
+	// 		$grid->areaName('区域名')->editable();
+	// 		$grid->cities()->display(function ($cityies) {
+	// 			$cityies = array_map(function ($city) {
+	// 				return "<a href='cities/{$city['id']}/edit'><span class='label label-success'>{$city['areaName']}</span></a>";
+	// 			}, $cityies);
+	// 			return join('&nbsp;', $cityies);
+	// 		});
 
-			// $grid->created_at();
-			// $grid->updated_at();
-		});
-	}
+	// 		// $grid->created_at();
+	// 		// $grid->updated_at();
+	// 	});
+	// }
 
 	/**
 	 * Make a form builder.
@@ -171,7 +176,5 @@ class AreaController extends Controller {
 			$form->select('county');
 		});
 	}
-
-
 
 }

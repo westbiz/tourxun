@@ -69,8 +69,8 @@ class SightController extends Controller {
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
-			$grid->city_id('区域');
-			$grid->picture('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->city()->areaName('区域');
+			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->summary('概况');
 			$grid->content('内容');
 
@@ -90,7 +90,7 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称');
 			$form->text('city_id', '区域');
-			$form->multipleImage('picture', '图片')->removable();
+			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
 

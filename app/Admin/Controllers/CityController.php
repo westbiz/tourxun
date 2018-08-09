@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Controllers\CityController;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use Encore\Admin\Controllers\ModelForm;
@@ -9,7 +10,6 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Illuminate\Support\MessageBag;
 
 class CityController extends Controller {
 	use ModelForm;
@@ -22,14 +22,12 @@ class CityController extends Controller {
 	public function index() {
 		return Admin::content(function (Content $content) {
 
-			$content->header('China 省区');
+			$content->header('China 地市');
 			$content->description('管理');
 
 			$content->body($this->grid());
 		});
 	}
-
-
 
 	/**
 	 * Edit interface.
@@ -40,8 +38,8 @@ class CityController extends Controller {
 	public function edit($id) {
 		return Admin::content(function (Content $content) use ($id) {
 
-			$content->header('header');
-			$content->description('description');
+			$content->header('China 地市');
+			$content->description('编辑');
 
 			$content->body($this->form()->edit($id));
 		});
@@ -55,23 +53,36 @@ class CityController extends Controller {
 	public function create() {
 		return Admin::content(function (Content $content) {
 
-			$content->header('header');
-			$content->description('description');
+			$content->header('China 地市');
+			$content->description('创建');
 
 			$content->body($this->form());
 		});
 	}
 
+	public function addcity($id) {
+		return Admin::content(function (Content $content) use ($id) {
 
+			$content->header('China 地市');
+			$content->description('新增');
+
+			$content->body($this->addcityform()->edit($id));
+		});
+	}
 
 	/**
 	 * Make a grid builder.
 	 *
 	 * @return Grid
 	 */
-	//地市grid	
+	//地市grid
 	protected function grid() {
 		return Admin::grid(Area::class, function (Grid $grid) {
+
+			$grid->actions(function ($actions) {
+				// prepend一个操作
+				$actions->prepend("<a href='cities/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			});
 
 			$grid->filter(function ($filter) {
 				$filter->disableIdFilter();
@@ -82,7 +93,7 @@ class CityController extends Controller {
 			$grid->areaName('区域名')->editable();
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
-					return "<span class='label label-success'>{$city['areaName']}</span>";
+					return "<a href='{$city['id']}/edit'><span class='label label-success'>{$city['areaName']}</span></a>";
 				}, $cityies);
 				return join('&nbsp;', $cityies);
 			});
@@ -92,7 +103,6 @@ class CityController extends Controller {
 		});
 	}
 
-
 	/**
 	 * Make a form builder.
 	 *
@@ -101,17 +111,16 @@ class CityController extends Controller {
 	protected function form() {
 		return Admin::form(Area::class, function (Form $form) {
 
-			
 			$form->display('id', 'ID');
-			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6',[
-				'regex'=>'区域编码 必须全部为数字',
-				'min'=>'区域编码 不能少于6各字符',
+			$form->text('parent_id', '父节点');
+			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
+				'regex' => '区域编码 必须全部为数字',
+				'min' => '区域编码 不能少于6各字符',
 			]);
 			$form->text('areaName', '地区名')->rules('required|min:2');
 			$form->number('level', '级别');
 			$form->text('cityCode', '城市编码');
 			$form->text('center', '经纬度');
-			$form->text('parent_id', '父节点');
 			$form->hasMany('cities', '添加区县', function (Form\NestedForm $form) {
 				$form->text('areaCode', '区域编码');
 				$form->text('areaName', '地区名');
@@ -121,7 +130,7 @@ class CityController extends Controller {
 			});
 			// $form->saving(function(Form $form){
 			// 	throw new \Exception('出错...');
-				
+
 			// });
 
 			// $form->display('created_at', 'Created At');
@@ -129,8 +138,23 @@ class CityController extends Controller {
 		});
 	}
 
+	protected function addcityform() {
+		return Admin::form(Area::class, function (Form $form) {
 
+			// $form->display('id', 'ID');
+			$form->text('id', '父节点')->value('parent_id');
+			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
+				'regex' => '区域编码 必须全部为数字',
+				'min' => '区域编码 不能少于6各字符',
+			]);
+			$form->text('areaName', '地区名')->rules('required|min:2');
+			$form->number('level', '级别');
+			$form->text('cityCode', '城市编码');
+			$form->text('center', '经纬度');
 
-
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
+		});
+	}
 
 }

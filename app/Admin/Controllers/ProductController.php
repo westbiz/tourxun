@@ -69,7 +69,7 @@ class ProductController extends Controller {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='20%' class='img img-thumbnail'>";
 			});
 
-			$grid->graphs()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->pictures()->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
@@ -105,7 +105,7 @@ class ProductController extends Controller {
 				$constraint->upsize();
 			})->removable();
 
-			$form->multipleImage('graphs.pictureuri', '多图')->removable();
+			$form->multipleImage('pictureuri', '多图')->removable();
 			$form->text('graphs.description', '图片描述');
 
 			// $manager = new ImageManager(array('driver' => 'imagick'));

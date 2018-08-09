@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Modeles\Sight;
 use Illuminate\Database\Eloquent\Model;
 
 class Area extends Model {
@@ -17,6 +18,10 @@ class Area extends Model {
 
 	public function province() {
 		return $this->belongsTo(Area::class, 'parent_id', 'id');
+	}
+
+	public function sights() {
+		return $this->hasMany(Sight::class, 'city_id', 'id');
 	}
 
 }

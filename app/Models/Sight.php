@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Area;
 use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,15 +23,19 @@ class Sight extends Model {
 	// 	return $this->belongsToMany(Picture::class, 'tx_picture_sights', 'sight_id', 'picture_id');
 	// }
 
+	public function city() {
+		return $this->belongsTo(Area::class, 'city_id', 'id');
+	}
+
 	//设置图片json属性
-	public function setPictureAttribute($picture) {
-		if (is_array($picture)) {
-			$this->attributes['picture'] = json_encode($picture);
+	public function setPictureuriAttribute($pictureuri) {
+		if (is_array($pictureuri)) {
+			$this->attributes['pictureuri'] = json_encode($pictureuri);
 		}
 	}
 
-	public function getPictureAttribute($picture) {
-		return json_decode($picture, true);
+	public function getPictureuriAttribute($pictureuri) {
+		return json_decode($pictureuri, true);
 	}
 
 }

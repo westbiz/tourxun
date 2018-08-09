@@ -24,6 +24,8 @@ Route::group([
 
 	//准备删除  $router->get('cities/create', 'AreaController@create');
 
+	$router->get('cities/{id}/addcity', 'CityController@addcity');
+
 	$router->resource('cities', 'CityController');
 
 	//准备删除  $router->get('areas/{id}/add', 'AreaController@addarea');
@@ -34,7 +36,7 @@ Route::group([
 
 	$router->resource('prices', 'PriceController');
 
-	$router->resource('sights','SightController');
+	$router->resource('sights', 'SightController');
 
 });
 
