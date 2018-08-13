@@ -66,7 +66,7 @@ class CityController extends Controller {
 			$content->header('China 地市');
 			$content->description('新增');
 
-			$content->body($this->addcityform()->edit($id));
+			$content->body($this->addcityform());
 		});
 	}
 
@@ -81,7 +81,7 @@ class CityController extends Controller {
 
 			$grid->actions(function ($actions) {
 				// prepend一个操作
-				$actions->prepend("<a href='cities/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='city/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->filter(function ($filter) {
@@ -93,7 +93,7 @@ class CityController extends Controller {
 			$grid->areaName('区域名')->editable();
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
-					return "<a href='{$city['id']}/edit'><span class='label label-success'>{$city['areaName']}</span></a>";
+					return "<a href='city/{$city['id']}/edit'><span class='label label-success'>{$city['areaName']}</span></a>";
 				}, $cityies);
 				return join('&nbsp;', $cityies);
 			});
@@ -128,10 +128,6 @@ class CityController extends Controller {
 				$form->text('cityCode', '城市编码');
 				$form->text('center', '经纬度');
 			});
-			// $form->saving(function(Form $form){
-			// 	throw new \Exception('出错...');
-
-			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
@@ -141,8 +137,10 @@ class CityController extends Controller {
 	protected function addcityform() {
 		return Admin::form(Area::class, function (Form $form) {
 
+			$pid = request()->route()->parameters('city');
+			// dd($pid['id']);
 			// $form->display('id', 'ID');
-			$form->text('id', '父节点')->value('parent_id');
+			$form->text('parent_id', '父节点')->value($pid['city']);
 			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
 				'regex' => '区域编码 必须全部为数字',
 				'min' => '区域编码 不能少于6各字符',
@@ -154,6 +152,9 @@ class CityController extends Controller {
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
+			// $form->saving(function (Form $from) {
+			// 	return redirect('/admin/city');
+			// });
 		});
 	}
 

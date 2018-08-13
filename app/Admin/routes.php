@@ -24,9 +24,12 @@ Route::group([
 
 	//准备删除  $router->get('cities/create', 'AreaController@create');
 
-	$router->get('cities/{id}/addcity', 'CityController@addcity');
+	// $router->get('city', 'CityController@index');
+	$router->get('city/{city}/addcity', 'CityController@addcity');
+	$router->post('city/{city}', 'CityController@store');
+	$router->get('city/{city}/edit', 'CityController@edit');
 
-	$router->resource('cities', 'CityController');
+	$router->resource('city', 'CityController');
 
 	//准备删除  $router->get('areas/{id}/add', 'AreaController@addarea');
 
