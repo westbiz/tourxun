@@ -138,15 +138,18 @@ class CityController extends Controller {
 		return Admin::form(Area::class, function (Form $form) {
 
 			$pid = request()->route()->parameters('city');
+			$pname = Area::where('id', $pid['city'])->pluck('areaName')->all();
+			// dd($pname);
 			// dd($pid['id']);
 			// $form->display('id', 'ID');
-			$form->text('parent_id', '父节点')->value($pid['city']);
+			// $form->display('parentname', $pname);
+			$form->text('parent_id', $pname[0])->value($pid['city'])->help('请勿更改！');
 			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
 				'regex' => '区域编码 必须全部为数字',
 				'min' => '区域编码 不能少于6各字符',
 			]);
 			$form->text('areaName', '地区名')->rules('required|min:2');
-			$form->number('level', '级别');
+			$form->number('level', '级别')->min(1);
 			$form->text('cityCode', '城市编码');
 			$form->text('center', '经纬度');
 
