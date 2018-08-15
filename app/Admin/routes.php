@@ -39,6 +39,8 @@ Route::group([
 
 	$router->resource('prices', 'PriceController');
 
+	$router->get('sight/city/{city}/addsight', 'SightController@addsight');
+	$router->post('sight/city/{city}', 'SightController@store');
 	$router->resource('sights', 'SightController');
 
 });

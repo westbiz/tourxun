@@ -82,6 +82,7 @@ class CityController extends Controller {
 			$grid->actions(function ($actions) {
 				// prepend一个操作
 				$actions->prepend("<a href='city/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='sight/city/" . $actions->getKey() . "/addsight'><i class='fa fa-image'></i></a>&nbsp;");
 			});
 
 			$grid->filter(function ($filter) {
@@ -134,15 +135,13 @@ class CityController extends Controller {
 		});
 	}
 
+	//新增辖区表单
 	protected function addcityform() {
 		return Admin::form(Area::class, function (Form $form) {
 
 			$pid = request()->route()->parameters('city');
 			$pname = Area::where('id', $pid['city'])->pluck('areaName')->all();
-			// dd($pname);
-			// dd($pid['id']);
-			// $form->display('id', 'ID');
-			// $form->display('parentname', $pname);
+
 			$form->text('parent_id', $pname[0])->value($pid['city'])->help('请勿更改！');
 			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
 				'regex' => '区域编码 必须全部为数字',
@@ -152,12 +151,6 @@ class CityController extends Controller {
 			$form->number('level', '级别')->min(1);
 			$form->text('cityCode', '城市编码');
 			$form->text('center', '经纬度');
-
-			// $form->display('created_at', 'Created At');
-			// $form->display('updated_at', 'Updated At');
-			// $form->saving(function (Form $from) {
-			// 	return redirect('/admin/city');
-			// });
 		});
 	}
 

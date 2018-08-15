@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
 use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -59,6 +60,17 @@ class SightController extends Controller {
 		});
 	}
 
+	//addsight方法
+	public function addsight($id) {
+		return Admin::content(function (Content $content) use ($id) {
+
+			$content->header('China 地市景点');
+			$content->description('新增');
+
+			$content->body($this->addsightform());
+		});
+	}
+
 	/**
 	 * Make a grid builder.
 	 *
@@ -98,4 +110,24 @@ class SightController extends Controller {
 			// $form->display('updated_at', 'Updated At');
 		});
 	}
+
+	//新增景点表单
+	protected function addsightform() {
+		return Admin::form(Area::class, function (Form $form) {
+
+			$pid = request()->route()->parameters('city');
+			$pname = Area::where('id', $pid['city'])->pluck('areaName')->all();
+
+			$form->text('city_id', $pname[0])->value($pid['city'])->help('请勿更改！');
+			$form->text('name', '景点名称')->rules('required|min:2', ['min' => '区域编码 不能少于2各字符',
+			]);
+
+			$form->text('name', '名称');
+			$form->multipleImage('pictureuri', '图片')->removable();
+			$form->text('summary', '概述');
+			$form->textarea('content', '介绍');
+
+		});
+	}
+
 }
