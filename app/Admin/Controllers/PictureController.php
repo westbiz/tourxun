@@ -96,16 +96,13 @@ class PictureController extends Controller {
 
 			$form->display('id', 'ID');
 			// $form->select('pictureable_type', '类别')->options(['sight' => '风景', 'product' => '产品', 'people' => '人物']);
-			$form->image('pictureuri', '图片')->move('images')->fit(175, 256, function ($constraint) {
-				// $constraint->aspectRatio();
-				$constraint->upsize();
-			})->removable();
+			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('description', '图片描述');
-			$form->saving(function (Form $form) {
+			// $form->saving(function (Form $form) {
 
-				$form->model()->id;
+			// 	$form->model()->id;
 
-			});
+			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');

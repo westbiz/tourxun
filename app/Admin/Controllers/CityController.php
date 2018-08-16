@@ -112,6 +112,11 @@ class CityController extends Controller {
 	protected function form() {
 		return Admin::form(Area::class, function (Form $form) {
 
+			$form->tools(function (Form\Tools $tools) {
+				// 添加一个按钮, 参数可以是字符串, 或者实现了Renderable或Htmlable接口的对象实例
+				$tools->add('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
+			});
+
 			$form->display('id', 'ID');
 			$form->text('parent_id', '父节点');
 			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [

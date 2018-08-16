@@ -41,7 +41,7 @@ Route::group([
 
 	$router->get('sight/city/{city}/addsight', 'SightController@addsight');
 	$router->post('sight/city/{city}', 'SightController@store');
-	$router->resource('sights', 'SightController');
+	$router->resource('sight', 'SightController');
 
 });
 
