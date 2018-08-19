@@ -66,11 +66,11 @@ class ProductController extends Controller {
 			// $grid->avatar('图片');
 
 			$grid->avatar('图片')->display(function ($avatar) {
-				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='20%' class='img img-thumbnail'>";
+				return "<img src='http://tourxun.test:8000/uploads/$avatar' alt='$this->name' height='10%' width='20%' class='img img-thumbnail'>";
 			});
 
-			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures()->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->pictureuri('图片')->image('http://tourxun.test:8000/uploads/', 50, 50);
+			// $grid->pictures()->pictureuri()->image('localhost/uploads/', 50, 50);
 			$grid->category('分类')->name();
 			$grid->day('天数');
 			$grid->night('晚数');

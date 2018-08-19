@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Modeles\Sight;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 
 class Area extends Model {

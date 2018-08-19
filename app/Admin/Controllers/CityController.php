@@ -5,11 +5,14 @@ namespace App\Admin\Controllers;
 use App\Admin\Controllers\CityController;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
+use App\Admin\Controllers\SightController;
 
 class CityController extends Controller {
 	use ModelForm;
@@ -28,6 +31,34 @@ class CityController extends Controller {
 			$content->body($this->grid());
 		});
 	}
+
+
+	public function show($id) {
+		return Admin::content(function (Content $content) use($id) {
+
+			$content->header('China 地市');
+			$content->description('查看');
+
+			$content->body(Admin::show(Area::findOrFail($id), function(Show $show){
+				$show->id('ID');
+				$show->areaCode('编码');
+				$show->areaName('名称');
+				$show->level('等级');
+				$show->cityCode('城市代码');
+				$show->center('坐标');
+				$show->parent_id('父级');
+				$show->sights('景点', function($sights){
+					$sights->resource('sight');
+
+					$sights->id();
+					$sights->name();
+					$sights->pictureuri()->image();
+				});
+			}));
+		});
+	}
+
+
 
 	/**
 	 * Edit interface.
@@ -94,7 +125,7 @@ class CityController extends Controller {
 			$grid->areaName('区域名')->editable();
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
-					return "<a href='city/{$city['id']}/edit'><span class='label label-success'>{$city['areaName']}</span></a>";
+					return "<a href='city/{$city['id']}'><span class='label label-success'>{$city['areaName']}</span></a>";
 				}, $cityies);
 				return join('&nbsp;', $cityies);
 			});
@@ -112,10 +143,10 @@ class CityController extends Controller {
 	protected function form() {
 		return Admin::form(Area::class, function (Form $form) {
 
-			$form->tools(function (Form\Tools $tools) {
-				// 添加一个按钮, 参数可以是字符串, 或者实现了Renderable或Htmlable接口的对象实例
-				$tools->add('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
-			});
+			// $form->tools(function (Form\Tools $tools) {
+			// 	// 添加一个按钮, 参数可以是字符串, 或者实现了Renderable或Htmlable接口的对象实例
+			// 	$tools->add('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
+			// });
 
 			$form->display('id', 'ID');
 			$form->text('parent_id', '父节点');

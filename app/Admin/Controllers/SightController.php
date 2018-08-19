@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
 class SightController extends Controller {
 	use ModelForm;
@@ -28,6 +29,25 @@ class SightController extends Controller {
 			$content->body($this->grid());
 		});
 	}
+
+
+	public function show($id) {
+		return Admin::content(function (Content $content) use($id) {
+
+			$content->header('景点 ');
+			$content->description('查看');
+
+			$content->body(Admin::show(Sight::findOrFail($id), function(Show $show){
+				$show->id('ID');
+				$show->name('名称');
+				$show->pictureuri('图片')->image('http://tourxun.test:8000/uploads/', 50, 50);
+				$show->summary('概况');
+				$show->content('内容');
+
+			}));
+		});
+	}
+
 
 	/**
 	 * Edit interface.
@@ -82,7 +102,7 @@ class SightController extends Controller {
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city()->areaName('区域');
-			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->pictureuri('图片')->image('http://tourxun.test:8000/uploads/', 50, 50);
 			$grid->summary('概况');
 			$grid->content('内容');
 
