@@ -25,9 +25,9 @@ Route::group([
 	//准备删除  $router->get('cities/create', 'AreaController@create');
 
 	// $router->get('city', 'CityController@index');
-	$router->get('city/sight/create', 'SightController@create');
-	$router->get('city/sight/{sight}', 'SightController@show');
-	$router->get('city/sight/{sight}/edit', 'SightController@edit');
+	// $router->get('city/sight/create', 'SightController@create');
+	// $router->get('city/sight/{sight}', 'SightController@show');
+	// $router->get('city/sight/{sight}/edit', 'SightController@edit');
 	$router->get('city/{city}/addcity', 'CityController@addcity');
 	$router->post('city/{city}', 'CityController@store');
 	$router->get('city/{city}/edit', 'CityController@edit');
@@ -42,8 +42,9 @@ Route::group([
 
 	$router->resource('prices', 'PriceController');
 
-	$router->get('sight/city/{city}/addsight', 'SightController@addsight');
-	$router->post('sight/city/{city}', 'SightController@store');
+	// $router->get('sight/city/{city}/addsight', 'SightController@addsight');
+	// $router->get('sight/create', 'SightController@addsight');
+	// $router->post('sight/city/{city}', 'SightController@store');
 	$router->resource('sight', 'SightController');
 
 });

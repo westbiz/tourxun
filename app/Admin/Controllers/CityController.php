@@ -5,14 +5,12 @@ namespace App\Admin\Controllers;
 use App\Admin\Controllers\CityController;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
-use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use App\Admin\Controllers\SightController;
 
 class CityController extends Controller {
 	use ModelForm;
@@ -32,14 +30,13 @@ class CityController extends Controller {
 		});
 	}
 
-
 	public function show($id) {
-		return Admin::content(function (Content $content) use($id) {
+		return Admin::content(function (Content $content) use ($id) {
 
 			$content->header('China 地市');
 			$content->description('查看');
 
-			$content->body(Admin::show(Area::findOrFail($id), function(Show $show){
+			$content->body(Admin::show(Area::findOrFail($id), function (Show $show) {
 				$show->id('ID');
 				$show->areaCode('编码');
 				$show->areaName('名称');
@@ -47,18 +44,19 @@ class CityController extends Controller {
 				$show->cityCode('城市代码');
 				$show->center('坐标');
 				$show->parent_id('父级');
-				$show->sights('景点', function($sights){
-					$sights->resource('sight');
+				$show->sights('景点', function ($sights) {
+					$sights->resource('/admin/sight');
 
 					$sights->id();
 					$sights->name();
-					$sights->pictureuri()->image();
+					$sights->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
 				});
+				$show->panel()
+					->style('danger')
+					->title('基本信息');
 			}));
 		});
 	}
-
-
 
 	/**
 	 * Edit interface.
@@ -113,7 +111,7 @@ class CityController extends Controller {
 			$grid->actions(function ($actions) {
 				// prepend一个操作
 				$actions->prepend("<a href='city/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
-				$actions->prepend("<a href='sight/city/" . $actions->getKey() . "/addsight'><i class='fa fa-image'></i></a>&nbsp;");
+				// $actions->prepend("<a href='sight/city/" . $actions->getKey() . "/addsight'><i class='fa fa-image'></i></a>&nbsp;");
 			});
 
 			$grid->filter(function ($filter) {
