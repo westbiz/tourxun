@@ -41,9 +41,19 @@ class CityController extends Controller {
 				$show->areaCode('编码');
 				$show->areaName('名称');
 				$show->level('等级');
-				$show->cityCode('城市代码');
+				$show->cityCode('城市区号');
 				$show->center('坐标');
 				$show->parent_id('父级');
+				//一对多，多个区县
+				$show->cities('下辖区县', function ($cities) {
+					$cities->areaCode('编码');
+					$cities->areaName('名称');
+					$cities->level('等级');
+					$cities->cityCode('城市区号');
+					$cities->center('坐标');
+					$cities->parent_id('父级');
+				});
+				//一对多，多个景点
 				$show->sights('景点', function ($sights) {
 					$sights->resource('/admin/sight');
 
@@ -51,6 +61,7 @@ class CityController extends Controller {
 					$sights->name();
 					$sights->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
 				});
+
 				$show->panel()
 					->style('danger')
 					->title('基本信息');
@@ -108,6 +119,7 @@ class CityController extends Controller {
 	protected function grid() {
 		return Admin::grid(Area::class, function (Grid $grid) {
 
+			$grid->disableCreateButton();
 			$grid->actions(function ($actions) {
 				// prepend一个操作
 				$actions->prepend("<a href='city/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
@@ -154,13 +166,13 @@ class CityController extends Controller {
 			]);
 			$form->text('areaName', '地区名')->rules('required|min:2');
 			$form->number('level', '级别');
-			$form->text('cityCode', '城市编码');
+			$form->text('cityCode', '城市区号');
 			$form->text('center', '经纬度');
 			$form->hasMany('cities', '添加区县', function (Form\NestedForm $form) {
 				$form->text('areaCode', '区域编码');
 				$form->text('areaName', '地区名');
 				$form->number('level', '级别');
-				$form->text('cityCode', '城市编码');
+				$form->text('cityCode', '城市区号');
 				$form->text('center', '经纬度');
 			});
 
@@ -183,7 +195,7 @@ class CityController extends Controller {
 			]);
 			$form->text('areaName', '地区名')->rules('required|min:2');
 			$form->number('level', '级别')->min(1);
-			$form->text('cityCode', '城市编码');
+			$form->text('cityCode', '城市区号');
 			$form->text('center', '经纬度');
 		});
 	}

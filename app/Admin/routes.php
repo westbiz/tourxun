@@ -36,7 +36,7 @@ Route::group([
 
 	//准备删除  $router->get('areas/{id}/add', 'AreaController@addarea');
 
-	$router->resource('areas', 'AreaController');
+	$router->resource('area', 'AreaController');
 
 	$router->resource('pictures', 'PictureController');
 

@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
 class AreaController extends Controller {
 	use ModelForm;
@@ -82,6 +83,39 @@ class AreaController extends Controller {
 		});
 	}
 
+	public function show($id) {
+		return Admin::content(function (Content $content) use ($id) {
+
+			$content->header('China 地市');
+			$content->description('查看');
+
+			$content->body(Admin::show(Area::findOrFail($id), function (Show $show) {
+				$show->id('ID');
+				$show->areaCode('编码');
+				$show->areaName('名称');
+				$show->level('等级');
+				$show->cityCode('城市代码');
+				$show->center('坐标');
+				$show->parent_id('父级');
+				$show->cities('下辖区域', function ($cities) {
+					$cities->resource('/admin/city');
+
+					$cities->id('ID');
+					$cities->areaCode('编码');
+					$cities->areaName('名称');
+					$cities->level('等级');
+					$cities->cityCode('城市代码');
+					$cities->center('坐标');
+					$cities->parent_id('父级');
+
+				});
+				$show->panel()
+					->style('danger')
+					->title('基本信息');
+			}));
+		});
+	}
+
 	/**
 	 * Make a grid builder.
 	 *
@@ -92,7 +126,7 @@ class AreaController extends Controller {
 
 			$grid->actions(function ($actions) {
 				// prepend一个操作
-				$actions->prepend("<a href='cities/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='city/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->filter(function ($filter) {
@@ -104,7 +138,7 @@ class AreaController extends Controller {
 			$grid->areaName('区域名')->editable();
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
-					return "<a href='areas/{$city['id']}/edit'><span class='label label-info'>{$city['areaName']}</span></a>";
+					return "<a href='area/{$city['id']}/edit'><span class='label label-info'>{$city['areaName']}</span></a>";
 				}, $cityies);
 				return join('&nbsp;', $cityies);
 			});
@@ -171,8 +205,8 @@ class AreaController extends Controller {
 
 			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
 			// dd($provinces);
-			$form->select('Provinces')->options($provinces)->load('cities', '/api/v1/areas/city');
-			$form->select('cities')->options($provinces)->load('county', '/api/v1/areas/city');
+			$form->select('Provinces')->options($provinces)->load('cities', '/api/v1/area/city');
+			$form->select('cities')->options($provinces)->load('county', '/api/v1/area/city');
 			$form->select('county');
 		});
 	}
