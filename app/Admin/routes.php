@@ -30,7 +30,7 @@ Route::group([
 	// $router->get('city/sight/{sight}/edit', 'SightController@edit');
 	$router->get('city/{city}/addcity', 'CityController@addcity');
 	$router->post('city/{city}', 'CityController@store');
-	$router->get('city/{city}/edit', 'CityController@edit');
+	// $router->get('city/{city}/edit', 'CityController@edit');
 
 	$router->resource('city', 'CityController');
 

@@ -38,7 +38,7 @@ class SightController extends Controller {
 			$content->body(Admin::show(Sight::findOrFail($id), function (Show $show) {
 				$show->id('ID');
 				$show->name('名称');
-				$show->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+				$show->pictureuri('图片')->image();
 				$show->summary('概况');
 				$show->content('内容');
 
@@ -97,6 +97,9 @@ class SightController extends Controller {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
 			$grid->disableCreateButton();
+			// $grid->actions(function ($actions) {
+			// 	$actions->disableView();
+			// });
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
@@ -125,6 +128,12 @@ class SightController extends Controller {
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
+			$form->embeds('extra', function ($form) {
+				$form->text('title', '标题')->rules('required');
+				$form->text('author', '作者');
+				$form->datetime('updatetime', '日期');
+				$form->image('pic', '图片')->removable();
+			});
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');

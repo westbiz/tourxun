@@ -90,13 +90,13 @@ class AreaController extends Controller {
 			$content->description('查看');
 
 			$content->body(Admin::show(Area::findOrFail($id), function (Show $show) {
-				$show->id('ID');
+				// $show->id('ID');
 				$show->areaCode('编码');
 				$show->areaName('名称');
-				$show->level('等级');
-				$show->cityCode('城市代码');
-				$show->center('坐标');
-				$show->parent_id('父级');
+				// $show->level('等级');
+				// $show->cityCode('城市代码');
+				// $show->center('坐标');
+				// $show->parent_id('父级');
 				$show->cities('下辖区域', function ($cities) {
 					$cities->resource('/admin/city');
 
@@ -134,11 +134,15 @@ class AreaController extends Controller {
 				$filter->like('areaName', 'name');
 			});
 			$grid->model()->where('parent_id', -1);
-			$grid->id('id')->sortable();
-			$grid->areaName('区域名')->editable();
+			$grid->id('id');
+			$c_id = $grid->id('id');
+			// dd($c_id);
+			$grid->areaName('区域名')->display(function ($c_id) {
+				return "<a href='city/" . $this->id . "'><span class='label label-success'>" . $this->areaName . "</span></a>";
+			});
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
-					return "<a href='area/{$city['id']}/edit'><span class='label label-info'>{$city['areaName']}</span></a>";
+					return "<a href='area/{$city['id']}'><span class='label label-info'>{$city['areaName']}</span></a>";
 				}, $cityies);
 				return join('&nbsp;', $cityies);
 			});

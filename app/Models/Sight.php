@@ -7,7 +7,12 @@ use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 
 class Sight extends Model {
+
 	protected $table = 'tx_sights';
+
+	protected $casts = [
+		'extra' => 'json',
+	];
 
 	protected $fillable = [
 		'name', 'picture', 'city_id', 'summary', 'content',

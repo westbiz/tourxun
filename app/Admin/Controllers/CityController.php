@@ -37,15 +37,16 @@ class CityController extends Controller {
 			$content->description('查看');
 
 			$content->body(Admin::show(Area::findOrFail($id), function (Show $show) {
-				$show->id('ID');
+				// $show->id('ID');
 				$show->areaCode('编码');
 				$show->areaName('名称');
-				$show->level('等级');
-				$show->cityCode('城市区号');
-				$show->center('坐标');
-				$show->parent_id('父级');
+				// $show->level('等级');
+				// $show->cityCode('城市区号');
+				// $show->center('坐标');
+				// $show->parent_id('父级');
 				//一对多，多个区县
 				$show->cities('下辖区县', function ($cities) {
+					$cities->resource('/admin/city');
 					$cities->areaCode('编码');
 					$cities->areaName('名称');
 					$cities->level('等级');
@@ -159,7 +160,10 @@ class CityController extends Controller {
 			// });
 
 			$form->display('id', 'ID');
-			$form->text('parent_id', '父节点');
+			$p_id = request()->get('parent_id');
+			// $form->text('city_id', '区域id')->value($p_id);
+
+			$form->text('parent_id', '父节点')->value($p_id);
 			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
 				'regex' => '区域编码 必须全部为数字',
 				'min' => '区域编码 不能少于6各字符',
@@ -188,7 +192,7 @@ class CityController extends Controller {
 			$pid = request()->route()->parameters('city');
 			$pname = Area::where('id', $pid['city'])->pluck('areaName')->all();
 
-			$form->text('parent_id', $pname[0])->value($pid['city'])->help('请勿更改！');
+			$form->text('parent_id', '父级')->value($pid['city'])->help('请勿更改！');
 			$form->text('areaCode', '区域编码')->rules('required|regex:/^\d+$/|min:6', [
 				'regex' => '区域编码 必须全部为数字',
 				'min' => '区域编码 不能少于6各字符',
