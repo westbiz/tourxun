@@ -10,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Symfony\Component\HttpFoundation\Response;
 
 class AreaController extends Controller {
 	use ModelForm;
@@ -134,7 +135,6 @@ class AreaController extends Controller {
 				$filter->like('areaName', 'name');
 			});
 			$grid->model()->where('parent_id', -1);
-			$grid->id('id');
 			$c_id = $grid->id('id');
 			// dd($c_id);
 			$grid->areaName('区域名')->display(function ($c_id) {
@@ -210,8 +210,14 @@ class AreaController extends Controller {
 			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
 			// dd($provinces);
 			$form->select('Provinces')->options($provinces)->load('cities', '/api/v1/area/city');
-			$form->select('cities')->options($provinces)->load('county', '/api/v1/area/city');
-			$form->select('county');
+			$form->select('cities')->options($provinces)->load('city_id', '/api/v1/area/city');
+			$form->select('city_id');
+			$form->setAction('cascading/c_id/{$city_id}');
+			// dd($form->select('county'));
+			// $form->saving(function(Form $form){
+			// 	return response('xxxx');
+			// 	// return redirect('/admin/city');
+			// });
 		});
 	}
 

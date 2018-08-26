@@ -36,9 +36,9 @@ class SightController extends Controller {
 			$content->description('查看');
 
 			$content->body(Admin::show(Sight::findOrFail($id), function (Show $show) {
-				$show->id('ID');
+				// $show->id('ID');
 				$show->name('名称');
-				$show->pictureuri('图片')->image();
+				// $show->pictureuri('图片')->image();
 				$show->summary('概况');
 				$show->content('内容');
 
@@ -96,10 +96,38 @@ class SightController extends Controller {
 	protected function grid() {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
-			$grid->disableCreateButton();
-			// $grid->actions(function ($actions) {
-			// 	$actions->disableView();
-			// });
+			//关掉创建按钮
+			// $grid->disableCreateButton();
+			//关掉批量删除
+			$grid->tools(function ($tools) {
+			    $tools->batch(function ($batch) {
+			        $batch->disableDelete();
+			    });
+			});			
+
+			$grid->expandFilter();
+			
+			$grid->filter(function($filter){
+				//去掉ID过滤器
+				$filter->disableIdFilter();
+				//添加字段过滤
+				$filter->like('name','景点名称')->placeholder('请输入名称');
+				//时间段
+				$filter->scope('new', '最近修改')
+					->whereDate('created_at',date('Y-m-d'))
+					->orWhere('updated_at', date('Y-m-d'));
+
+				$filter->scope('areaName','只看有图片')->whereHas('city',function($query){
+					$query->whereNotNull('areaName');
+				});
+				//关联关系查询
+				$filter->where(function($query){
+					$query->whereHas('city',function($query){
+						$query->where('areaName','like', "%{$this->input}%");
+					});
+				},'地区名称');
+
+			});
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
@@ -123,7 +151,7 @@ class SightController extends Controller {
 
 			$form->display('id', 'ID');
 			$c_id = request()->get('city_id');
-			$form->text('city_id', '区域id')->value($c_id);
+			$form->text('city_id', '所属区域ID')->value($c_id);
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');

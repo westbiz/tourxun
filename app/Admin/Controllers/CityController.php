@@ -133,7 +133,9 @@ class CityController extends Controller {
 			});
 			$grid->model()->where('level', 2);
 			$grid->id('id')->sortable();
-			$grid->areaName('区域名')->editable();
+			$grid->areaName('区域名')->display(function ($c_id) {
+				return "<a href='city/" . $this->id . "'><span class='label label-info'>" . $this->areaName . "</span></a>";
+			});
 			$grid->cities()->display(function ($cityies) {
 				$cityies = array_map(function ($city) {
 					return "<a href='city/{$city['id']}'><span class='label label-success'>{$city['areaName']}</span></a>";

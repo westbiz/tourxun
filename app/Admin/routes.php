@@ -18,7 +18,7 @@ Route::group([
 
 	$router->resource('navs', 'NavController');
 
-	$router->get('areas/cascading', 'AreaController@cascading');
+	$router->get('area/cascading', 'AreaController@cascading');
 
 	//准备删除 $router->get('cities/{id}/edit', 'AreaController@edit');
 
