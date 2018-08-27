@@ -22,7 +22,7 @@ class SightController extends Controller {
 	public function index() {
 		return Admin::content(function (Content $content) {
 
-			$content->header('景点');
+			$content->header('景区');
 			$content->description('列表');
 
 			$content->body($this->grid());
@@ -41,6 +41,14 @@ class SightController extends Controller {
 				// $show->pictureuri('图片')->image();
 				$show->summary('概况');
 				$show->content('内容');
+
+				$show->spot('所有景点', function ($spot) {
+					$spot->resource('/admin/sight');
+					$spot->id();
+					$spot->name();
+					$spot->city_id();
+					$spot->summary();
+				});
 
 			}));
 		});
@@ -99,39 +107,46 @@ class SightController extends Controller {
 			//关掉创建按钮
 			// $grid->disableCreateButton();
 			//关掉批量删除
+			$grid->model()->where('parent_id', -1);
 			$grid->tools(function ($tools) {
-			    $tools->batch(function ($batch) {
-			        $batch->disableDelete();
-			    });
-			});			
+				$tools->batch(function ($batch) {
+					$batch->disableDelete();
+				});
+			});
 
 			$grid->expandFilter();
-			
-			$grid->filter(function($filter){
+
+			$grid->filter(function ($filter) {
 				//去掉ID过滤器
 				$filter->disableIdFilter();
 				//添加字段过滤
-				$filter->like('name','景点名称')->placeholder('请输入名称');
+				$filter->like('name', '景点名称')->placeholder('请输入名称');
 				//时间段
 				$filter->scope('new', '最近修改')
-					->whereDate('created_at',date('Y-m-d'))
+					->whereDate('created_at', date('Y-m-d'))
 					->orWhere('updated_at', date('Y-m-d'));
 
-				$filter->scope('areaName','只看有图片')->whereHas('city',function($query){
+				$filter->scope('areaName', '只看有图片')->whereHas('city', function ($query) {
 					$query->whereNotNull('areaName');
 				});
 				//关联关系查询
-				$filter->where(function($query){
-					$query->whereHas('city',function($query){
-						$query->where('areaName','like', "%{$this->input}%");
+				$filter->where(function ($query) {
+					$query->whereHas('city', function ($query) {
+						$query->where('areaName', 'like', "%{$this->input}%");
 					});
-				},'地区名称');
+				}, '地区名称');
 
 			});
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city()->areaName('区域');
+			$grid->spot()->display(function ($sights) {
+				$sights = array_map(function ($sight) {
+					return "<a href='sight/{$sight['id']}/city/{$this->city_id}'><span class='label label-info'>{$sight['name']}</span></a>";
+				}, $sights);
+				return join('&nbsp;', $sights);
+			});
 			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->summary('概况');
 			$grid->content('内容');
@@ -152,6 +167,8 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			$c_id = request()->get('city_id');
 			$form->text('city_id', '所属区域ID')->value($c_id);
+			$p_id = request()->get('parent_id');
+			$form->text('parent_id', '父级')->value($p_id);
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');

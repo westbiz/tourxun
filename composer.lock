@@ -83,16 +83,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.8.0",
+            "version": "v1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57"
+                "reference": "b3217d58609e9c8e661cd41357a54d926c4a2a1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/d768d58baee9a4862ca783840eca1b9add7a7f57",
-                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/b3217d58609e9c8e661cd41357a54d926c4a2a1a",
+                "reference": "b3217d58609e9c8e661cd41357a54d926c4a2a1a",
                 "shasum": ""
             },
             "require": {
@@ -103,9 +103,8 @@
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
-                "doctrine/coding-standard": "^4.0",
                 "mongodb/mongodb": "^1.1",
-                "phpunit/phpunit": "^7.0",
+                "phpunit/phpunit": "^5.7",
                 "predis/predis": "~1.0"
             },
             "suggest": {
@@ -114,7 +113,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.7.x-dev"
                 }
             },
             "autoload": {
@@ -149,12 +148,12 @@
                 }
             ],
             "description": "Caching library offering an object-oriented API for many cache backends",
-            "homepage": "https://www.doctrine-project.org",
+            "homepage": "http://www.doctrine-project.org",
             "keywords": [
                 "cache",
                 "caching"
             ],
-            "time": "2018-08-21T18:01:43+00:00"
+            "time": "2017-08-25T07:02:50+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -538,16 +537,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.5.19",
+            "version": "v1.5.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "9841d34ca028cb151c54aa9988bb3f783839fa2a"
+                "reference": "49553f7f4cd2ef14583c65427b9deb663e2e5c9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/9841d34ca028cb151c54aa9988bb3f783839fa2a",
-                "reference": "9841d34ca028cb151c54aa9988bb3f783839fa2a",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/49553f7f4cd2ef14583c65427b9deb663e2e5c9c",
+                "reference": "49553f7f4cd2ef14583c65427b9deb663e2e5c9c",
                 "shasum": ""
             },
             "require": {
@@ -605,7 +604,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2018-08-22T11:27:57+00:00"
+            "time": "2018-08-10T08:09:04+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1095,16 +1094,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.34",
+            "version": "v5.6.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "66c9cf8119b422b71273271db1f12e20d74ad49b"
+                "reference": "8a708b989adc320c451ee639d812af81f884666b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/66c9cf8119b422b71273271db1f12e20d74ad49b",
-                "reference": "66c9cf8119b422b71273271db1f12e20d74ad49b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/8a708b989adc320c451ee639d812af81f884666b",
+                "reference": "8a708b989adc320c451ee639d812af81f884666b",
                 "shasum": ""
             },
             "require": {
@@ -1230,7 +1229,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-08-21T13:44:37+00:00"
+            "time": "2018-08-09T20:36:39+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1365,16 +1364,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.46",
+            "version": "1.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2"
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
                 "shasum": ""
             },
             "require": {
@@ -1386,7 +1385,7 @@
             "require-dev": {
                 "ext-fileinfo": "*",
                 "phpspec/phpspec": "^3.4",
-                "phpunit/phpunit": "^5.7.10"
+                "phpunit/phpunit": "^5.7"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -1445,7 +1444,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-08-22T07:45:22+00:00"
+            "time": "2018-05-07T08:44:23+00:00"
         },
         {
             "name": "league/fractal",
@@ -2141,25 +2140,26 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "5.4.1",
+            "version": "5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "0f18df001833fc82e6502229565347290cecda85"
+                "reference": "9d1752ec5c48db2e968db10129ee692f4a3ffc81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/0f18df001833fc82e6502229565347290cecda85",
-                "reference": "0f18df001833fc82e6502229565347290cecda85",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/9d1752ec5c48db2e968db10129ee692f4a3ffc81",
+                "reference": "9d1752ec5c48db2e968db10129ee692f4a3ffc81",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.5.0|~5.6.0|~5.7.0",
+                "illuminate/contracts": "~5.5.0|~5.6.0",
+                "illuminate/support": "~5.5.0|~5.6.0",
                 "php": "^7.0",
                 "spatie/fractalistic": "^2.5"
             },
             "require-dev": {
-                "orchestra/testbench": "~3.5.0|~3.6.0|~3.7.0",
+                "orchestra/testbench": "~3.5.0|~3.6.0",
                 "phpunit/phpunit": "^6.2|^7.0"
             },
             "type": "library",
@@ -2204,7 +2204,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2018-08-24T09:21:38+00:00"
+            "time": "2018-07-19T16:40:01+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4251,16 +4251,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.3.2",
+            "version": "7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "34705f81bddc3f505b9599a2ef96e2b4315ba9b8"
+                "reference": "f9b14c17860eccb440a0352a117a81eb754cff5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/34705f81bddc3f505b9599a2ef96e2b4315ba9b8",
-                "reference": "34705f81bddc3f505b9599a2ef96e2b4315ba9b8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f9b14c17860eccb440a0352a117a81eb754cff5a",
+                "reference": "f9b14c17860eccb440a0352a117a81eb754cff5a",
                 "shasum": ""
             },
             "require": {
@@ -4331,7 +4331,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-08-22T06:39:21+00:00"
+            "time": "2018-08-07T06:44:28+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

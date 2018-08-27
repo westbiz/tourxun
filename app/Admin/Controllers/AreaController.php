@@ -10,7 +10,6 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Symfony\Component\HttpFoundation\Response;
 
 class AreaController extends Controller {
 	use ModelForm;
@@ -140,11 +139,11 @@ class AreaController extends Controller {
 			$grid->areaName('区域名')->display(function ($c_id) {
 				return "<a href='city/" . $this->id . "'><span class='label label-success'>" . $this->areaName . "</span></a>";
 			});
-			$grid->cities()->display(function ($cityies) {
-				$cityies = array_map(function ($city) {
+			$grid->cities()->display(function ($cities) {
+				$cities = array_map(function ($city) {
 					return "<a href='area/{$city['id']}'><span class='label label-info'>{$city['areaName']}</span></a>";
-				}, $cityies);
-				return join('&nbsp;', $cityies);
+				}, $cities);
+				return join('&nbsp;', $cities);
 			});
 
 			// $grid->created_at();

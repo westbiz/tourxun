@@ -32,6 +32,14 @@ class Sight extends Model {
 		return $this->belongsTo(Area::class, 'city_id', 'id');
 	}
 
+	public function scenic() {
+		return $this->belongsTo(Sight::class, 'parent_id', 'id');
+	}
+
+	public function spot() {
+		return $this->hasMany(Sight::class, 'parent_id', 'id');
+	}
+
 	//设置图片json属性
 	public function setPictureuriAttribute($pictureuri) {
 		if (is_array($pictureuri)) {
