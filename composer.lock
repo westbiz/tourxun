@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad295c894d50823dd37ca3ab39a2d6e4",
+    "content-hash": "0163b0f7bf67dda38dbc44428b1b5250",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -1091,6 +1091,60 @@
                 "media"
             ],
             "time": "2018-04-25T06:10:18+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/messages",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/messages.git",
+                "reference": "5c4bafaa232b2e30595a9ea808715d47fd539fef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/messages/zipball/5c4bafaa232b2e30595a9ea808715d47fd539fef",
+                "reference": "5c4bafaa232b2e30595a9ea808715d47fd539fef",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.5",
+                "laravel/framework": "~5.5",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "laravel/laravel": "~5.5",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Admin\\Message\\MessageServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "z-song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Message extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-extensions/messages",
+            "keywords": [
+                "laravel-admin",
+                "messages"
+            ],
+            "time": "2018-05-07T02:07:53+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4989,7 +5043,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel-admin-ext/messages": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
