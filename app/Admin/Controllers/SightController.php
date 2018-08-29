@@ -10,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Grid\Displayers\Actions;
 
 class SightController extends Controller {
 	use ModelForm;
@@ -107,6 +108,11 @@ class SightController extends Controller {
 			//关掉创建按钮
 			// $grid->disableCreateButton();
 			//关掉批量删除
+			$grid->actions(function ($actions) {
+				// prepend一个操作
+				$actions->prepend("<a href='city/" . $actions->getKey('city_id') . "/sight/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			});
+
 			$grid->model()->where('parent_id', -1);
 			$grid->tools(function ($tools) {
 				$tools->batch(function ($batch) {
@@ -144,7 +150,7 @@ class SightController extends Controller {
 			$grid->city_id();
 			$grid->spot()->display(function ($sights) {
 				$sights = array_map(function ($sight) {
-					return "<a href='sight/{$sight['id']}/city/{$this->city_id}'><span class='label label-info'>{$sight['name']}</span></a>";
+					return "<a href='city/{$this->city_id}/sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
 				}, $sights);
 				return join('&nbsp;', $sights);
 			});
@@ -193,8 +199,8 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			$city = request()->route()->parameters('city');
 			$form->text('city_id', '所属区域')->value($city['city']);
-			$p_id = request()->get('parent_id');
-			$form->text('parent_id', '父级')->value($p_id);
+			// $p_id = request()->get('parent_id');
+			$form->text('parent_id', '父级')->default('-1');
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
