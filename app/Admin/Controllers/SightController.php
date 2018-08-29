@@ -85,16 +85,16 @@ class SightController extends Controller {
 		});
 	}
 
-	//addsight方法
-	// public function addsight($id) {
-	// 	return Admin::content(function (Content $content) use ($id) {
+	// addsight方法
+	public function addsight($id) {
+		return Admin::content(function (Content $content) use ($id) {
 
-	// 		$content->header('China 地市景点');
-	// 		$content->description('新增');
+			$content->header('China 地市景点');
+			$content->description('新增');
 
-	// 		$content->body($this->addsightform());
-	// 	});
-	// }
+			$content->body($this->addform());
+		});
+	}
 
 	/**
 	 * Make a grid builder.
@@ -141,6 +141,7 @@ class SightController extends Controller {
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city()->areaName('区域');
+			$grid->city_id();
 			$grid->spot()->display(function ($sights) {
 				$sights = array_map(function ($sight) {
 					return "<a href='sight/{$sight['id']}/city/{$this->city_id}'><span class='label label-info'>{$sight['name']}</span></a>";
@@ -165,8 +166,8 @@ class SightController extends Controller {
 		return Admin::form(Sight::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$c_id = request()->get('city_id');
-			$form->text('city_id', '所属区域ID')->value($c_id);
+			$city = request()->get('city_id');
+			$form->text('city_id', '所属区域ID')->value($city);
 			$p_id = request()->get('parent_id');
 			$form->text('parent_id', '父级')->value($p_id);
 			$form->text('name', '名称');
@@ -186,22 +187,26 @@ class SightController extends Controller {
 	}
 
 	//新增景点表单
-	// protected function addsightform() {
-	// 	return Admin::form(Area::class, function (Form $form) {
+	protected function addform() {
+		return Admin::form(Sight::class, function (Form $form) {
 
-	// 		$pid = request()->route()->parameters('city');
-	// 		$pname = Area::where('id', $pid['city'])->pluck('areaName')->all();
+			$form->display('id', 'ID');
+			$city = request()->route()->parameters('city');
+			$form->text('city_id', '所属区域')->value($city['city']);
+			$p_id = request()->get('parent_id');
+			$form->text('parent_id', '父级')->value($p_id);
+			$form->text('name', '名称');
+			$form->multipleImage('pictureuri', '图片')->removable();
+			$form->text('summary', '概述');
+			$form->textarea('content', '介绍');
+			$form->embeds('extra', function ($form) {
+				$form->text('title', '标题')->rules('required');
+				$form->text('author', '作者');
+				$form->datetime('updatetime', '日期');
+				$form->image('pic', '图片')->removable();
+			});
 
-	// 		$form->text('city_id', $pname[0])->value($pid['city'])->help('请勿更改！');
-	// 		$form->text('name', '景点名称')->rules('required|min:2', ['min' => '区域编码 不能少于2各字符',
-	// 		]);
-
-	// 		$form->text('name', '名称');
-	// 		$form->multipleImage('pictureuri', '图片')->removable();
-	// 		$form->text('summary', '概述');
-	// 		$form->textarea('content', '介绍');
-
-	// 	});
-	// }
+		});
+	}
 
 }

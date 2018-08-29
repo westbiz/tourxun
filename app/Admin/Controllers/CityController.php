@@ -48,7 +48,9 @@ class CityController extends Controller {
 				$show->cities('下辖区县', function ($cities) {
 					$cities->resource('/admin/city');
 					$cities->areaCode('编码');
-					$cities->areaName('名称');
+					$cities->areaName('名称')->display(function ($c_id) {
+						return "<a href='" . $this->id . "/sightadd' title='添加景区'><span class='label label-info'>" . $this->areaName . "</span></a>";
+					});
 					$cities->level('等级');
 					$cities->cityCode('城市区号');
 					$cities->center('坐标');
