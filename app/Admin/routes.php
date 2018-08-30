@@ -47,7 +47,7 @@ Route::group([
 	// $router->get('sight/create', 'SightController@addsight');
 	// $router->post('sight/city/{city}', 'SightController@store');
 	$router->get('city/{city}/sight/{sight}', 'SightController@show');
-	$router->get('city/{city}/sight/{sight}/create', 'SightController@create');
+	$router->get('city/{city}/sight/{sight}/addsight', 'SightController@addsight');
 	$router->resource('sight', 'SightController');
 
 });

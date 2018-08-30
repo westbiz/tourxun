@@ -8,9 +8,9 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Encore\Admin\Grid\Displayers\Actions;
 
 class SightController extends Controller {
 	use ModelForm;
@@ -110,7 +110,7 @@ class SightController extends Controller {
 			//关掉批量删除
 			$grid->actions(function ($actions) {
 				// prepend一个操作
-				$actions->prepend("<a href='city/" . $actions->getKey('city_id') . "/sight/" . $actions->getKey() . "/addcity'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='city/" . $actions->getKey('city_id') . "/sight/" . $actions->getKey() . "/addsight'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->model()->where('parent_id', -1);
@@ -120,7 +120,7 @@ class SightController extends Controller {
 				});
 			});
 
-			$grid->expandFilter();
+			// $grid->expandFilter();
 
 			$grid->filter(function ($filter) {
 				//去掉ID过滤器
