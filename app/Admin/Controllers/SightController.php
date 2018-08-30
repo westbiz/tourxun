@@ -110,7 +110,10 @@ class SightController extends Controller {
 			//关掉批量删除
 			$grid->actions(function ($actions) {
 				// prepend一个操作
-				$actions->prepend("<a href='city/" . $actions->getKey('city_id') . "/sight/" . $actions->getKey() . "/addsight'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$s_id = $actions->getKey();
+				$c_id = Sight::where('id',$s_id)->pluck('city_id')->all();
+				// dd($c_id);
+				$actions->prepend("<a href='city/" .$c_id[0]. "/sight/" . $actions->getKey() . "/addsight'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->model()->where('parent_id', -1);
