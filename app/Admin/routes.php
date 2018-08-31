@@ -29,7 +29,8 @@ Route::group([
 	// $router->get('city/sight/{sight}', 'SightController@show');
 	// $router->get('city/sight/{sight}/edit', 'SightController@edit');
 	$router->get('city/{city}/addcity', 'CityController@addcity');
-	$router->get('city/{city}/sightcreate', 'SightController@create');
+	// $router->get('city/{city}/addchildsight', 'SightController@addchildsight');
+	$router->get('city/{city}/cityaddsight', 'SightController@cityaddsight');
 	$router->post('city/{city}', 'CityController@store');
 	// $router->get('city/{city}/edit', 'CityController@edit');
 
@@ -47,7 +48,7 @@ Route::group([
 	// $router->get('sight/create', 'SightController@addsight');
 	// $router->post('sight/city/{city}', 'SightController@store');
 	$router->get('city/{city}/sight/{sight}', 'SightController@show');
-	$router->get('city/{city}/sight/{sight}/addsight', 'SightController@addsight');
+	$router->get('city/{city}/sight/{sight}/addchildsight', 'SightController@addchildsight');
 	$router->resource('sight', 'SightController');
 
 });
