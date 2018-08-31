@@ -29,7 +29,7 @@ Route::group([
 	// $router->get('city/sight/{sight}', 'SightController@show');
 	// $router->get('city/sight/{sight}/edit', 'SightController@edit');
 	$router->get('city/{city}/addcity', 'CityController@addcity');
-	$router->get('city/{city}/sightadd', 'SightController@addsight');
+	$router->get('city/{city}/sightcreate', 'SightController@create');
 	$router->post('city/{city}', 'CityController@store');
 	// $router->get('city/{city}/edit', 'CityController@edit');
 

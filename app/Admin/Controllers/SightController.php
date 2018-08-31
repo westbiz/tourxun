@@ -7,6 +7,7 @@ use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
+use Encore\Admin\Form\Tools;
 use Encore\Admin\Grid;
 use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Layout\Content;
@@ -106,14 +107,14 @@ class SightController extends Controller {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
 			//关掉创建按钮
-			// $grid->disableCreateButton();
+			$grid->disableCreateButton();
 			//关掉批量删除
 			$grid->actions(function ($actions) {
 				// prepend一个操作
 				$s_id = $actions->getKey();
-				$c_id = Sight::where('id',$s_id)->pluck('city_id')->all();
+				$c_id = Sight::where('id', $s_id)->pluck('city_id')->all();
 				// dd($c_id);
-				$actions->prepend("<a href='city/" .$c_id[0]. "/sight/" . $actions->getKey() . "/addsight'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='city/" . $c_id[0] . "/sight/" . $actions->getKey() . "/addsight'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->model()->where('parent_id', -1);
@@ -177,8 +178,17 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			$city = request()->get('city_id');
 			$form->text('city_id', '所属区域ID')->value($city);
-			$p_id = request()->get('parent_id');
-			$form->text('parent_id', '父级')->value($p_id);
+			// $p_id = request()->get('parent_id');
+			// $form->text('parent_id', '父级')->value($p_id);
+
+			// $city = request()->get('city_id');
+			// if ($city == null) {
+			// 	$city = request()->route()->parameters('city');
+
+			// }
+			// dd($city);
+			$form->text('city_id', '所属区域ID')->value($city['city']);
+			$form->text('parent_id', '父级')->default('-1');
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
@@ -195,7 +205,7 @@ class SightController extends Controller {
 		});
 	}
 
-	//新增景点表单
+	//新增景点表单，通过sight父类添加
 	protected function addform() {
 		return Admin::form(Sight::class, function (Form $form) {
 
@@ -203,7 +213,8 @@ class SightController extends Controller {
 			$city = request()->route()->parameters('city');
 			$form->text('city_id', '所属区域')->value($city['city']);
 			// $p_id = request()->get('parent_id');
-			$form->text('parent_id', '父级')->default('-1');
+			$sight = request()->route()->parameters('sight');
+			$form->text('parent_id', '父级')->value($sight['sight']);
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
