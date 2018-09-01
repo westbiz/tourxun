@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
 use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -87,6 +88,16 @@ class SightController extends Controller {
 		});
 	}
 
+	public function createsight() {
+		return Admin::content(function (Content $content) {
+
+			$content->header('景点');
+			$content->description('新增');
+
+			$content->body($this->createform());
+		});
+	}
+
 	// addsight方法
 	public function addchildsight($id) {
 		return Admin::content(function (Content $content) use ($id) {
@@ -107,7 +118,7 @@ class SightController extends Controller {
 
 			$content->body($this->cityaddsightform());
 		});
-	}	
+	}
 
 	/**
 	 * Make a grid builder.
@@ -118,7 +129,7 @@ class SightController extends Controller {
 		return Admin::grid(Sight::class, function (Grid $grid) {
 
 			//关掉创建按钮
-			$grid->disableCreateButton();
+			// $grid->disableCreateButton();
 			//关掉批量删除
 			$grid->actions(function ($actions) {
 				// prepend一个操作
@@ -162,7 +173,7 @@ class SightController extends Controller {
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
 			$grid->city()->areaName('区域');
-			$grid->city_id();
+			// $grid->city_id();
 			$grid->spot()->display(function ($sights) {
 				$sights = array_map(function ($sight) {
 					return "<a href='city/{$this->city_id}/sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
@@ -191,7 +202,7 @@ class SightController extends Controller {
 			// $city = request()->route()->parameters('city');
 			$form->text('city_id', '所属区域ID');
 
-			$form->text('parent_id', '父级');
+			$form->text('parent_id', '父级')->value(request()->get('parent_id'));
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
@@ -202,6 +213,36 @@ class SightController extends Controller {
 				$form->datetime('updatetime', '日期');
 				$form->image('pic', '图片')->removable();
 			});
+
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
+		});
+	}
+
+	//createsight,直接新建sight
+	protected function createform() {
+		return Admin::form(Sight::class, function (Form $form) {
+
+			// $form->html('*选择*', '区域');
+			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
+			// dd($provinces);
+			$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
+			$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
+			$form->select('city_id', '区县')->rules('bail|required');
+			$form->divide();
+
+			$form->display('id', 'ID');
+			$form->text('parent_id', '父级')->default('-1');
+			$form->text('name', '名称');
+			$form->multipleImage('pictureuri', '图片')->removable();
+			$form->text('summary', '概述');
+			$form->textarea('content', '介绍');
+			// $form->embeds('extra', function ($form) {
+			// 	$form->text('title', '标题')->rules('required');
+			// 	$form->text('author', '作者');
+			// 	$form->datetime('updatetime', '日期');
+			// 	$form->image('pic', '图片')->removable();
+			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
@@ -241,7 +282,6 @@ class SightController extends Controller {
 			// $form->display('updated_at', 'Updated At');
 		});
 	}
-
 
 	//新增景点表单，通过sight父类添加
 	protected function addform() {

@@ -208,9 +208,9 @@ class AreaController extends Controller {
 
 			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
 			// dd($provinces);
-			$form->select('Provinces')->options($provinces)->load('cities', '/api/v1/area/city');
-			$form->select('cities')->options($provinces)->load('city_id', '/api/v1/area/city');
-			$form->select('city_id');
+			$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
+			$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
+			$form->select('city_id', '区县');
 			$form->setAction('cascading/c_id/{$city_id}');
 			// dd($form->select('county'));
 			// $form->saving(function(Form $form){
