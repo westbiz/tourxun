@@ -166,7 +166,7 @@ class SightController extends Controller {
 				$tools->batch(function ($batch) {
 					$batch->disableDelete();
 				});
-			});			
+			});
 
 			$grid->id('ID')->sortable();
 			$grid->name('名称');
@@ -198,34 +198,46 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			//获取参数city_id
 			$c_id = request()->get('city_id');
-			if ($c_id!=null) {
-				$form->text('city_id', '所属区域ID')->value($c_id);
-			} else {
-				$form->text('city_id', '所属区域ID');
-			}
 			//获取参数parent_id
 			$p_id = request()->get('parent_id');
-			if ($p_id!=null) {
-				$form->text('parent_id', '父级')->value($p_id);
-			} else {
+
+			if ($c_id == null && $p_id == null) {
+				$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
+				$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
+				$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
+				$form->select('city_id', '区县');
 				$form->text('parent_id', '父级')->value('-1');
+
+			} else if ($p_id == null) {
+				$form->text('city_id', '所属区域ID')->value($c_id);
+				$form->text('parent_id', '父级')->value('-1');
+			} else {
+				$form->text('parent_id', '父级')->value($p_id);
+				$city = Area::where('id', $p_id)->pluck('id')->all();
+				$form->text('city_id', '所属区域ID')->value($city[0]);
 			}
-			
+
+			// if ($p_id != null) {
+			// 	$form->text('parent_id', '父级')->value($p_id);
+			// 	$city = Area::where('id', $p_id)->pluck('id')->all();
+			// 	$form->text('city_id', '所属区域ID')->value($city[0]);
+			// } else {
+			// 	$form->text('parent_id', '父级')->value('-1');
+			// }
 
 			// dd($c_id);
 			// $form->text('city_id', '所属区域ID');
 
-			
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
-			$form->embeds('extra', function ($form) {
-				$form->text('title', '标题')->rules('required');
-				$form->text('author', '作者');
-				$form->datetime('updatetime', '日期');
-				$form->image('pic', '图片')->removable();
-			});
+			// $form->embeds('extra', function ($form) {
+			// 	$form->text('title', '标题')->rules('required');
+			// 	$form->text('author', '作者');
+			// 	$form->datetime('updatetime', '日期');
+			// 	$form->image('pic', '图片')->removable();
+			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
