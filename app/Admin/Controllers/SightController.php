@@ -211,21 +211,27 @@ class SightController extends Controller {
 				$form->select('city_id', '区县');
 				$form->text('parent_id', '父级')->value('-1');
 
-			} elseif ($p_id != null) {
-				$form->text('parent_id', '父级')->value($p_id);
-				$city_id = Sight::where('id', $p_id)->pluck('city_id')->all();
+			} 
 
-				$form->text('city_id', '所属区域ID')->value($city_id[0]);
-			} elseif ($s_id != null) {
+			elseif ($s_id != null) {
+				
+				$city = Sight::where('id', $s_id)->pluck('city_id')->all();
+				
+				$form->text('city_id', '所属区域ID')->value($city);
 				// dd($s_id);
-				$city_id = Sight::where('id', $s_id)->pluck('city_id')->all();
-				// dd($s_id);
-				$form->text('city_id', '所属区域ID')->value($city_id[0]);
 				$form->text('parent_id', '父级');
-			} else {
+			}
+			
+			elseif ($p_id != null) {
+				$form->text('parent_id', '父级')->value($p_id);
+				$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+				$form->text('city_id', '所属区域ID')->value($city[0]);
+				// dd($p_id);
+			} 
+			 else {
 				$form->text('parent_id', '父级')->value($p_id);
 				$city = Area::where('id', $p_id)->pluck('id')->all();
-				$form->text('city_id', '所属区域ID')->value($city[0]);
+				$form->text('city_id', '所属区域ID')->value($city['city']);
 			}
 
 			// if ($p_id != null) {
