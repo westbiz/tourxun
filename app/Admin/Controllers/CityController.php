@@ -60,9 +60,10 @@ class CityController extends Controller {
 				$show->sights('景点', function ($sights) {
 					$sights->resource('/admin/sight');
 
-					$sights->id();
-					$sights->name();
-					$sights->pictureuri()->image('http://tourxun.test/uploads/', 50, 50);
+					$sights->id('ID');
+					$sights->name('名称');
+					$sights->city_id('区域名');
+					$sights->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 				});
 
 				$show->panel()
