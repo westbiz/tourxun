@@ -49,7 +49,7 @@ Route::group([
 	// $router->post('sight/city/{city}', 'SightController@store');
 	$router->get('city/{city}/sight/{sight}', 'SightController@show');
 	$router->get('city/{city}/sight/{sight}/edit', 'SightController@edit');
-	$router->get('city/{city}/sight/{sight}/addChildSight', 'SightController@addchildsight');
+	$router->get('sight/{sight}/addChildSight', 'SightController@addchildsight');
 	$router->get('sight/createsight', 'SightController@createsight');
 	$router->resource('sight', 'SightController');
 

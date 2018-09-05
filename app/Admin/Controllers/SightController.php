@@ -158,7 +158,7 @@ class SightController extends Controller {
 				$s_id = $actions->getKey();
 				$c_id = Sight::where('id', $s_id)->pluck('city_id')->all();
 				// dd($c_id);
-				$actions->prepend("<a href='city/" . $c_id[0] . "/sight/" . $actions->getKey() . "/addChildSight' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='sight/" . $actions->getKey() . "/addChildSight' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->model()->where('parent_id', -1);
@@ -202,36 +202,50 @@ class SightController extends Controller {
 			$p_id = request()->get('parent_id');
 			//获取sight_id
 			$s_id = request()->route()->parameters('sight');
-			// dd($s_id);
+			// dd($c_id);
 
-			if ($c_id == null && $p_id == null && $s_id == null) {
+			if ($s_id != null) {
+				// dd($s_id['sight']);
+				$city = Sight::where('id', $s_id['sight'])->pluck('city_id')->all();
+
+				$form->text('city_id', '所属区域ID')->value($city);
+				// dd($city[0]);
+				$form->text('parent_id', '父级');
+			} elseif ($p_id != null) {
+				// dd($p_id);
+				$form->text('parent_id', '父级')->value($p_id);
+				$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+				// dd($city[0]);
+				$form->text('city_id', '所属区域ID')->value($city[0]);
+			} elseif ($c_id != null) {
+				$form->text('parent_id', '父级')->value('-1');
+				// $city = Sight::where('id', $p_id)->pluck('id')->all();
+				// dd($c_id);
+				$form->text('city_id', '所属区域ID')->value($c_id);
+			}
+
+			// elseif ($s_id != null) {
+
+			// 	$city = Sight::where('id', $s_id)->pluck('city_id')->all();
+
+			// 	$form->text('city_id', '所属区域ID')->value($city);
+			// 	// dd($s_id);
+			// 	$form->text('parent_id', '父级');
+			// }
+			// elseif ($p_id != null) {
+			// 	$form->text('parent_id', '父级')->value($p_id);
+			// 	$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+			// 	$form->text('city_id', '所属区域ID')->value($city[0]);
+			// 	// dd($p_id);
+			// }
+
+			else {
 				$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
 				$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
 				$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
 				$form->select('city_id', '区县');
 				$form->text('parent_id', '父级')->value('-1');
 
-			} 
-
-			elseif ($s_id != null) {
-				
-				$city = Sight::where('id', $s_id)->pluck('city_id')->all();
-				
-				$form->text('city_id', '所属区域ID')->value($city);
-				// dd($s_id);
-				$form->text('parent_id', '父级');
-			}
-			
-			elseif ($p_id != null) {
-				$form->text('parent_id', '父级')->value($p_id);
-				$city = Sight::where('id', $p_id)->pluck('city_id')->all();
-				$form->text('city_id', '所属区域ID')->value($city[0]);
-				// dd($p_id);
-			} 
-			 else {
-				$form->text('parent_id', '父级')->value($p_id);
-				$city = Area::where('id', $p_id)->pluck('id')->all();
-				$form->text('city_id', '所属区域ID')->value($city['city']);
 			}
 
 			// if ($p_id != null) {
@@ -313,12 +327,12 @@ class SightController extends Controller {
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
-			$form->embeds('extra', function ($form) {
-				$form->text('title', '标题')->rules('required');
-				$form->text('author', '作者');
-				$form->datetime('updatetime', '日期');
-				$form->image('pic', '图片')->removable();
-			});
+			// $form->embeds('extra', function ($form) {
+			// 	$form->text('title', '标题')->rules('required');
+			// 	$form->text('author', '作者');
+			// 	$form->datetime('updatetime', '日期');
+			// 	$form->image('pic', '图片')->removable();
+			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
@@ -330,21 +344,23 @@ class SightController extends Controller {
 		return Admin::form(Sight::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			$city = request()->route()->parameters('city');
-			$form->text('city_id', '所属区域')->value($city['city']);
-			// $p_id = request()->get('parent_id');
 			$sight = request()->route()->parameters('sight');
 			$form->text('parent_id', '父级')->value($sight['sight']);
+			$city = Sight::where('id', $sight['sight'])->pluck('city_id')->all();
+			// dd($city[0]);
+			$form->text('city_id', '所属区域')->value($city[0]);
+			// $p_id = request()->get('parent_id');
+
 			$form->text('name', '名称');
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
-			$form->embeds('extra', function ($form) {
-				$form->text('title', '标题')->rules('required');
-				$form->text('author', '作者');
-				$form->datetime('updatetime', '日期');
-				$form->image('pic', '图片')->removable();
-			});
+			// $form->embeds('extra', function ($form) {
+			// 	$form->text('title', '标题')->rules('required');
+			// 	$form->text('author', '作者');
+			// 	$form->datetime('updatetime', '日期');
+			// 	$form->image('pic', '图片')->removable();
+			// });
 
 		});
 	}
