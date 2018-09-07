@@ -49,7 +49,7 @@ class CityController extends Controller {
 					$cities->resource('/admin/city');
 					$cities->areaCode('编码');
 					$cities->areaName('名称')->display(function ($c_id) {
-						return "<a href='" . $this->id . "/cityaddsight' title='添加景区'><span class='label label-info'>" . $this->areaName . "</span></a>";
+						return "<a href='" . $this->id . "' title='添加景区'><span class='label label-info'>" . $this->areaName . "</span></a>";
 					});
 					$cities->level('等级');
 					$cities->cityCode('城市区号');

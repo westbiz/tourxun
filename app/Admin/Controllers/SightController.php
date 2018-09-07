@@ -44,6 +44,17 @@ class SightController extends Controller {
 				// $show->pictureuri('图片')->image();
 				$show->summary('概况');
 				$show->content('内容');
+				// $sit = Sight::find(2);
+				// // dd($sit);
+				// foreach ($sit->pictures as $picture) {
+				// 	dd($picture);
+				// }
+				$show->pictures('多态图片', function ($pictures) {
+					$pictures->resource('admin/sight');
+					$pictures->title();
+					$pictures->pictureuri()->image();
+					$pictures->description();
+				});
 
 				$show->spot('所有景点', function ($spot) {
 					$spot->resource('/admin/sight');
@@ -159,7 +170,7 @@ class SightController extends Controller {
 			});
 			//grid
 			$grid->id('ID')->sortable();
-			$grid->name('名称');
+			$grid->name('名称')->editable();
 			$grid->city()->areaName('区域');
 			$grid->parent_id('父级');
 			$grid->spot()->display(function ($sights) {

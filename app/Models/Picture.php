@@ -13,10 +13,11 @@ class Picture extends Model {
 		'product_id', 'pictureuri', 'description',
 	];
 
-	//多态关联
-	// public function pictureable() {
-	// 	return $this->morphTo('pictureable', 'pictureable_type', 'pictureable_id');
-	// }
+	// 多态关联
+	public function pictureable() {
+		return $this->morphTo();
+	}
+	//'pictureable', 'pictureable_type', 'pictureable_id'
 
 	// public function products() {
 	// 	return $this->belongsToMany(Product::class, 'tx_picture_products', 'picture_id', 'product_id');
