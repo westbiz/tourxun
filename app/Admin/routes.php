@@ -53,6 +53,8 @@ Route::group([
 	$router->get('sight/createsight', 'SightController@createsight');
 	$router->resource('sight', 'SightController');
 
+	$router->resource('picture','PictureController');
+
 });
 
 //子域名路由

@@ -50,18 +50,18 @@ class SightController extends Controller {
 				// 	dd($picture);
 				// }
 				$show->pictures('多态图片', function ($pictures) {
-					$pictures->resource('admin/sight');
-					$pictures->title();
-					$pictures->pictureuri()->image();
-					$pictures->description();
+					$pictures->resource('/admin/picture');
+					$pictures->title('标题');
+					$pictures->pictureuri('图片')->image();
+					$pictures->description('描述');
 				});
 
 				$show->spot('所有景点', function ($spot) {
 					$spot->resource('/admin/sight');
 					$spot->id();
-					$spot->name();
-					$spot->city_id();
-					$spot->summary();
+					$spot->name('名称');
+					$spot->city_id('区域ID');
+					$spot->summary('概述');
 				});
 
 			}));

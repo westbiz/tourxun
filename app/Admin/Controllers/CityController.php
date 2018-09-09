@@ -40,10 +40,10 @@ class CityController extends Controller {
 				// $show->id('ID');
 				$show->areaCode('编码');
 				$show->areaName('名称');
-				// $show->level('等级');
-				// $show->cityCode('城市区号');
+				$show->level('等级');
+				$show->cityCode('城市区号');
 				// $show->center('坐标');
-				// $show->parent_id('父级');
+				$show->parent_id('父级');
 				//一对多，多个区县
 				$show->cities('下辖区县', function ($cities) {
 					$cities->resource('/admin/city');
@@ -51,12 +51,14 @@ class CityController extends Controller {
 					$cities->areaName('名称')->display(function ($c_id) {
 						return "<a href='" . $this->id . "' title='添加景区'><span class='label label-info'>" . $this->areaName . "</span></a>";
 					});
+
 					$cities->level('等级');
 					$cities->cityCode('城市区号');
 					$cities->center('坐标');
 					$cities->parent_id('父级');
 				});
 				//一对多，多个景点
+				//如果是父节点，不添加				
 				$show->sights('景点', function ($sights) {
 					$sights->resource('/admin/sight');
 

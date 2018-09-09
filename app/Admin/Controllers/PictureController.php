@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
 class PictureController extends Controller {
 	use ModelForm;
@@ -61,6 +62,22 @@ class PictureController extends Controller {
 			$content->body($this->form());
 		});
 	}
+
+
+	public function show($id) {
+		return Admin::content(function (Content $content) use ($id) {
+			$content->header('图片');
+			$content->description('详细');
+
+			$content->body(Admin::show(Picture::findOrFail($id),function(show $show){
+				$show->id('ID');
+				$show->title('标题');
+				// $show->pictureuri('地址')->image();
+				$show->description();
+			}));
+	});
+}
+
 
 	/**
 	 * Make a grid builder.
