@@ -174,9 +174,10 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures('多态图片', function ($pictures) {
-			// 	$pictures->pictureuri('图片')->image();
+			// $grid->pictures()->display(function ($pictureuri) {
+			// 	return "<img src='http://tourxun.test:8000/uploads/$pictureuri' height='10%' width='20%' class='img img-thumbnail'>";
 			// });
+
 			$grid->summary('概况');
 			$grid->content('内容');
 
