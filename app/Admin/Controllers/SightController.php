@@ -39,23 +39,17 @@ class SightController extends Controller {
 			$content->description('查看');
 
 			$content->body(Admin::show(Sight::findOrFail($id), function (Show $show) {
-				// $show->id('ID');
+
 				$show->name('名称');
-				// $show->pictureuri('图片')->image();
 				$show->summary('概况');
 				$show->content('内容');
-				// $sit = Sight::find(2);
-				// // dd($sit);
-				// foreach ($sit->pictures as $picture) {
-				// 	dd($picture);
-				// }
+				//多态关联图片
 				$show->pictures('多态图片', function ($pictures) {
 					$pictures->resource('/admin/picture');
 					$pictures->title('标题');
 					$pictures->pictureuri('图片')->image();
 					$pictures->description('描述');
 				});
-
 				$show->spot('所有景点', function ($spot) {
 					$spot->resource('/admin/sight');
 					$spot->id();
@@ -180,6 +174,9 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			// $grid->pictures('多态图片', function ($pictures) {
+			// 	$pictures->pictureuri('图片')->image();
+			// });
 			$grid->summary('概况');
 			$grid->content('内容');
 
