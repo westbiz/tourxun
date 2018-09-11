@@ -63,21 +63,19 @@ class PictureController extends Controller {
 		});
 	}
 
-
 	public function show($id) {
 		return Admin::content(function (Content $content) use ($id) {
 			$content->header('图片');
 			$content->description('详细');
 
-			$content->body(Admin::show(Picture::findOrFail($id),function(show $show){
+			$content->body(Admin::show(Picture::findOrFail($id), function (show $show) {
 				$show->id('ID');
 				$show->title('标题');
 				// $show->pictureuri('地址')->image();
 				$show->description();
 			}));
-	});
-}
-
+		});
+	}
 
 	/**
 	 * Make a grid builder.
@@ -112,8 +110,14 @@ class PictureController extends Controller {
 		return Admin::form(Picture::class, function (Form $form) {
 
 			$form->display('id', 'ID');
-			// $form->select('pictureable_type', '类别')->options(['sight' => '风景', 'product' => '产品', 'people' => '人物']);
+			$s_id = request()->get('sight_id');
+			$type = request()->get('type');
+			// dd($type);
+			$form->text('pictureable_id', '所属ID')->value($s_id);
+			$form->text('pictureable_type', '类型')->value($type);
+			$form->select('pictureable_type', '类型')->options(['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname']);
 			$form->multipleImage('pictureuri', '图片')->removable();
+			$form->text('title', '标题');
 			$form->text('description', '图片描述');
 			// $form->saving(function (Form $form) {
 

@@ -153,6 +153,7 @@ class SightController extends Controller {
 				$c_id = Sight::where('id', $s_id)->pluck('city_id')->all();
 				// dd($c_id);
 				$actions->prepend("<a href='sight/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='picture/create?sight_id=" . $actions->getKey() . "&type=sight' title='添加图片'><i class='fa fa-plus'></i></a>&nbsp;");
 			});
 
 			//修改源数据
@@ -174,10 +175,13 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures()->display(function ($pictureuri) {
-			// 	return "<img src='http://tourxun.test:8000/uploads/$pictureuri' height='10%' width='20%' class='img img-thumbnail'>";
+			// dd($grid->pictures()->pictureuri());
+			// $grid->pictures()->display(function ($pictures) {
+			// 	$pictures = array_map(function ($picture) {
+			// 		return "<span>{$picture['pictureuri']}</span>'>";
+			// 	}, $pictures);
+			// 	return join('&nbsp;', $pictures);
 			// });
-
 			$grid->summary('概况');
 			$grid->content('内容');
 
