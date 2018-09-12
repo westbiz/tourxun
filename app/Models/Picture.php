@@ -28,7 +28,7 @@ class Picture extends Model {
 	}
 
 	//多对多反向
-	public function sight() {
+	public function sights() {
 		return $this->belongsToMany(Sight::class, 'tx_picture_sights', 'sight_id', 'picture_id');
 	}
 

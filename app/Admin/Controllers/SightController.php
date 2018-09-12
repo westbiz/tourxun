@@ -57,6 +57,12 @@ class SightController extends Controller {
 					$spot->city_id('区域ID');
 					$spot->summary('概述');
 				});
+				$show->photos()->display(function ($photos) {
+					$photos = array_map(function ($photo) {
+						return "<img src='http://tourxun.test:8000/uploads/{$photo['pictureuri']}' height='10%' width='20%' class='img img-thumbnail'>";
+					}, $photos);
+					return join('&nbsp;', $photos);
+			});
 
 			}));
 		});
@@ -174,13 +180,20 @@ class SightController extends Controller {
 				}, $sights);
 				return join('&nbsp;', $sights);
 			});
-			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->pictureuri('图片')->image('http://tourxun.test:8000/uploads/', 50, 50);
 			// dd($grid->pictures()->pictureuri());
 			// $grid->pictures()->display(function ($pictures) {
 			// 	$pictures = array_map(function ($picture) {
 			// 		return "<span>{$picture['pictureuri']}</span>'>";
 			// 	}, $pictures);
 			// 	return join('&nbsp;', $pictures);
+			// });
+
+			// $grid->photos()->display(function ($photos) {
+			// 		$photos = array_map(function ($photo) {
+			// 			return "<img src='http://tourxun.test:8000/uploads/{$photo['pictureuri']}' height='10%' width='20%' class='img img-thumbnail'>";
+			// 		}, $photos);
+			// 		return join('&nbsp;', $photos);
 			// });
 			$grid->summary('概况');
 			$grid->content('内容');
