@@ -28,9 +28,9 @@ class Picture extends Model {
 	}
 
 	//多对多反向
-	// public function sight() {
-	// 	return $this->belongsToMany(Sight::class, 'tx_picture_sights', 'sight_id', 'picture_id');
-	// }
+	public function sight() {
+		return $this->belongsToMany(Sight::class, 'tx_picture_sights', 'sight_id', 'picture_id');
+	}
 
 	//多图、文件上传的时候提交的数据为文件路径数组,可以直接用mysql的JSON类型字段存储,定义字段的mutator
 	public function setPictureuriAttribute($pictureuri) {
