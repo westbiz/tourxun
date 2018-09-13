@@ -36,6 +36,7 @@ class Sight extends Model {
 		return $this->belongsTo(Sight::class, 'parent_id', 'id');
 	}
 
+	//一对多
 	public function spot() {
 		return $this->hasMany(Sight::class, 'parent_id', 'id');
 	}
