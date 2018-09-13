@@ -17,6 +17,13 @@ class Picture extends Model {
 	public function pictureable() {
 		return $this->morphTo();
 	}
+
+
+	//多对多的多态关联
+	public function viewpoint()
+	{
+		return $this->morphedByMany(Sight::class, 'pictureable');
+	}
 	//'pictureable', 'pictureable_type', 'pictureable_id'
 
 	// public function products() {
@@ -27,7 +34,7 @@ class Picture extends Model {
 		return $this->belongsTo(Product::class, 'product_id');
 	}
 
-	//多对多反向
+	//多对多，多景区
 	public function sights() {
 		return $this->belongsToMany(Sight::class, 'tx_picture_sights', 'sight_id', 'picture_id');
 	}

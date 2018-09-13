@@ -59,13 +59,19 @@ class SightController extends Controller {
 				});
 				$show->photos('多对多', function ($photos) {
 					$s_id = request()->route()->parameters('sight');
-					$photos->resource('/admin//picture');
+					$photos->resource('/admin/picture');
 					//sight/' . $s_id['sight'] . '
 					$photos->picture_id('ID');
 					$photos->title();
 					$photos->pictureuri()->image();
 				});
-
+				//多对多多态关联
+				$show->graphics('多对多多态', function($graphics){
+					$graphics->resource('/admin/picture');
+					$graphics->title('标题');
+					$graphics->pictureuri('图片')->image();
+					$graphics->description('描述');
+				});
 			}));
 		});
 	}

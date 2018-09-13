@@ -18,20 +18,30 @@ class Sight extends Model {
 		'name', 'picture', 'city_id', 'summary', 'content',
 	];
 
-	//图片，多态关联
+	//多态关联，图片
 	public function pictures() {
 		return $this->morphMany(Picture::class, 'pictureable', 'pictureable_type', 'pictureable_id', 'id');
 	}
 
-	// 多对多
+	// 多对多，多图
 	public function photos() {
 		return $this->belongsToMany(Picture::class, 'tx_picture_sights', 'sight_id', 'picture_id');
 	}
 
+
+	//多对多的多态关联
+	public function graphics()
+	{
+		return $this->morphToMany(Picture::class, 'pictureable');
+	}
+
+	//一对一逆向
 	public function city() {
 		return $this->belongsTo(Area::class, 'city_id', 'id');
 	}
 
+	
+	//一对一逆向
 	public function scenic() {
 		return $this->belongsTo(Sight::class, 'parent_id', 'id');
 	}
@@ -40,6 +50,9 @@ class Sight extends Model {
 	public function spot() {
 		return $this->hasMany(Sight::class, 'parent_id', 'id');
 	}
+
+
+
 
 	//设置图片json属性
 	public function setPictureuriAttribute($pictureuri) {
