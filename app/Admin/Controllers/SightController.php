@@ -44,7 +44,7 @@ class SightController extends Controller {
 				$show->summary('概况');
 				$show->content('内容');
 				//多态关联图片
-				$show->pictures('多态图片', function ($pictures) {
+				$show->pictures('多态_图片', function ($pictures) {
 					$pictures->resource('/admin/picture');
 					$pictures->title('标题');
 					$pictures->pictureuri('图片')->image();
@@ -57,21 +57,21 @@ class SightController extends Controller {
 					$spot->city_id('区域ID');
 					$spot->summary('概述');
 				});
-				$show->photos('多对多', function ($photos) {
-					$s_id = request()->route()->parameters('sight');
-					$photos->resource('/admin/picture');
-					//sight/' . $s_id['sight'] . '
-					$photos->picture_id('ID');
-					$photos->title();
-					$photos->pictureuri()->image();
-				});
-				//多对多多态关联
-				$show->graphics('多对多多态', function($graphics){
-					$graphics->resource('/admin/picture');
-					$graphics->title('标题');
-					$graphics->pictureuri('图片')->image();
-					$graphics->description('描述');
-				});
+				// $show->photos('多对多_图片', function ($photos) {
+				// 	$s_id = request()->route()->parameters('sight');
+				// 	$photos->resource('/admin/picture');
+				// 	//sight/' . $s_id['sight'] . '
+				// 	$photos->picture_id('ID');
+				// 	$photos->title();
+				// 	$photos->pictureuri()->image();
+				// });
+				// //多对多多态关联
+				// $show->graphics('多对多多态_图片', function ($graphics) {
+				// 	$graphics->resource('/admin/picture');
+				// 	$graphics->title('标题');
+				// 	$graphics->pictureuri('图片')->image();
+				// 	$graphics->description('描述');
+				// });
 			}));
 		});
 	}
@@ -272,19 +272,8 @@ class SightController extends Controller {
 
 			}
 
-			// if ($p_id != null) {
-			// 	$form->text('parent_id', '父级')->value($p_id);
-			// 	$city = Area::where('id', $p_id)->pluck('id')->all();
-			// 	$form->text('city_id', '所属区域ID')->value($city[0]);
-			// } else {
-			// 	$form->text('parent_id', '父级')->value('-1');
-			// }
-
-			// dd($c_id);
-			// $form->text('city_id', '所属区域ID');
-
 			$form->text('name', '名称');
-			$form->multipleImage('pictureuri', '图片')->removable();
+			// $form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍');
 			// $form->embeds('extra', function ($form) {
@@ -293,6 +282,12 @@ class SightController extends Controller {
 			// 	$form->datetime('updatetime', '日期');
 			// 	$form->image('pic', '图片')->removable();
 			// });
+			$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
+				$form->text('ID');
+				$form->multipleFile('pictureuri', '图片');
+				$form->text('title');
+			});
+			// $form->image('graphics.pictureuri', '图片')->removable();
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
