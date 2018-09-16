@@ -23,10 +23,10 @@ class Sight extends Model {
 		return $this->morphMany(Picture::class, 'pictureable', 'pictureable_type', 'pictureable_id', 'id');
 	}
 
-	// // 多对多，多图
-	// public function photos() {
-	// 	return $this->belongsToMany(Picture::class, 'tx_picture_sights', 'sight_id', 'picture_id');
-	// }
+	// 多对多，多图
+	public function photos() {
+		return $this->belongsToMany(Picture::class, 'tx_picture_sights', 'sight_id', 'picture_id');
+	}
 
 	// //多对多的多态关联
 	// public function graphics()

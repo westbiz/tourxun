@@ -57,14 +57,14 @@ class SightController extends Controller {
 					$spot->city_id('区域ID');
 					$spot->summary('概述');
 				});
-				// $show->photos('多对多_图片', function ($photos) {
-				// 	$s_id = request()->route()->parameters('sight');
-				// 	$photos->resource('/admin/picture');
-				// 	//sight/' . $s_id['sight'] . '
-				// 	$photos->picture_id('ID');
-				// 	$photos->title();
-				// 	$photos->pictureuri()->image();
-				// });
+				$show->photos('多对多_图片', function ($photos) {
+					$s_id = request()->route()->parameters('sight');
+					$photos->resource('/admin/picture');
+					//sight/' . $s_id['sight'] . '
+					$photos->picture_id('ID');
+					$photos->title();
+					$photos->pictureuri()->image();
+				});
 				// //多对多多态关联
 				// $show->graphics('多对多多态_图片', function ($graphics) {
 				// 	$graphics->resource('/admin/picture');
@@ -283,9 +283,10 @@ class SightController extends Controller {
 			// 	$form->image('pic', '图片')->removable();
 			// });
 			$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
-				$form->text('ID');
+				// $form->text('id');
+				$form->text('title');				
 				$form->multipleFile('pictureuri', '图片');
-				$form->text('title');
+				$form->text('description');
 			});
 			// $form->image('graphics.pictureuri', '图片')->removable();
 

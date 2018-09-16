@@ -87,6 +87,7 @@ class PictureController extends Controller {
 
 			$grid->id('ID')->sortable();
 			$grid->pictureable_id('类型id');
+			$grid->title('标题');
 			$grid->product()->name('产品');
 
 			// $grid->pictureuri()->display(function ($pictureuri) {
