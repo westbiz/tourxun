@@ -115,8 +115,9 @@ class PictureController extends Controller {
 			$type = request()->get('type');
 			// dd($type);
 			$form->text('pictureable_id', '所属ID')->value($s_id);
-			$form->text('pictureable_type', '类型')->value($type);
-			$form->select('pictureable_type', '类型')->options(['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname']);
+			// $form->text('pictureable_type', '类型')->value($type);
+			//['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname']
+			$form->select('pictureable_type', '类型')->options(['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname'])->default($type);
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('title', '标题');
 			$form->text('description', '图片描述');

@@ -47,7 +47,7 @@ class SightController extends Controller {
 				$show->pictures('多态_图片', function ($pictures) {
 					$pictures->resource('/admin/picture');
 					$pictures->title('标题');
-					$pictures->pictureuri('图片')->image();
+					$pictures->pictureuri('多态图片')->image();
 					$pictures->description('描述');
 				});
 				$show->spot('所有景点', function ($spot) {
@@ -63,7 +63,9 @@ class SightController extends Controller {
 					//sight/' . $s_id['sight'] . '
 					$photos->picture_id('ID');
 					$photos->title();
-					$photos->pictureuri()->image();
+					$photos->pictureuri('多对多图片')->image();
+					$photos->description('描述');
+
 				});
 				// //多对多多态关联
 				// $show->graphics('多对多多态_图片', function ($graphics) {
@@ -167,7 +169,7 @@ class SightController extends Controller {
 				$c_id = Sight::where('id', $s_id)->pluck('city_id')->all();
 				// dd($c_id);
 				$actions->prepend("<a href='sight/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
-				$actions->prepend("<a href='picture/create?sight_id=" . $actions->getKey() . "&type=sight' title='添加图片'><i class='fa fa-plus'></i></a>&nbsp;");
+				$actions->prepend("<a href='picture/create?sight_id=" . $actions->getKey() . "&type=Sight' title='添加图片'><i class='fa fa-plus'></i></a>&nbsp;");
 			});
 
 			//修改源数据
@@ -284,7 +286,7 @@ class SightController extends Controller {
 			// });
 			$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
 				// $form->text('id');
-				$form->text('title');				
+				$form->text('title');
 				$form->multipleFile('pictureuri', '图片');
 				$form->text('description');
 			});
