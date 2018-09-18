@@ -65,7 +65,6 @@ class SightController extends Controller {
 					$photos->title();
 					$photos->pictureuri('多对多图片')->image();
 					$photos->description('描述');
-
 				});
 				// //多对多多态关联
 				// $show->graphics('多对多多态_图片', function ($graphics) {
@@ -277,7 +276,7 @@ class SightController extends Controller {
 			$form->text('name', '名称');
 			// $form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
-			$form->textarea('content', '介绍');
+			$form->textarea('content', '介绍')->rows(2);
 			// $form->embeds('extra', function ($form) {
 			// 	$form->text('title', '标题')->rules('required');
 			// 	$form->text('author', '作者');
@@ -287,7 +286,7 @@ class SightController extends Controller {
 			$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
 				// $form->text('pictureable_id','关联ID');
 				// $form->text('pictureable_type','关联类型');
-				$form->text('title','标题');
+				$form->text('title', '标题');
 				$form->multipleFile('pictureuri', '图片');
 				$form->text('description');
 			});

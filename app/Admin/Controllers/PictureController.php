@@ -85,15 +85,14 @@ class PictureController extends Controller {
 	protected function grid() {
 		return Admin::grid(Picture::class, function (Grid $grid) {
 
+			//// 关闭新增按钮
+			// $grid->disableCreateButton();
+			// $grid->disableExport();
+			// $grid->disableActions();
 			$grid->id('ID')->sortable();
 			$grid->pictureable_id('类型id');
 			$grid->title('标题');
 			$grid->product()->name('产品');
-
-			// $grid->pictureuri()->display(function ($pictureuri) {
-			// 	return "<img src='http://tourxun.test/uploads/$pictureuri' alt='$this->pictureuri' height='10%' width='20%' class='img img-thumbnail'>";
-			// });
-
 			$grid->pictureuri('图片路径')->image();
 			$grid->description('描述');
 
@@ -120,7 +119,7 @@ class PictureController extends Controller {
 			$form->select('pictureable_type', '类型')->options(['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname'])->default($type);
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('title', '标题');
-			$form->text('description', '图片描述');
+			$form->textarea('description', '图片描述')->rows(2);
 			// $form->saving(function (Form $form) {
 
 			// 	$form->model()->id;
