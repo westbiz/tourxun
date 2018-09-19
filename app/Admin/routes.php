@@ -55,6 +55,8 @@ Route::group([
 
 	$router->resource('picture','PictureController');
 
+	$router->resource('picturetype','PicturetypeController');
+
 });
 
 //子域名路由

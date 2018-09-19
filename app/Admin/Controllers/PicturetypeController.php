@@ -11,7 +11,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class Pictruetype extends Controller
+class PicturetypeController extends Controller
 {
     use ModelForm;
 
@@ -74,9 +74,10 @@ class Pictruetype extends Controller
         return Admin::grid(Picturetype::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
+            $grid->name('name');
 
-            $grid->created_at();
-            $grid->updated_at();
+            // $grid->created_at();
+            // $grid->updated_at();
         });
     }
 
@@ -90,9 +91,10 @@ class Pictruetype extends Controller
         return Admin::form(Picturetype::class, function (Form $form) {
 
             $form->display('id', 'ID');
+            $form->text('name');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            // $form->display('created_at', 'Created At');
+            // $form->display('updated_at', 'Updated At');
         });
     }
 }
