@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Picture;
+use App\Models\Picturetype;
+use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -113,9 +115,17 @@ class PictureController extends Controller {
 			$s_id = request()->get('sight_id');
 			$type = request()->get('type');
 			// dd($type);
+			if ($s_id) {
+				$s_name = Sight::where('id', $s_id)->pluck('name')->all();
+				// dd($s_name);
+				$form->html($label = $s_name[0], '添加到');
+			}
+
 			$form->text('pictureable_id', '所属ID')->value($s_id);
 			// $form->text('pictureable_type', '类型')->value($type);
 			//['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname']
+			$item = Picturetype::all();
+			dd($item[1]);
 			$form->select('pictureable_type', '类型')->options(['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname'])->default($type);
 			$form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('title', '标题');

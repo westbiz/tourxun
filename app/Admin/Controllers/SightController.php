@@ -230,7 +230,9 @@ class SightController extends Controller {
 			// dd($c_id);
 
 			if ($s_id != null) {
-				// dd($s_id['sight']);
+				dd($s_id['sight']);
+				$s_name = Sight::where('id', $sight_id)->pluck('name')->all();
+				$form->html($label = $s_name[0], '添加到');
 				$city = Sight::where('id', $s_id['sight'])->pluck('city_id')->all();
 
 				$form->text('city_id', '所属区域ID')->value($city);
@@ -242,11 +244,13 @@ class SightController extends Controller {
 				// dd($c_id);
 				$form->text('city_id', '所属区域ID')->value($c_id);
 			} elseif ($p_id != null) {
-				// dd($p_id);
+				$s_name = Sight::where('id', $p_id)->pluck('name')->all();
+				$c_id = Sight::where('id', $p_id)->pluck('city_id')->all();
+				$form->html($label = $s_name[0], '添加到');
+
 				$form->text('parent_id', '父级')->value($p_id);
-				$city = Sight::where('id', $p_id)->pluck('city_id')->all();
 				// dd($city[0]);
-				$form->text('city_id', '所属区域ID')->value($city[0]);
+				$form->text('city_id', '所属区域ID')->value($c_id[0]);
 			}
 
 			// elseif ($s_id != null) {
