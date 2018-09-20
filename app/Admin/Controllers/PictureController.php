@@ -92,9 +92,9 @@ class PictureController extends Controller {
 			// $grid->disableExport();
 			// $grid->disableActions();
 			$grid->id('ID')->sortable();
-			$grid->pictureable_id('类型id');
 			$grid->title('标题');
-			$grid->product()->name('产品');
+			$grid->pictureable()->name('类别');
+			$grid->pictureable_id('类别id');
 			$grid->pictureuri('图片路径')->image();
 			$grid->description('描述');
 
@@ -124,10 +124,10 @@ class PictureController extends Controller {
 			$form->text('pictureable_id', '所属ID')->value($s_id);
 			// $form->text('pictureable_type', '类型')->value($type);
 			//['Sight' => '景点', 'Product' => '产品', 'value' => 'optionname']
-			$items = Picturetype::all()->pluck('name','ename')->all();
+			$items = Picturetype::all()->pluck('name', 'ename')->all();
 			// dd($items);
 			$form->select('pictureable_type', '类型')->options($items)->default($type);
-			$form->multipleImage('pictureuri', '图片')->removable();
+			$form->multipleImage('pictureuri', '图片')->removable()->uniqueName();
 			$form->text('title', '标题');
 			$form->textarea('description', '图片描述')->rows(2);
 			// $form->saving(function (Form $form) {

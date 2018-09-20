@@ -57,15 +57,15 @@ class SightController extends Controller {
 					$spot->city_id('区域ID');
 					$spot->summary('概述');
 				});
-				$show->photos('多对多_图片', function ($photos) {
-					$s_id = request()->route()->parameters('sight');
-					$photos->resource('/admin/picture');
-					//sight/' . $s_id['sight'] . '
-					$photos->picture_id('ID');
-					$photos->title();
-					$photos->pictureuri('多对多图片')->image();
-					$photos->description('描述');
-				});
+				// $show->photos('多对多_图片', function ($photos) {
+				// 	$s_id = request()->route()->parameters('sight');
+				// 	$photos->resource('/admin/picture');
+				// 	//sight/' . $s_id['sight'] . '
+				// 	$photos->picture_id('ID');
+				// 	$photos->title();
+				// 	$photos->pictureuri('多对多图片')->image();
+				// 	$photos->description('描述');
+				// });
 				// //多对多多态关联
 				// $show->graphics('多对多多态_图片', function ($graphics) {
 				// 	$graphics->resource('/admin/picture');
@@ -191,12 +191,11 @@ class SightController extends Controller {
 			});
 			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			// dd($grid->pictures()->pictureuri());
-			// $grid->pictures()->display(function ($pictures) {
-			// 	$pictures = array_map(function ($picture) {
-			// 		return "<span>{$picture['pictureuri']}</span>'>";
-			// 	}, $pictures);
-			// 	return join('&nbsp;', $pictures);
-			// });
+			$grid->pictures()->display(function ($pictures) {
+
+				return "<span>{$pictures}</span>";
+
+			});
 
 			// $grid->photos()->display(function ($photos) {
 			// 	$photos = array_map(function ($photo) {
@@ -230,12 +229,12 @@ class SightController extends Controller {
 			// dd($c_id);
 
 			if ($s_id != null) {
-				dd($s_id['sight']);
-				$s_name = Sight::where('id', $sight_id)->pluck('name')->all();
+				// dd($s_id['sight']);
+				$s_name = Sight::where('id', $s_id)->pluck('name')->all();
 				$form->html($label = $s_name[0], '添加到');
-				$city = Sight::where('id', $s_id['sight'])->pluck('city_id')->all();
+				$city_id = Sight::where('id', $s_id['sight'])->pluck('city_id')->all();
 
-				$form->text('city_id', '所属区域ID')->value($city);
+				$form->text('city_id', '所属区域ID')->value($city_id);
 				// dd($city[0]);
 				$form->text('parent_id', '父级');
 			} elseif ($c_id != null) {
@@ -291,7 +290,7 @@ class SightController extends Controller {
 				// $form->text('pictureable_id','关联ID');
 				// $form->text('pictureable_type','关联类型');
 				$form->text('title', '标题');
-				$form->multipleFile('pictureuri', '图片');
+				$form->multipleFile('pictureuri', '图片')->removable()->uniqueName();
 				$form->text('description');
 			});
 			// $form->image('graphics.pictureuri', '图片')->removable();
