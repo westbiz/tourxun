@@ -41,6 +41,7 @@ class SightController extends Controller {
 			$content->body(Admin::show(Sight::findOrFail($id), function (Show $show) {
 
 				$show->name('名称');
+				$show->avatar('图片')->image();
 				$show->summary('概况');
 				$show->content('内容');
 				//多态关联图片
@@ -49,6 +50,10 @@ class SightController extends Controller {
 					$pictures->title('标题');
 					$pictures->pictureuri('多态图片')->image();
 					$pictures->description('描述');
+
+					$pictures->panel()->tools(function ($tools) {
+						$tools->disableCreateButton();
+					});
 				});
 				$show->spot('所有景点', function ($spot) {
 					$spot->resource('/admin/sight');
@@ -57,22 +62,6 @@ class SightController extends Controller {
 					$spot->city_id('区域ID');
 					$spot->summary('概述');
 				});
-				// $show->photos('多对多_图片', function ($photos) {
-				// 	$s_id = request()->route()->parameters('sight');
-				// 	$photos->resource('/admin/picture');
-				// 	//sight/' . $s_id['sight'] . '
-				// 	$photos->picture_id('ID');
-				// 	$photos->title();
-				// 	$photos->pictureuri('多对多图片')->image();
-				// 	$photos->description('描述');
-				// });
-				// //多对多多态关联
-				// $show->graphics('多对多多态_图片', function ($graphics) {
-				// 	$graphics->resource('/admin/picture');
-				// 	$graphics->title('标题');
-				// 	$graphics->pictureuri('图片')->image();
-				// 	$graphics->description('描述');
-				// });
 			}));
 		});
 	}
@@ -180,6 +169,7 @@ class SightController extends Controller {
 			});
 			//grid
 			$grid->id('ID')->sortable();
+			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->name('名称')->editable();
 			$grid->city()->areaName('区域');
 			$grid->parent_id('父级');
@@ -189,7 +179,7 @@ class SightController extends Controller {
 				}, $sights);
 				return join('&nbsp;', $sights);
 			});
-			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			// dd($grid->pictures()->pictureuri());
 			$grid->pictures()->display(function ($pictures) {
 
@@ -277,6 +267,7 @@ class SightController extends Controller {
 			}
 
 			$form->text('name', '名称');
+			$form->text('avatar', '图片');
 			// $form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍')->rows(2);
@@ -299,69 +290,5 @@ class SightController extends Controller {
 			// $form->display('updated_at', 'Updated At');
 		});
 	}
-
-	// //createsight,直接新建sight
-	// protected function createform() {
-	// 	return Admin::form(Sight::class, function (Form $form) {
-
-	// 		// $form->html('*选择*', '区域');
-	// 		$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
-	// 		// dd($provinces);
-	// 		$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
-	// 		$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
-	// 		$form->select('city_id', '区县')->rules('bail|required');
-	// 		$form->divide();
-
-	// 		$form->display('id', 'ID');
-	// 		$form->text('parent_id', '父级')->default('-1');
-	// 		$form->text('name', '名称');
-	// 		$form->multipleImage('pictureuri', '图片')->removable();
-	// 		$form->text('summary', '概述');
-	// 		$form->textarea('content', '介绍');
-	// 		// $form->embeds('extra', function ($form) {
-	// 		// 	$form->text('title', '标题')->rules('required');
-	// 		// 	$form->text('author', '作者');
-	// 		// 	$form->datetime('updatetime', '日期');
-	// 		// 	$form->image('pic', '图片')->removable();
-	// 		// });
-
-	// 		// $form->display('created_at', 'Created At');
-	// 		// $form->display('updated_at', 'Updated At');
-	// 	});
-	// }
-
-	// protected function cityaddsightform() {
-	// 	return Admin::form(Sight::class, function (Form $form) {
-
-	// 		$form->display('id', 'ID');
-	// 		// $city = request()->get('city_id');
-	// 		$city = request()->route()->parameters('city');
-	// 		$form->text('city_id', '所属区域ID')->value($city['city']);
-	// 		// $p_id = request()->get('parent_id');
-	// 		// $form->text('parent_id', '父级')->value($p_id);
-
-	// 		// $city = request()->get('city_id');
-	// 		// if ($city == null) {
-	// 		// 	$city = request()->route()->parameters('city');
-
-	// 		// }
-	// 		// dd($city);
-	// 		// $form->text('city_id', '所属区域ID')->value($city['city']);
-	// 		$form->text('parent_id', '父级')->default('-1');
-	// 		$form->text('name', '名称');
-	// 		$form->multipleImage('pictureuri', '图片')->removable();
-	// 		$form->text('summary', '概述');
-	// 		$form->textarea('content', '介绍');
-	// 		// $form->embeds('extra', function ($form) {
-	// 		// 	$form->text('title', '标题')->rules('required');
-	// 		// 	$form->text('author', '作者');
-	// 		// 	$form->datetime('updatetime', '日期');
-	// 		// 	$form->image('pic', '图片')->removable();
-	// 		// });
-
-	// 		// $form->display('created_at', 'Created At');
-	// 		// $form->display('updated_at', 'Updated At');
-	// 	});
-	// }
 
 }

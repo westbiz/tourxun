@@ -18,14 +18,6 @@ class Picture extends Model {
 		return $this->morphTo();
 	}
 
-
-	//多对多的多态关联
-	public function viewpoint()
-	{
-		return $this->morphedByMany(Sight::class, 'pictureable');
-	}
-	//'pictureable', 'pictureable_type', 'pictureable_id'
-
 	// public function products() {
 	// 	return $this->belongsToMany(Product::class, 'tx_picture_products', 'picture_id', 'product_id');
 	// }

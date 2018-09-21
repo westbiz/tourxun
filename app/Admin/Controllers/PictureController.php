@@ -95,7 +95,7 @@ class PictureController extends Controller {
 			$grid->title('标题');
 			$grid->pictureable()->name('类别');
 			$grid->pictureable_id('类别id');
-			$grid->pictureuri('图片路径')->image();
+			$grid->pictureuri('图片路径')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->description('描述');
 
 			// $grid->created_at();
