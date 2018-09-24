@@ -59,12 +59,20 @@ class AreaController extends Controller {
 		//
 	}
 
-	public function cities(Request $request) {
-		$province = $request->get('q');
-		return Area::where('parent_id', $province)->get(['id', DB::RAW('areaName as text')]);
+
+	public function district(Request $request) {
+		$cityid = $request->get('q');
+		return Area::where('parent_id', $cityid)->get(['id', DB::RAW('areaName as text')]);
+	}	
+
+
+	public function city(Request $request) {
+		$provinceid = $request->get('q');
+		return Area::where('parent_id', $provinceid)->get(['id', DB::RAW('areaName as text')]);
 	}
 
-	public function getprovince() {
+
+	public function province() {
 		return Area::where('parent_id', -1)->get(['id', DB::RAW('areaName as text')]);
 	}
 }

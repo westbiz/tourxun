@@ -141,6 +141,9 @@ class CityController extends Controller {
 			$grid->areaName('区域名')->display(function ($c_id) {
 				return "<a href='city/" . $this->id . "'><span class='label label-info'>" . $this->areaName . "</span></a>";
 			});
+			// $grid->column('position')->openMap(function () {
+	  //           return [$this->profile['lat'], $this->profile['lng']];
+	  //       }, 'Position');
 			$grid->cities()->display(function ($cities) {
 				$cities = array_map(function ($city) {
 					return "<a href='city/{$city['id']}'><span class='label label-success'>{$city['areaName']}</span></a>";

@@ -206,12 +206,23 @@ class AreaController extends Controller {
 	protected function cascadingform() {
 		return Admin::form(Area::class, function (Form $form) {
 
-			$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
-			// dd($provinces);
-			$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
-			$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
-			$form->select('city_id', '区县');
-			$form->setAction('cascading/c_id/{$city_id}');
+			$form->select('shengqu','省区')->options(
+				Area::shengqu()->pluck('areaName','id')
+			)->load('chengshi','/api/v1/area/city');
+
+			$form->select('chengshi','市辖区')->options(function($id){
+				return Area::options($id);
+			})->load('city_id','/api/v1/area/district');
+
+			$form->select('city_id','区县')->options(function($id) {
+				return Area::options($id);
+			});
+			// $provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
+			// // dd($provinces);
+			// $form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
+			// $form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
+			// $form->select('city_id', '区县');
+			// $form->setAction('cascading/c_id/{$city_id}');
 			// dd($form->select('county'));
 			// $form->saving(function(Form $form){
 			// 	return response('xxxx');

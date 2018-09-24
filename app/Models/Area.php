@@ -12,6 +12,39 @@ class Area extends Model {
 		'areaCode', 'areaName', 'level', 'center', 'parent_id',
 	];
 
+	public function scopeShengqu() {
+		return $this->where('level',1);
+	}
+
+	public function scopeChengshi(){
+		return $this->where('level',2);
+	}
+
+	public function scopeQuxian() {
+		return $this->where('level',3);
+	}
+
+
+	public function parent() {
+		return $this->belongsTo(Area::class, 'parent_id');
+	}
+
+	public function children() {
+		return $this->hasMany(Area::class, 'parent_id');
+	}
+
+	public function brothers() {
+		return $this->parent->children();
+	}
+
+	public static function options($id) {
+		if (! $self = static::find($id)) {
+			return [];
+		}
+		return $self->brothers()->pluck('areaName','id');
+	}
+
+
 
 	//一对多，区域有多个城市
 	public function cities() {

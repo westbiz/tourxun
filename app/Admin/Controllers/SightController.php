@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Picture;
 use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -169,11 +170,11 @@ class SightController extends Controller {
 			});
 			//grid
 			$grid->id('ID')->sortable();
-			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->avatar('图片')->image('http://tourxun.test:8000/uploads/', 50, 50);
 			$grid->name('名称')->editable();
 			$grid->city()->areaName('区域');
 			$grid->parent_id('父级');
-			$grid->spot()->display(function ($sights) {
+			$grid->spot('所有景点')->display(function ($sights) {
 				$sights = array_map(function ($sight) {
 					return "<a href='sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
 				}, $sights);
@@ -211,81 +212,98 @@ class SightController extends Controller {
 
 			$form->display('id', 'ID');
 			//获取参数city_id
-			$c_id = request()->get('city_id');
-			//获取参数parent_id
-			$p_id = request()->get('parent_id');
-			//获取sight_id
-			$s_id = request()->route()->parameters('sight');
-			// dd($c_id);
+			// $c_id = request()->get('city_id');
+			// //获取参数parent_id
+			// $p_id = request()->get('parent_id');
+			// //获取sight_id
+			// $s_id = request()->route()->parameters('sight');
+			// // dd($c_id);
 
-			if ($s_id != null) {
-				// dd($s_id['sight']);
-				$s_name = Sight::where('id', $s_id)->pluck('name')->all();
-				$form->html($label = $s_name[0], '添加到');
-				$city_id = Sight::where('id', $s_id['sight'])->pluck('city_id')->all();
+			// if ($s_id != null) {
+			// 	// dd($s_id['sight']);
+			// 	$s_name = Sight::where('id', $s_id)->pluck('name')->all();
+			// 	$form->html($label = $s_name[0], '添加到');
+			// 	$city_id = Sight::where('id', $s_id['sight'])->pluck('city_id')->all();
 
-				$form->text('city_id', '所属区域ID')->value($city_id);
-				// dd($city[0]);
-				$form->text('parent_id', '父级');
-			} elseif ($c_id != null) {
-				$form->text('parent_id', '父级')->value('-1');
-				// $city = Sight::where('id', $p_id)->pluck('id')->all();
-				// dd($c_id);
-				$form->text('city_id', '所属区域ID')->value($c_id);
-			} elseif ($p_id != null) {
-				$s_name = Sight::where('id', $p_id)->pluck('name')->all();
-				$c_id = Sight::where('id', $p_id)->pluck('city_id')->all();
-				$form->html($label = $s_name[0], '添加到');
-
-				$form->text('parent_id', '父级')->value($p_id);
-				// dd($city[0]);
-				$form->text('city_id', '所属区域ID')->value($c_id[0]);
-			}
-
-			// elseif ($s_id != null) {
-
-			// 	$city = Sight::where('id', $s_id)->pluck('city_id')->all();
-
-			// 	$form->text('city_id', '所属区域ID')->value($city);
-			// 	// dd($s_id);
+			// 	$form->text('city_id', '所属区域ID')->value($city_id);
+			// 	// dd($city[0]);
 			// 	$form->text('parent_id', '父级');
-			// }
-			// elseif ($p_id != null) {
+			// } elseif ($c_id != null) {
+			// 	$form->text('parent_id', '父级')->value('-1');
+			// 	// $city = Sight::where('id', $p_id)->pluck('id')->all();
+			// 	// dd($c_id);
+			// 	$form->text('city_id', '所属区域ID')->value($c_id);
+			// } elseif ($p_id != null) {
+			// 	$s_name = Sight::where('id', $p_id)->pluck('name')->all();
+			// 	$c_id = Sight::where('id', $p_id)->pluck('city_id')->all();
+			// 	$form->html($label = $s_name[0], '添加到');
+
 			// 	$form->text('parent_id', '父级')->value($p_id);
-			// 	$city = Sight::where('id', $p_id)->pluck('city_id')->all();
-			// 	$form->text('city_id', '所属区域ID')->value($city[0]);
-			// 	// dd($p_id);
+			// 	// dd($city[0]);
+			// 	$form->text('city_id', '所属区域ID')->value($c_id[0]);
 			// }
 
-			else {
-				$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
-				$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
-				$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
-				$form->select('city_id', '区县');
-				$form->text('parent_id', '父级')->value('-1');
+			// // elseif ($s_id != null) {
 
-			}
+			// // 	$city = Sight::where('id', $s_id)->pluck('city_id')->all();
 
+			// // 	$form->text('city_id', '所属区域ID')->value($city);
+			// // 	// dd($s_id);
+			// // 	$form->text('parent_id', '父级');
+			// // }
+			// // elseif ($p_id != null) {
+			// // 	$form->text('parent_id', '父级')->value($p_id);
+			// // 	$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+			// // 	$form->text('city_id', '所属区域ID')->value($city[0]);
+			// // 	// dd($p_id);
+			// // }
+
+			// else {
+			// 	$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
+			// 	$form->select('Provinces', '省区')->options($provinces)->load('cities', '/api/v1/area/city');
+			// 	$form->select('cities', '地市')->options($provinces)->load('city_id', '/api/v1/area/city');
+			// 	$form->select('city_id', '区县');
+			// 	$form->text('parent_id', '父级')->value('-1');
+
+			// }
+			$form->select('shengqu','省区')->options(
+				Area::shengqu()->pluck('areaName','id')
+			)->load('chengshi','/api/v1/area/city');
+
+			$form->select('chengshi','市辖区')->options(function($id){
+				return Area::options($id);
+			})->load('city_id','/api/v1/area/district');
+
+			$form->select('city_id','区县')->options(function($id) {
+				return Area::options($id);
+			});		
+
+			$form->text('parent_id', '父级')->value('-1');			
 			$form->text('name', '名称');
-			$form->text('avatar', '图片');
+			$form->image('avatar', '图片');
 			// $form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 			$form->textarea('content', '介绍')->rows(2);
-			// $form->embeds('extra', function ($form) {
-			// 	$form->text('title', '标题')->rules('required');
-			// 	$form->text('author', '作者');
+			// $form->embeds('extra','扩展项目', function ($form) {
+			// 	$form->text('title', '参观季节')->rules('required');
+			// 	$form->text('author', '交通');
+			// 	$form->text('price', '价格');
 			// 	$form->datetime('updatetime', '日期');
 			// 	$form->image('pic', '图片')->removable();
 			// });
 			$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
-				// $form->text('pictureable_id','关联ID');
+				// $form->text('id','关联ID');
 				// $form->text('pictureable_type','关联类型');
 				$form->text('title', '标题');
-				$form->multipleFile('pictureuri', '图片')->removable()->uniqueName();
+				// $form->multipleFile('pictureuri', '图片')->removable()->uniqueName();
+				$dir = 'images/'.date('Y').'/'.date('m').'/'.date('d');
+				$form->multipleFile('pictureuri', '图片')->removable()->move($dir)->uniqueName();
 				$form->text('description');
 			});
 			// $form->image('graphics.pictureuri', '图片')->removable();
 
+			//忽略字段
+			$form->ignore(['shengqu','chengshi']);
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
 		});

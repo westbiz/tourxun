@@ -26,10 +26,7 @@ class Picture extends Model {
 		return $this->belongsTo(Product::class, 'product_id');
 	}
 
-	//多对多，多景区
-	public function sights() {
-		return $this->belongsToMany(Sight::class, 'tx_picture_sights', 'picture_id', 'sight_id');
-	}
+
 
 	//图、文件上传的时候提交的数据为文件路径数组,可以直接用mysql的JSON类型字段存储,定义字段的mutator
 	public function setPictureuriAttribute($pictureuri) {

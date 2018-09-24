@@ -20,15 +20,15 @@ class Sight extends Model {
 
 	//多态关联，图片
 	public function pictures() {
-		return $this->morphMany(Picture::class, 'pictureable', 'pictureable_type', 'pictureable_id', 'id');
+		return $this->morphMany(Picture::class, 'tx_pictures', 'pictureable_type', 'pictureable_id', 'id');
 	}
 
-	//一对一逆向
+	//一对多逆向
 	public function city() {
 		return $this->belongsTo(Area::class, 'city_id', 'id');
 	}
 
-	//一对一逆向
+	//一对多逆向
 	public function scenic() {
 		return $this->belongsTo(Sight::class, 'parent_id', 'id');
 	}
@@ -39,14 +39,14 @@ class Sight extends Model {
 	}
 
 	//设置图片json属性
-	public function setPictureuriAttribute($pictureuri) {
-		if (is_array($pictureuri)) {
-			$this->attributes['pictureuri'] = json_encode($pictureuri);
-		}
-	}
+	// public function setPictureuriAttribute($pictureuri) {
+	// 	if (is_array($pictureuri)) {
+	// 		$this->attributes['pictureuri'] = json_encode($pictureuri);
+	// 	}
+	// }
 
-	public function getPictureuriAttribute($pictureuri) {
-		return json_decode($pictureuri, true);
-	}
+	// public function getPictureuriAttribute($pictureuri) {
+	// 	return json_decode($pictureuri, true);
+	// }
 
 }
