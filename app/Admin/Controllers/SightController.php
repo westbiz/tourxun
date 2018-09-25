@@ -4,7 +4,6 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
-use App\Models\Picture;
 use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -52,9 +51,15 @@ class SightController extends Controller {
 					$pictures->pictureuri('多态图片')->image();
 					$pictures->description('描述');
 
-					$pictures->panel()->tools(function ($tools) {
-						$tools->disableCreateButton();
+					//关闭创建按钮
+					// dd($sid = request()->route()->parameters());
+					$pictures->disableCreateButton();
+					//添加自定义按钮
+					$pictures->tools(function ($tools) {
+						$sid = request()->route()->parameters('sight');
+						$tools->append("<a href='/admin/picture/create?sight_id={$sid['sight']}' class='btn btn-default'>Create</a>");
 					});
+
 				});
 				$show->spot('所有景点', function ($spot) {
 					$spot->resource('/admin/sight');
@@ -131,6 +136,7 @@ class SightController extends Controller {
 			// $grid->disableCreateButton();
 			//关掉批量删除
 			// $grid->expandFilter();
+			$grid->model()->with('pictures');
 			$grid->filter(function ($filter) {
 				//去掉ID过滤器
 				$filter->disableIdFilter();
@@ -170,7 +176,7 @@ class SightController extends Controller {
 			});
 			//grid
 			$grid->id('ID')->sortable();
-			$grid->avatar('图片')->image('http://tourxun.test:8000/uploads/', 50, 50);
+			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->name('名称')->editable();
 			$grid->city()->areaName('区域');
 			$grid->parent_id('父级');
@@ -181,12 +187,8 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// dd($grid->pictures()->pictureuri());
-			$grid->pictures()->display(function ($pictures) {
-
-				return "<span>{$pictures}</span>";
-
-			});
+			// dd($grid->pictures()->pictureable());
+			$grid->pictures();
 
 			// $grid->photos()->display(function ($photos) {
 			// 	$photos = array_map(function ($photo) {
@@ -266,19 +268,19 @@ class SightController extends Controller {
 			// 	$form->text('parent_id', '父级')->value('-1');
 
 			// }
-			$form->select('shengqu','省区')->options(
-				Area::shengqu()->pluck('areaName','id')
-			)->load('chengshi','/api/v1/area/city');
+			$form->select('shengqu', '省区')->options(
+				Area::shengqu()->pluck('areaName', 'id')
+			)->load('chengshi', '/api/v1/area/city');
 
-			$form->select('chengshi','市辖区')->options(function($id){
+			$form->select('chengshi', '市辖区')->options(function ($id) {
 				return Area::options($id);
-			})->load('city_id','/api/v1/area/district');
+			})->load('city_id', '/api/v1/area/district');
 
-			$form->select('city_id','区县')->options(function($id) {
+			$form->select('city_id', '区县')->options(function ($id) {
 				return Area::options($id);
-			});		
+			});
 
-			$form->text('parent_id', '父级')->value('-1');			
+			$form->text('parent_id', '父级')->value('-1');
 			$form->text('name', '名称');
 			$form->image('avatar', '图片');
 			// $form->multipleImage('pictureuri', '图片')->removable();
@@ -296,14 +298,14 @@ class SightController extends Controller {
 				// $form->text('pictureable_type','关联类型');
 				$form->text('title', '标题');
 				// $form->multipleFile('pictureuri', '图片')->removable()->uniqueName();
-				$dir = 'images/'.date('Y').'/'.date('m').'/'.date('d');
+				$dir = 'images/' . date('Y') . '/' . date('m') . '/' . date('d');
 				$form->multipleFile('pictureuri', '图片')->removable()->move($dir)->uniqueName();
 				$form->text('description');
 			});
 			// $form->image('graphics.pictureuri', '图片')->removable();
 
 			//忽略字段
-			$form->ignore(['shengqu','chengshi']);
+			$form->ignore(['shengqu', 'chengshi']);
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
 		});
