@@ -63,4 +63,15 @@ class Area extends Model {
 		return $this->hasMany(Sight::class, 'city_id', 'id');
 	}
 
+
+
+	public function getCenterAttribute($value) {
+		return explode(',', $value);
+	}
+	public function setCenterAttribute($value) {
+		$this->attributes['center'] = implode(',',  $value);
+	}
+
+
+
 }

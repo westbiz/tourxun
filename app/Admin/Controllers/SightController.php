@@ -136,7 +136,7 @@ class SightController extends Controller {
 			// $grid->disableCreateButton();
 			//关掉批量删除
 			// $grid->expandFilter();
-			$grid->model()->with('pictures');
+			$grid->model()->with('pictures:id,pictureuri');
 			$grid->filter(function ($filter) {
 				//去掉ID过滤器
 				$filter->disableIdFilter();
@@ -187,14 +187,15 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// dd($grid->pictures()->pictureable());
+			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
+			
 			$grid->pictures();
-
-			// $grid->photos()->display(function ($photos) {
-			// 	$photos = array_map(function ($photo) {
-			// 		return "<img src='http://tourxun.test/uploads/{$photo['pictureuri']}' height='10%' width='20%' class='img img-thumbnail'>";
-			// 	}, $photos);
-			// 	return join('&nbsp;', $photos);
+			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
+			// $grid->pictures()->display(function ($pictures) {
+			// 	$pictures = array_map(function ($picture) {
+			// 		return "<img src='http://tourxun.test/uploads/{$picture['pictureuri']}' height='10%' width='20%' class='img img-thumbnail'>";
+			// 	}, $pictures);
+			// 	return join('&nbsp;', $pictures);
 			// });
 			$grid->summary('概况');
 			$grid->content('内容');
