@@ -144,7 +144,7 @@ class CityController extends Controller {
 			// $grid->column('position')->openMap(function () {
 			//           return [$this->profile['lat'], $this->profile['lng']];
 			//       }, 'Position');
-			$grid->cities()->display(function ($cities) {
+			$grid->cities('所有区县')->display(function ($cities) {
 				$cities = array_map(function ($city) {
 					return "<a href='city/{$city['id']}'><span class='label label-success'>{$city['areaName']}</span></a>";
 				}, $cities);

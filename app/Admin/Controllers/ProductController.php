@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
 require '../vendor/autoload.php';
 
@@ -26,6 +27,26 @@ class ProductController extends Controller {
 			$content->body($this->grid());
 		});
 	}
+
+	public function show($id) {
+		return Admin::content(function (Content $content) use ($id) {
+
+			$content->header('景点 ');
+			$content->description('查看');
+
+			$content->body(Admin::show(Product::findOrFail($id), function (Show $show) {
+
+				$show->name('名称');
+				$show->avatar('图片')->image();
+				$show->summary('概况');
+				$show->content('内容');
+
+
+			}));
+		});
+	}
+
+
 	/**
 	 * Edit interface.
 	 *

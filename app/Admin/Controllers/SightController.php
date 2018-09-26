@@ -188,25 +188,22 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures()->display(function ($images) {
-			// 	$images = array_map(function ($image) {
-			// 		return "<span class='label label-success'>{$image['pictureuri']}</span>";
-			// 	}, $images);
+			$grid->pictures()->pluck('pictureuri')->display(function ($pictureuri) {
 
-			// 	return join('&nbsp;', $images);
-			// });
+			    return json_decode($pictureuri, true);
 
-			$grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
-				// return $item[0];
-				return count($item) > 0 ? $item[0] : 'noimage.png';
-			})->image('http://tourxun.test/uploads/', 50, 50);
+			})->map(function ($path) {
+
+			    return  $path[0];
+
+			})->image('http://tourxun.test:8000/uploads/',50);
+
+			// $grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
+			// 	// return $item[0];
+			// 	return count($item) > 0 ? $item[0] : 'noimage.png';
+			// })->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures()->display(function ($pictures) {
-			// 	$pictures = array_map(function ($picture) {
-			// 		return "<img src='http://tourxun.test/uploads/{$picture['pictureuri']}' height='10%' width='20%' class='img img-thumbnail'>";
-			// 	}, $pictures);
-			// 	return join('&nbsp;', $pictures);
-			// });
+
 			$grid->summary('概况');
 			$grid->content('内容');
 
