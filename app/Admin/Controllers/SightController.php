@@ -47,6 +47,7 @@ class SightController extends Controller {
 				//多态关联图片
 				$show->pictures('多态_图片', function ($pictures) {
 					$pictures->resource('/admin/picture');
+					$pictures->id('ID');
 					$pictures->title('标题');
 					$pictures->pictureuri('多态图片')->image();
 					$pictures->description('描述');
@@ -175,10 +176,10 @@ class SightController extends Controller {
 				});
 			});
 			//grid
-			$grid->id('ID')->sortable();
-			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->id('ID');
 			$grid->name('名称')->editable();
-			$grid->city()->areaName('区域');
+			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->city()->areaName('所属区域');
 			$grid->parent_id('父级');
 			$grid->spot('所有景点')->display(function ($sights) {
 				$sights = array_map(function ($sight) {
@@ -187,9 +188,18 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
-			
-			$grid->pictures();
+			// $grid->pictures()->display(function ($images) {
+			// 	$images = array_map(function ($image) {
+			// 		return "<span class='label label-success'>{$image['pictureuri']}</span>";
+			// 	}, $images);
+
+			// 	return join('&nbsp;', $images);
+			// });
+
+			$grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
+				// return $item[0];
+				return count($item) > 0 ? $item[0] : 'noimage.png';
+			})->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->pictures()->display(function ($pictures) {
 			// 	$pictures = array_map(function ($picture) {
@@ -283,10 +293,11 @@ class SightController extends Controller {
 
 			$form->text('parent_id', '父级')->value('-1');
 			$form->text('name', '名称');
+			$form->ckeditor('content', '介绍');
 			$form->image('avatar', '图片');
 			// $form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
-			$form->textarea('content', '介绍')->rows(2);
+
 			// $form->embeds('extra','扩展项目', function ($form) {
 			// 	$form->text('title', '参观季节')->rules('required');
 			// 	$form->text('author', '交通');

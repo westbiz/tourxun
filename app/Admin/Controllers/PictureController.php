@@ -95,7 +95,7 @@ class PictureController extends Controller {
 			$grid->title('标题');
 			$grid->pictureable()->name('类别');
 			$grid->pictureable_id('类别id');
-			$grid->pictureuri('图片路径')->image('http://tourxun.test:8000/uploads/', 50, 50);
+			$grid->pictureuri('图片路径')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->description('描述');
 
 			// $grid->created_at();
@@ -127,7 +127,7 @@ class PictureController extends Controller {
 			$items = Picturetype::all()->pluck('name', 'ename');
 			// dd($items);
 			$form->select('pictureable_type', '类型')->options($items)->default($type);
-			$dir = 'images/'.date('Y').'/'.date('m').'/'.date('d');
+			$dir = 'images/' . date('Y') . '/' . date('m') . '/' . date('d');
 			$form->multipleImage('pictureuri', '图片')->removable()->move($dir)->uniqueName();
 			$form->text('title', '标题');
 			$form->textarea('description', '图片描述')->rows(2);

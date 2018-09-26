@@ -58,14 +58,14 @@ class CityController extends Controller {
 					$cities->parent_id('父级');
 				});
 				//一对多，多个景点
-				//如果是父节点，不添加				
+				//如果是父节点，不添加
 				$show->sights('景点', function ($sights) {
 					$sights->resource('/admin/sight');
 
 					$sights->id('ID');
 					$sights->name('名称');
 					$sights->city_id('区域名');
-					$sights->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
+					$sights->pictures()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 				});
 
 				$show->panel()
@@ -142,8 +142,8 @@ class CityController extends Controller {
 				return "<a href='city/" . $this->id . "'><span class='label label-info'>" . $this->areaName . "</span></a>";
 			});
 			// $grid->column('position')->openMap(function () {
-	  //           return [$this->profile['lat'], $this->profile['lng']];
-	  //       }, 'Position');
+			//           return [$this->profile['lat'], $this->profile['lng']];
+			//       }, 'Position');
 			$grid->cities()->display(function ($cities) {
 				$cities = array_map(function ($city) {
 					return "<a href='city/{$city['id']}'><span class='label label-success'>{$city['areaName']}</span></a>";

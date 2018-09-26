@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Extensions\Form\CKEditor;
 use App\Admin\Extensions\Popover;
 use App\Admin\Extensions\WangEditor;
 use Encore\Admin\Form;
@@ -35,3 +36,5 @@ Column::extend('color', function ($value, $color) {
 Form::extend('editor', WangEditor::class);
 
 Column::extend('popover', Popover::class);
+
+Form::extend('ckeditor', CKEditor::class);
