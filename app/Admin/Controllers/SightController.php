@@ -58,7 +58,7 @@ class SightController extends Controller {
 					//添加自定义按钮
 					$pictures->tools(function ($tools) {
 						$sid = request()->route()->parameters('sight');
-						$tools->append("<a href='/admin/picture/create?sight_id={$sid['sight']}' class='btn btn-default'>Create</a>");
+						$tools->append("<a href='/admin/picture/create?sight_id={$sid['sight']}&type=Sight' class='btn btn-default'>Create</a>");
 					});
 
 				});
@@ -189,14 +189,10 @@ class SightController extends Controller {
 			});
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->pictures()->pluck('pictureuri')->display(function ($pictureuri) {
-
-			    return json_decode($pictureuri, true);
-
+				return json_decode($pictureuri, true);
 			})->map(function ($path) {
-
-			    return  $path[0];
-
-			})->image('http://tourxun.test:8000/uploads/',50);
+				return $path[0];
+			})->image('http://tourxun.test/uploads/', 50);
 
 			// $grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
 			// 	// return $item[0];
@@ -223,8 +219,8 @@ class SightController extends Controller {
 			$form->display('id', 'ID');
 			//获取参数city_id
 			// $c_id = request()->get('city_id');
-			// //获取参数parent_id
-			// $p_id = request()->get('parent_id');
+			//获取参数parent_id
+			$p_id = request()->get('parent_id');
 			// //获取sight_id
 			// $s_id = request()->route()->parameters('sight');
 			// // dd($c_id);
@@ -261,12 +257,12 @@ class SightController extends Controller {
 			// // 	// dd($s_id);
 			// // 	$form->text('parent_id', '父级');
 			// // }
-			// // elseif ($p_id != null) {
-			// // 	$form->text('parent_id', '父级')->value($p_id);
-			// // 	$city = Sight::where('id', $p_id)->pluck('city_id')->all();
-			// // 	$form->text('city_id', '所属区域ID')->value($city[0]);
-			// // 	// dd($p_id);
-			// // }
+			// elseif ($p_id != null) {
+			// 	$form->text('parent_id', '父级')->value($p_id);
+			// 	$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+			// 	$form->text('city_id', '所属区域ID')->value($city[0]);
+			// 	// dd($p_id);
+			// }
 
 			// else {
 			// 	$provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
@@ -287,7 +283,13 @@ class SightController extends Controller {
 			$form->select('city_id', '区县')->options(function ($id) {
 				return Area::options($id);
 			});
-
+			//如果存在parentid
+			if ($p_id) {
+				$form->text('parent_id', '父级')->value($p_id);
+				$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+				$form->text('city_id', '所属区域ID')->value($city[0]);
+			}
+			//默认为-1
 			$form->text('parent_id', '父级')->value('-1');
 			$form->text('name', '名称');
 			$form->ckeditor('content', '介绍');
@@ -295,13 +297,13 @@ class SightController extends Controller {
 			// $form->multipleImage('pictureuri', '图片')->removable();
 			$form->text('summary', '概述');
 
-			// $form->embeds('extra','扩展项目', function ($form) {
-			// 	$form->text('title', '参观季节')->rules('required');
-			// 	$form->text('author', '交通');
-			// 	$form->text('price', '价格');
-			// 	$form->datetime('updatetime', '日期');
-			// 	$form->image('pic', '图片')->removable();
-			// });
+			$form->embeds('extra', '扩展项目', function ($form) {
+				$form->text('price', '门票价格');
+				$form->text('opentime', '开放时间');
+				$form->textarea('offer', '优惠信息')->rows(2);
+				$form->text('traffic', '交通');
+				$form->image('pic', '图片')->removable();
+			});
 			$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
 				// $form->text('id','关联ID');
 				// $form->text('pictureable_type','关联类型');
