@@ -15,7 +15,7 @@ class Sight extends Model {
 	];
 
 	protected $fillable = [
-		'name', 'picture', 'city_id', 'summary', 'content',
+		'name', 'avatar','extra', 'city_id', 'parent_id', 'summary', 'content',
 	];
 
 	//多态关联，图片
