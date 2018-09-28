@@ -323,6 +323,17 @@ class SightController extends Controller {
 					$form->multipleFile('pictureuri', '图片')->removable()->move($dir)->uniqueName();
 					$form->text('description');
 				});
+			})->tab('景点', function($form){
+				$form->hasMany('spot', '所有景点', function(Form\
+					NestedForm $form){
+					$form->text('name', '名称');
+
+					$form->editor('content', '介绍');
+					$form->image('avatar', '图片');
+					// $form->multipleImage('pictureuri', '图片')->removable();
+					$form->text('summary', '概述');
+
+				});
 			});
 
 		});
