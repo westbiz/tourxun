@@ -93,7 +93,7 @@ class PictureController extends Controller {
 			// $grid->disableActions();
 			$grid->id('ID')->sortable();
 			$grid->title('标题');
-			$grid->pictureable()->name('类别');
+			$grid->pictureable_type('类别');
 			$grid->pictureable_id('类别id');
 			$grid->pictureuri('图片路径')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->description('描述');
@@ -110,6 +110,13 @@ class PictureController extends Controller {
 	 */
 	protected function form() {
 		return Admin::form(Picture::class, function (Form $form) {
+
+			$picture_id = request()->route()->parameters('picture');
+			if ($picture_id) {
+				$form->setTitle('修改');
+			} else {
+				$form->setTitle('新增');
+			}
 
 			$form->display('id', 'ID');
 			$s_id = request()->get('sight_id');

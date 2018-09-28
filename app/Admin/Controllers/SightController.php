@@ -215,7 +215,7 @@ class SightController extends Controller {
 	 */
 	protected function form() {
 		return Admin::form(Sight::class, function (Form $form) {
-			$form->tab('Basic info', function ($form) {
+			$form->tab('基本信息', function ($form) {
 
 				$form->display('id', 'ID');
 				//获取参数city_id
@@ -273,26 +273,31 @@ class SightController extends Controller {
 				// 	$form->text('parent_id', '父级')->value('-1');
 
 				// }
-				$form->select('shengqu', '省区')->options(
-					Area::shengqu()->pluck('areaName', 'id')
-				)->load('chengshi', '/api/v1/area/city');
 
-				$form->select('chengshi', '市辖区')->options(function ($id) {
-					return Area::options($id);
-				})->load('city_id', '/api/v1/area/district');
-
-				$form->select('city_id', '区县')->options(function ($id) {
-					return Area::options($id);
-				});
 				//如果存在parentid
 				if ($p_id) {
 					$form->text('parent_id', '父级')->value($p_id);
 					$city = Sight::where('id', $p_id)->pluck('city_id')->all();
+					// dd($city[0]);
 					$form->text('city_id', '所属区域ID')->value($city[0]);
+				} else {
+					//默认为-1
+					$form->text('parent_id', '父级')->value('-1');
+					$form->select('shengqu', '省区')->options(
+						Area::shengqu()->pluck('areaName', 'id')
+					)->load('chengshi', '/api/v1/area/city');
+
+					$form->select('chengshi', '市辖区')->options(function ($id) {
+						return Area::options($id);
+					})->load('city_id', '/api/v1/area/district');
+
+					$form->select('city_id', '区县')->options(function ($id) {
+						return Area::options($id);
+					});
 				}
-				//默认为-1
-				$form->text('parent_id', '父级')->value('-1');
+
 				$form->text('name', '名称');
+
 				$form->editor('content', '介绍');
 				$form->image('avatar', '图片');
 				// $form->multipleImage('pictureuri', '图片')->removable();
@@ -303,7 +308,7 @@ class SightController extends Controller {
 				// $form->display('created_at', 'Created At');
 				// $form->display('updated_at', 'Updated At');
 
-			})->tab('扩展属性', function($form){
+			})->tab('扩展属性', function ($form) {
 				$form->embeds('extra', '扩展项目', function ($form) {
 					$form->text('price', '门票价格');
 					$form->text('opentime', '开放时间');
@@ -311,7 +316,7 @@ class SightController extends Controller {
 					$form->text('traffic', '交通');
 					$form->image('pic', '图片')->removable();
 				});
-			})->tab('hasmany',function($form){
+			})->tab('图片', function ($form) {
 				$form->hasMany('pictures', '多态图片', function (Form\NestedForm $form) {
 					$form->text('title', '标题');
 					$dir = 'images/' . date('Y') . '/' . date('m') . '/' . date('d');
