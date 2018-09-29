@@ -219,13 +219,13 @@ class SightController extends Controller {
 		return Admin::form(Sight::class, function (Form $form) {
 			$form->tab('基本信息', function ($form) {
 
-				$form->display('id', 'ID');
+	
 				//获取参数city_id
 				// $c_id = request()->get('city_id');
 				//获取参数parent_id
 				$p_id = request()->get('parent_id');
 				// //获取sight_id
-				// $s_id = request()->route()->parameters('sight');
+				$s_id = request()->route()->parameters('sight');
 				// // dd($c_id);
 
 				// if ($s_id != null) {
@@ -276,15 +276,27 @@ class SightController extends Controller {
 
 				// }
 
-				//如果存在parentid
-				if ($p_id) {
+				//如果存在sightid
+				 if ($s_id) {
+					//默认为-1
+					$form->display('id', 'ID');					
+					$form->text('parent_id', '父级');
+					$form->select('shengqu', '省区')->options(
+						Area::shengqu()->pluck('areaName', 'id')
+					)->load('chengshi', '/api/v1/area/city');
+
+					$form->select('chengshi', '市辖区')->options(function ($id) {
+						return Area::options($id);
+					})->load('city_id', '/api/v1/area/district');
+
+					$form->select('city_id', '区县')->options(function ($id) {
+						return Area::options($id);
+					});
+				} elseif ($p_id) {
 					$form->text('parent_id', '父级')->value($p_id);
 					$city = Sight::where('id', $p_id)->pluck('city_id')->all();
-					// dd($name = Area::where('id', $city[0])->pluck('areaName')->all());
-
 					$form->text('city_id', '所属区域ID')->value($city[0]);
-				} else {
-					//默认为-1
+				}else {
 					$form->text('parent_id', '父级')->value('-1');
 					$form->select('shengqu', '省区')->options(
 						Area::shengqu()->pluck('areaName', 'id')
