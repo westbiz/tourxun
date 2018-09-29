@@ -177,10 +177,11 @@ class SightController extends Controller {
 			});
 			//grid
 			$grid->id('ID');
-			$grid->name('名称')->editable();
-			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->city()->areaName('所属区域');
-			$grid->parent_id('父级');
+			$grid->name('名称')->editable();
+			// dd($grid->avatar('图片'));
+			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			// $grid->parent_id('父级');
 			$grid->spot('所有景点')->display(function ($sights) {
 				$sights = array_map(function ($sight) {
 					return "<a href='sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
@@ -188,7 +189,8 @@ class SightController extends Controller {
 				return join('&nbsp;', $sights);
 			});
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			$grid->pictures()->pluck('pictureuri')->display(function ($pictureuri) {
+			////多图
+			$grid->pictures('多图')->pluck('pictureuri')->display(function ($pictureuri) {
 				return json_decode($pictureuri, true);
 			})->map(function ($path) {
 				return $path[0];
@@ -201,7 +203,7 @@ class SightController extends Controller {
 			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
 
 			$grid->summary('概况');
-			$grid->content('内容');
+			// $grid->content('内容');
 
 			// $grid->created_at();
 			// $grid->updated_at();
@@ -278,7 +280,8 @@ class SightController extends Controller {
 				if ($p_id) {
 					$form->text('parent_id', '父级')->value($p_id);
 					$city = Sight::where('id', $p_id)->pluck('city_id')->all();
-					// dd($city[0]);
+					// dd($name = Area::where('id', $city[0])->pluck('areaName')->all());
+
 					$form->text('city_id', '所属区域ID')->value($city[0]);
 				} else {
 					//默认为-1
@@ -298,7 +301,8 @@ class SightController extends Controller {
 
 				$form->text('name', '名称');
 
-				$form->editor('content', '介绍');
+				// $editor1 = new Editor();
+				$form->textarea('content', '介绍');
 				$form->image('avatar', '图片');
 				// $form->multipleImage('pictureuri', '图片')->removable();
 				$form->text('summary', '概述');
@@ -312,7 +316,7 @@ class SightController extends Controller {
 				$form->embeds('extra', '扩展项目', function ($form) {
 					$form->text('price', '门票价格');
 					$form->text('opentime', '开放时间');
-					$form->textarea('offer', '优惠信息')->rows(2);
+					$form->textarea('offer', '优惠信息');
 					$form->text('traffic', '交通');
 					$form->image('pic', '图片')->removable();
 				});
@@ -323,9 +327,9 @@ class SightController extends Controller {
 					$form->multipleFile('pictureuri', '图片')->removable()->move($dir)->uniqueName();
 					$form->text('description');
 				});
-			})->tab('景点', function($form){
-				$form->hasMany('spot', '所有景点', function(Form\
-					NestedForm $form){
+			})->tab('景点', function ($form) {
+				$form->hasMany('spot', '所有景点', function (Form\
+					NestedForm $form) {
 					$form->text('name', '名称');
 
 					$form->editor('content', '介绍');
