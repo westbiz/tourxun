@@ -182,6 +182,7 @@ class SightController extends Controller {
 			// dd($grid->avatar('图片'));
 			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->parent_id('父级');
+			$grid->extra('price');
 			$grid->spot('所有景点')->display(function ($sights) {
 				$sights = array_map(function ($sight) {
 					return "<a href='sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
@@ -219,7 +220,6 @@ class SightController extends Controller {
 		return Admin::form(Sight::class, function (Form $form) {
 			$form->tab('基本信息', function ($form) {
 
-	
 				//获取参数city_id
 				// $c_id = request()->get('city_id');
 				//获取参数parent_id
@@ -277,9 +277,9 @@ class SightController extends Controller {
 				// }
 
 				//如果存在sightid
-				 if ($s_id) {
+				if ($s_id) {
 					//默认为-1
-					$form->display('id', 'ID');					
+					$form->display('id', 'ID');
 					$form->text('parent_id', '父级');
 					$form->select('shengqu', '省区')->options(
 						Area::shengqu()->pluck('areaName', 'id')
@@ -296,7 +296,7 @@ class SightController extends Controller {
 					$form->text('parent_id', '父级')->value($p_id);
 					$city = Sight::where('id', $p_id)->pluck('city_id')->all();
 					$form->text('city_id', '所属区域ID')->value($city[0]);
-				}else {
+				} else {
 					$form->text('parent_id', '父级')->value('-1');
 					$form->select('shengqu', '省区')->options(
 						Area::shengqu()->pluck('areaName', 'id')
