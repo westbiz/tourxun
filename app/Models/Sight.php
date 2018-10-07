@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Area;
 use App\Models\Sight;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Sight extends Model {
@@ -15,7 +16,7 @@ class Sight extends Model {
 	];
 
 	protected $fillable = [
-		'name', 'avatar','extra', 'city_id', 'parent_id', 'summary', 'content',
+		'name', 'rate', 'avatar','extra', 'city_id', 'parent_id', 'summary', 'content',
 	];
 
 	//多态关联，图片
@@ -23,9 +24,9 @@ class Sight extends Model {
 		return $this->morphMany(Picture::class, 'tx_pictures', 'pictureable_type', 'pictureable_id', 'id');
 	}
 
-	//一对多逆向
+	//区域一对多逆向
 	public function city() {
-		return $this->belongsTo(Area::class, 'city_id', 'id');
+		return $this->belongsTo(Area::class);
 	}
 
 	//一对多逆向
@@ -36,6 +37,12 @@ class Sight extends Model {
 	//一对多
 	public function spot() {
 		return $this->hasMany(Sight::class, 'parent_id', 'id');
+	}
+
+
+	//景点分类 多对多，逆向
+	public function categories() {
+		return $this->belongsToMany(Category::class, 'category_sight', 'sight_id', 'category_id');
 	}
 
 	//设置图片json属性

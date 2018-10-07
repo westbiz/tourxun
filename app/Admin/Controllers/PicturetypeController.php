@@ -74,7 +74,8 @@ class PicturetypeController extends Controller
         return Admin::grid(Picturetype::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->name('name');
+            $grid->name('name')->editable();
+            $grid->ename('en')->editable();
 
             // $grid->created_at();
             // $grid->updated_at();
@@ -91,7 +92,8 @@ class PicturetypeController extends Controller
         return Admin::form(Picturetype::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->text('name');
+            $form->text('name')->rules('required|min:2');
+            $form->text('ename');
 
             // $form->display('created_at', 'Created At');
             // $form->display('updated_at', 'Updated At');

@@ -65,6 +65,10 @@ return [
 		    |
 	*/
 
+	'locale' => 'zh_CN',
+
+	'faker_locale' => 'en',		    
+
 	'timezone' => 'PRC',
 
 	/*
@@ -78,9 +82,7 @@ return [
 		    |
 	*/
 
-	'locale' => 'zh_CN',
 
-	'faker_locale' => 'zh_CN',
 
 	/*
 		    |--------------------------------------------------------------------------

@@ -37,7 +37,7 @@ return [
 	/*
 		     * Laravel-admin html title.
 	*/
-	'title' => 'Admin',
+	'title' => 'Tourxun Admin',
 
 	/*
 		     * Use `https`.
@@ -167,6 +167,15 @@ return [
 			'user_retriever' => function ($id) {
 				return \App\User::find($id);
 			},
+		],
+
+
+		'star-rating' => [
+			'enable' => true,
+
+			'config' => [
+				'min' => 1, 'max' => 5, 'size' => 'xs'
+			]
 		],
 
 	],

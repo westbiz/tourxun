@@ -71,6 +71,7 @@ class PictureController extends Controller {
 			$content->description('详细');
 
 			$content->body(Admin::show(Picture::findOrFail($id), function (show $show) {
+				$show->panel()->style('info')->title('详情');
 				$show->id('ID');
 				$show->title('标题');
 				// $show->pictureuri('地址')->image();

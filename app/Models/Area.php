@@ -58,19 +58,19 @@ class Area extends Model {
 	}
 
 	
-	//一对多，城市有多个景点
+	//一对多，城市多个景点
 	public function sights() {
 		return $this->hasMany(Sight::class, 'city_id', 'id');
 	}
 
 
 
-	public function getCenterAttribute($value) {
-		return explode(',', $value);
-	}
-	public function setCenterAttribute($value) {
-		$this->attributes['center'] = implode(',',  $value);
-	}
+	// public function getCenterAttribute($value) {
+	// 	return explode(',', $value);
+	// }
+	// public function setCenterAttribute($value) {
+	// 	$this->attributes['center'] = implode(',',  $value);
+	// }
 
 
 

@@ -38,6 +38,7 @@ class CityController extends Controller {
 
 			$content->body(Admin::show(Area::findOrFail($id), function (Show $show) {
 				// $show->id('ID');
+				$show->panel()->style('info')->title('详情');
 				$show->areaCode('编码');
 				$show->areaName('名称');
 				$show->level('等级');

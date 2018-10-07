@@ -13,6 +13,8 @@ use Encore\Admin\Grid;
 use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Collection;
+use App\Models\Category;
 
 class SightController extends Controller {
 	use ModelForm;
@@ -35,13 +37,23 @@ class SightController extends Controller {
 	public function show($id) {
 		return Admin::content(function (Content $content) use ($id) {
 
-			$content->header('景点 ');
+			$content->header('景区 ');
 			$content->description('查看');
 
 			$content->body(Admin::show(Sight::findOrFail($id), function (Show $show) {
 
+				$show->panel()->style('info')->title('详情');
 				$show->name('名称');
+				$show->city()->areaName('区域');
+				$show->rate();
 				$show->avatar('图片')->image();
+				$show->categories('类型')->as(function($categories){
+					return $categories->pluck('name');
+				})->label('info');
+				$show->extra('扩展项')->display(function ($extra) {
+					return "<span>{$extra}</span>";
+				})->badge();
+				$show->rate();
 				$show->summary('概况');
 				$show->content('内容');
 				//多态关联图片
@@ -58,7 +70,7 @@ class SightController extends Controller {
 					//添加自定义按钮
 					$pictures->tools(function ($tools) {
 						$sid = request()->route()->parameters('sight');
-						$tools->append("<a href='/admin/picture/create?sight_id={$sid['sight']}&type=Sight' class='btn btn-default'>Create</a>");
+						$tools->append("<a href='/admin/picture/create?sight_id={$sid['sight']}&type=Sight' class='btn btn-default'>添加图片</a>");
 					});
 
 				});
@@ -82,7 +94,7 @@ class SightController extends Controller {
 	public function edit($id) {
 		return Admin::content(function (Content $content) use ($id) {
 
-			$content->header('景点');
+			$content->header('景区');
 			$content->description('编辑');
 
 			$content->body($this->form()->edit($id));
@@ -97,7 +109,7 @@ class SightController extends Controller {
 	public function create() {
 		return Admin::content(function (Content $content) {
 
-			$content->header('景点');
+			$content->header('景区');
 			$content->description('新增');
 
 			$content->body($this->form());
@@ -175,27 +187,39 @@ class SightController extends Controller {
 					$batch->disableDelete();
 				});
 			});
-			//grid
+
 			$grid->id('ID');
+			// $pid = $grid->city()->parent_id();
+			$grid->city()->parent_id('区域')->display(function($parent_id){
+				return Area::where('id', $parent_id)->pluck('areaName')->all();
+			})->label();
 			$grid->city()->areaName('所属区域');
+
 			$grid->name('名称')->editable();
+			$grid->rate();
+
+			$grid->categories('类型')->pluck('name')->label('info');
+
 			// dd($grid->avatar('图片'));
 			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->parent_id('父级');
-			$grid->extra('price');
+			// $grid->extra();
+			$grid->extra('门票')->display(function ($extra) {
+				return "<span>{$extra['price']}</span>";
+			})->badge();
 			$grid->spot('所有景点')->display(function ($sights) {
 				$sights = array_map(function ($sight) {
 					return "<a href='sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
 				}, $sights);
 				return join('&nbsp;', $sights);
 			});
-			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			////多图
+			// $grid->spot('所有景点')->pluck('name')->label();
+
 			$grid->pictures('多图')->pluck('pictureuri')->display(function ($pictureuri) {
 				return json_decode($pictureuri, true);
 			})->map(function ($path) {
 				return $path[0];
 			})->image('http://tourxun.test/uploads/', 50);
+
 
 			// $grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
 			// 	// return $item[0];
@@ -221,7 +245,8 @@ class SightController extends Controller {
 			$form->tab('基本信息', function ($form) {
 
 				//获取参数city_id
-				// $c_id = request()->get('city_id');
+				$c_id = request()->get('city_id');
+				// dd($c_id);
 				//获取参数parent_id
 				$p_id = request()->get('parent_id');
 				// //获取sight_id
@@ -294,9 +319,18 @@ class SightController extends Controller {
 					});
 				} elseif ($p_id) {
 					$form->text('parent_id', '父级')->value($p_id);
-					$city = Sight::where('id', $p_id)->pluck('city_id')->all();
-					$form->text('city_id', '所属区域ID')->value($city[0]);
-				} else {
+					$city_id = Sight::find($p_id)->city->id;
+					$form->select('city_id', '区域')->options(
+						Area::where('id',$city_id)->pluck('areaName','id')
+					)->default($city_id);
+				} elseif ($c_id) {
+					$form->text('parent_id', '父级')->value('-1');
+
+					$form->select('city_id', '区域')->options(
+						Area::where('id',$c_id)->pluck('areaName','id')
+					)->default($c_id);
+				}
+				 else {
 					$form->text('parent_id', '父级')->value('-1');
 					$form->select('shengqu', '省区')->options(
 						Area::shengqu()->pluck('areaName', 'id')
@@ -306,12 +340,19 @@ class SightController extends Controller {
 						return Area::options($id);
 					})->load('city_id', '/api/v1/area/district');
 
-					$form->select('city_id', '区县')->options(function ($id) {
-						return Area::options($id);
+					$form->select('city_id', '区县')
+						->rules('required',['required'=>'必要字段不能为空!'])
+						->options(function ($id) {
+							return Area::options($id);
 					});
 				}
 
-				$form->text('name', '名称');
+				$form->text('name', '名称')->rules(function ($form){
+					return 'required|unique:tx_sights,name,'.$form->model()->id.',id';
+				});
+				$form->rate('rate','星级')->default(1)->rules('required|min:1,max:5');
+
+				$form->checkbox('categories','类型')->options(Category::where('parent_id',2)->pluck('name','id'));
 
 				// $editor1 = new Editor();
 				$form->textarea('content', '介绍');
@@ -337,9 +378,9 @@ class SightController extends Controller {
 					$form->text('title', '标题');
 					$dir = 'images/' . date('Y') . '/' . date('m') . '/' . date('d');
 					$form->multipleFile('pictureuri', '图片')->removable()->move($dir)->uniqueName();
-					$form->text('description');
+					$form->text('description','描述');
 				});
-			})->tab('景点', function ($form) {
+			})->tab('子类景点', function ($form) {
 				$form->hasMany('spot', '所有景点', function (Form\
 					NestedForm $form) {
 					$form->text('name', '名称');

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Area;
+use App\Models\Sight;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,8 +16,12 @@ class Category extends Model {
 
 	protected $dates = ['deleted_at'];
 
+	// protected $casts = [
+	// 	'category_id' => 'array',
+	// ];
+
 	protected $fillable = [
-		'name', 'parent_id', 'level', 'description',
+		'name', 'parent_id', 'order', 'description',
 	];
 
 	public function scopeParents($query) {
@@ -24,6 +31,11 @@ class Category extends Model {
 	//一对多，多个产品
 	public function products() {
 		return $this->hasMany(Product::class, 'category_id', 'id');
+	}
+
+	//景点分类多对多
+	public function sights(){
+		return $this->belongsToMany(Sight::class, 'category_sight');
 	}
 
 	//一对多
@@ -40,4 +52,14 @@ class Category extends Model {
 	public function allchildcategories() {
 		return $this->childcategory()->with('allchildcategories');
 	}
+
+	//定义修改器访问器
+	// public function getCategoryIdAttribute($value) {
+	// 	return explode(',', $value);
+	// }
+
+	// public function setCategoryIdAttribute($value) {
+	// 	$this->attributes['category_id'] = implode(',', $value);
+	// }	
+
 }

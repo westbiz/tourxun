@@ -10,6 +10,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 
 class CategoryController extends Controller {
 	use ModelForm;
@@ -34,7 +36,29 @@ class CategoryController extends Controller {
 	}
 
 	public function show($id) {
-		return Category::find($id);
+		return Admin::content(function (Content $content) use ($id){
+			$content->header('Post');
+			$content->description('详情');
+
+			$content->body(Admin::show(Category::findOrFail($id), function (Show $show){
+				// $show->id('ID');
+				$show->name('名称');
+				$show->order('排序');
+				$show->description('描述');
+
+				$show->childcategories('所有子类', function($child){
+					$child->resource('/admin/categories');
+					$child->id('ID');
+					$child->name('名称')->editable();
+					$child->description('描述')->editable();
+					$child->order('排序');
+					$child->filter(function($filter){
+						$filter->like('name');
+					});
+				});
+
+			}));
+		});
 	}
 
 	/**
@@ -87,12 +111,25 @@ class CategoryController extends Controller {
 	protected function grid() {
 		return Admin::grid(Category::class, function (Grid $grid) {
 
-			// $grid->model()->withTrashed();
+			$grid->model()->with('sights');
+			$grid->actions(function ($actions) {
+				$c_id = $actions->getKey();
+				$actions->prepend("<a href='categories/create?parent_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			});			
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
+
+			// $grid->column('expand')->expand(function () {
+	  //           if (empty($this->sights)) {
+	  //               return '';
+	  //           }
+	  //           $sights = array_only($this->sights->toArray(), ['name', 'avatar']);
+	  //           return new Table([], $sights);
+	  //       }, 'Sights');			
+
 			// dd($grid->parent('父类'));
 			$grid->parentcategory('归属父类')->display(function ($parentcategory) {
-				return "<span class='label label-warning'>{$parentcategory['name']}</span>";
+				return "<span class='label label-info'>{$parentcategory['name']}</span>";
 			});
 			$grid->parent_id('父类');
 			$grid->description('说明')->limit(30)->editable();
@@ -128,15 +165,28 @@ class CategoryController extends Controller {
 	protected function form() {
 		return Admin::form(Category::class, function (Form $form) {
 
+		$form->tab('基本信息', function ($form) {
+			$p_id = request()->get('parent_id');
 			$form->display('id', 'ID');
 			$cates = collect([0 => '---创建父分类---']);
 			$merged = $cates->merge(Category::all()->pluck('name', 'id'));
-			$form->select('parent_id', '父类')->options($merged);
+			// $cates = Category::all()->pluck('name', 'id');
+
+			$form->select('parent_id', '父类')->options($merged)->value($p_id);			
 
 			$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
-			$nextid = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
-			$form->text('order', '排序')->value($nextid[0]->Auto_increment);
+			$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
+			$form->text('order', '排序')->value($next_id[0]->Auto_increment);
 			$form->textarea('description', '说明')->help('请输入2-50个字符！');
+		})->tab('子分类', function($form){
+			$form->hasMany('childcategories', '子分类', function(Form\NestedForm $form){
+				$form->text('name');
+				$form->text('order');
+				$form->textarea('description');
+			});
+
+		});
+
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
