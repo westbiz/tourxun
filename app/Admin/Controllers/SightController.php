@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Category;
 use App\Models\Sight;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -13,8 +14,6 @@ use Encore\Admin\Grid;
 use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Support\Collection;
-use App\Models\Category;
 
 class SightController extends Controller {
 	use ModelForm;
@@ -47,7 +46,7 @@ class SightController extends Controller {
 				$show->city()->areaName('区域');
 				$show->rate();
 				$show->avatar('图片')->image();
-				$show->categories('类型')->as(function($categories){
+				$show->categories('类型')->as(function ($categories) {
 					return $categories->pluck('name');
 				})->label('info');
 				$show->extra('扩展项')->display(function ($extra) {
@@ -190,7 +189,7 @@ class SightController extends Controller {
 
 			$grid->id('ID');
 			// $pid = $grid->city()->parent_id();
-			$grid->city()->parent_id('区域')->display(function($parent_id){
+			$grid->city()->parent_id('区域')->display(function ($parent_id) {
 				return Area::where('id', $parent_id)->pluck('areaName')->all();
 			})->label();
 			$grid->city()->areaName('所属区域');
@@ -219,7 +218,6 @@ class SightController extends Controller {
 			})->map(function ($path) {
 				return $path[0];
 			})->image('http://tourxun.test/uploads/', 50);
-
 
 			// $grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
 			// 	// return $item[0];
@@ -321,16 +319,15 @@ class SightController extends Controller {
 					$form->text('parent_id', '父级')->value($p_id);
 					$city_id = Sight::find($p_id)->city->id;
 					$form->select('city_id', '区域')->options(
-						Area::where('id',$city_id)->pluck('areaName','id')
+						Area::where('id', $city_id)->pluck('areaName', 'id')
 					)->default($city_id);
 				} elseif ($c_id) {
 					$form->text('parent_id', '父级')->value('-1');
 
 					$form->select('city_id', '区域')->options(
-						Area::where('id',$c_id)->pluck('areaName','id')
+						Area::where('id', $c_id)->pluck('areaName', 'id')
 					)->default($c_id);
-				}
-				 else {
+				} else {
 					$form->text('parent_id', '父级')->value('-1');
 					$form->select('shengqu', '省区')->options(
 						Area::shengqu()->pluck('areaName', 'id')
@@ -341,18 +338,18 @@ class SightController extends Controller {
 					})->load('city_id', '/api/v1/area/district');
 
 					$form->select('city_id', '区县')
-						->rules('required',['required'=>'必要字段不能为空!'])
+						->rules('required', ['required' => '必要字段不能为空!'])
 						->options(function ($id) {
 							return Area::options($id);
-					});
+						});
 				}
 
-				$form->text('name', '名称')->rules(function ($form){
-					return 'required|unique:tx_sights,name,'.$form->model()->id.',id';
+				$form->text('name', '名称')->rules(function ($form) {
+					return 'required|unique:tx_sights,name,' . $form->model()->id . ',id';
 				});
-				$form->rate('rate','星级')->default(1)->rules('required|min:1,max:5');
+				$form->rate('rate', '星级')->default(1)->rules('required|min:1,max:5');
 
-				$form->checkbox('categories','类型')->options(Category::where('parent_id',2)->pluck('name','id'));
+				$form->checkbox('categories', '类型')->options(Category::where('parent_id', 2)->pluck('name', 'id'));
 
 				// $editor1 = new Editor();
 				$form->textarea('content', '介绍');
@@ -378,7 +375,7 @@ class SightController extends Controller {
 					$form->text('title', '标题');
 					$dir = 'images/' . date('Y') . '/' . date('m') . '/' . date('d');
 					$form->multipleFile('pictureuri', '图片')->removable()->move($dir)->uniqueName();
-					$form->text('description','描述');
+					$form->text('description', '描述');
 				});
 			})->tab('子类景点', function ($form) {
 				$form->hasMany('spot', '所有景点', function (Form\
