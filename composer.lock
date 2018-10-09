@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0163b0f7bf67dda38dbc44428b1b5250",
+    "content-hash": "fa429b89175c1fe867dc0ee56e96c3c7",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -538,23 +538,23 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.5.19",
+            "version": "v1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "9841d34ca028cb151c54aa9988bb3f783839fa2a"
+                "reference": "5d6aa672f918df80d012fd8fafb5dd7b191146d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/9841d34ca028cb151c54aa9988bb3f783839fa2a",
-                "reference": "9841d34ca028cb151c54aa9988bb3f783839fa2a",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/5d6aa672f918df80d012fd8fafb5dd7b191146d4",
+                "reference": "5d6aa672f918df80d012fd8fafb5dd7b191146d4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "2.*",
                 "laravel/framework": "~5.5",
                 "php": ">=7.0.0",
-                "symfony/dom-crawler": "~3.1"
+                "symfony/dom-crawler": "~3.1|~4.0"
             },
             "require-dev": {
                 "fzaninotto/faker": "~1.4",
@@ -605,7 +605,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2018-08-22T11:27:57+00:00"
+            "time": "2018-09-20T05:21:42+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -2142,16 +2142,16 @@
         },
         {
             "name": "spatie/fractalistic",
-            "version": "2.7.1",
+            "version": "2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/fractalistic.git",
-                "reference": "83e208ce1e6061aa75d22c4efdab05ccfb99a849"
+                "reference": "5b5710b748beb2c1d5c272f4d3598d44b5b59fc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/83e208ce1e6061aa75d22c4efdab05ccfb99a849",
-                "reference": "83e208ce1e6061aa75d22c4efdab05ccfb99a849",
+                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/5b5710b748beb2c1d5c272f4d3598d44b5b59fc9",
+                "reference": "5b5710b748beb2c1d5c272f4d3598d44b5b59fc9",
                 "shasum": ""
             },
             "require": {
@@ -2189,7 +2189,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2018-01-15T09:17:52+00:00"
+            "time": "2018-10-08T09:18:33+00:00"
         },
         {
             "name": "spatie/laravel-fractal",

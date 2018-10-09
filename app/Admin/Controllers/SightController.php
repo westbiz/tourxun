@@ -349,6 +349,7 @@ class SightController extends Controller {
 				});
 				$form->rate('rate', '星级')->default(1)->rules('required|min:1,max:5');
 
+				//通过categories获取分类表对应类型
 				$form->checkbox('categories', '类型')->options(Category::where('parent_id', 2)->pluck('name', 'id'));
 
 				// $editor1 = new Editor();
