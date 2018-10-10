@@ -154,7 +154,8 @@ class SightController extends Controller {
 			// $grid->disableCreateButton();
 			//关掉批量删除
 			// $grid->expandFilter();
-			$grid->model()->with('pictures:id,pictureuri', 'comments');
+			$grid->model()->with('pictures:id,pictureuri');
+			$grid->model()->with('comments');
 			$grid->filter(function ($filter) {
 				//去掉ID过滤器
 				$filter->disableIdFilter();
@@ -201,10 +202,8 @@ class SightController extends Controller {
 			$grid->city()->areaName('所属区域');
 
 			$grid->name('名称')->editable();
-			$grid->rate();
-			$grid->column('count', '次数')->display(function () {
-				return array_sum(array_column($this->comments, 'count'));
-			});
+			$grid->rate('星级');
+			$grid->comments('次数')->count()->badge();
 
 			$grid->categories('类型')->pluck('name')->label('info');
 
