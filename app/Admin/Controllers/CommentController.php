@@ -2,97 +2,109 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Comment;
-
+use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Show;
 
-class CommentController extends Controller
-{
-    use ModelForm;
+class CommentController extends Controller {
+	use ModelForm;
 
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index()
-    {
-        return Admin::content(function (Content $content) {
+	/**
+	 * Index interface.
+	 *
+	 * @return Content
+	 */
+	public function index() {
+		return Admin::content(function (Content $content) {
 
-            $content->header('header');
-            $content->description('description');
+			$content->header('评论');
+			$content->description('详情');
 
-            $content->body($this->grid());
-        });
-    }
+			$content->body($this->grid());
+		});
+	}
 
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     * @return Content
-     */
-    public function edit($id)
-    {
-        return Admin::content(function (Content $content) use ($id) {
+	public function show($id) {
+		return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
-            $content->description('description');
+			$content->header('评论');
+			$content->description('详情');
 
-            $content->body($this->form()->edit($id));
-        });
-    }
+			$content->body(Admin::show(Comment::findOrFail($id), function (Show $show) {
 
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create()
-    {
-        return Admin::content(function (Content $content) {
+				$show->id('ID');
+				$show->content('内容');
+				$show->pictureuri('图片');
+				$show->release_at();
+			}));
+		});
+	}
 
-            $content->header('header');
-            $content->description('description');
+	/**
+	 * Edit interface.
+	 *
+	 * @param $id
+	 * @return Content
+	 */
+	public function edit($id) {
+		return Admin::content(function (Content $content) use ($id) {
 
-            $content->body($this->form());
-        });
-    }
+			$content->header('评论');
+			$content->description('表单');
 
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        return Admin::grid(Comment::class, function (Grid $grid) {
+			$content->body($this->form()->edit($id));
+		});
+	}
 
-            $grid->id('ID')->sortable();
+	/**
+	 * Create interface.
+	 *
+	 * @return Content
+	 */
+	public function create() {
+		return Admin::content(function (Content $content) {
 
-            $grid->created_at();
-            $grid->updated_at();
-        });
-    }
+			$content->header('评论');
+			$content->description('表单');
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
-    {
-        return Admin::form(Comment::class, function (Form $form) {
+			$content->body($this->form());
+		});
+	}
 
-            $form->display('id', 'ID');
+	/**
+	 * Make a grid builder.
+	 *
+	 * @return Grid
+	 */
+	protected function grid() {
+		return Admin::grid(Comment::class, function (Grid $grid) {
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
-    }
+			$grid->id('ID')->sortable();
+
+			$grid->created_at();
+			$grid->updated_at();
+		});
+	}
+
+	/**
+	 * Make a form builder.
+	 *
+	 * @return Form
+	 */
+	protected function form() {
+		return Admin::form(Comment::class, function (Form $form) {
+
+			$form->display('id', 'ID');
+			$form->text('content');
+			$form->text('pictureuri');
+
+			// $form->display('created_at', 'Created At');
+			// $form->display('updated_at', 'Updated At');
+		});
+	}
 }

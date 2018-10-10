@@ -50,12 +50,14 @@ Route::group([
 	$router->get('city/{city}/sight/{sight}', 'SightController@show');
 	// $router->get('city/{city}/sight/{sight}/edit', 'SightController@edit');
 	// $router->get('sight/{sight}/addChildSight', 'SightController@addchildsight');
-	$router->get('sight/createsight', 'SightController@createsight');
-	$router->resource('sight', 'SightController');
+	$router->get('sights/createsight', 'SightController@createsight');
+	$router->resource('sights', 'SightController');
 
-	$router->resource('picture','PictureController');
+	$router->resource('pictures', 'PictureController');
 
-	$router->resource('picturetype','PicturetypeController');
+	$router->resource('picturetype', 'PicturetypeController');
+
+	$router->resource('comments', 'CommentController');
 
 });
 

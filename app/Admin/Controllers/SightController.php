@@ -80,6 +80,12 @@ class SightController extends Controller {
 					$spot->city_id('区域ID');
 					$spot->summary('概述');
 				});
+				$show->comments('评论', function ($comments) {
+					$comments->resource('/admin/comments');
+					$comments->id();
+					$comments->content();
+					$comments->pictureuri();
+				});
 			}));
 		});
 	}
@@ -148,7 +154,7 @@ class SightController extends Controller {
 			// $grid->disableCreateButton();
 			//关掉批量删除
 			// $grid->expandFilter();
-			$grid->model()->with('pictures:id,pictureuri');
+			$grid->model()->with('pictures:id,pictureuri', 'comments');
 			$grid->filter(function ($filter) {
 				//去掉ID过滤器
 				$filter->disableIdFilter();
@@ -175,7 +181,7 @@ class SightController extends Controller {
 				$s_id = $actions->getKey();
 				$c_id = Sight::where('id', $s_id)->pluck('city_id')->all();
 				// dd($c_id);
-				$actions->prepend("<a href='sight/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='sights/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 				$actions->prepend("<a href='picture/create?sight_id=" . $actions->getKey() . "&type=Sight' title='添加图片'><i class='fa fa-plus'></i></a>&nbsp;");
 			});
 
@@ -196,6 +202,9 @@ class SightController extends Controller {
 
 			$grid->name('名称')->editable();
 			$grid->rate();
+			$grid->column('count', '次数')->display(function () {
+				return array_sum(array_column($this->comments, 'count'));
+			});
 
 			$grid->categories('类型')->pluck('name')->label('info');
 
@@ -207,7 +216,7 @@ class SightController extends Controller {
 			})->badge();
 			$grid->spot('所有景点')->display(function ($sights) {
 				$sights = array_map(function ($sight) {
-					return "<a href='sight/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
+					return "<a href='sights/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
 				}, $sights);
 				return join('&nbsp;', $sights);
 			});

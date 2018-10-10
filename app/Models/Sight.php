@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Models\Area;
-use App\Models\Sight;
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 
 class Sight extends Model {
@@ -16,7 +17,7 @@ class Sight extends Model {
 	];
 
 	protected $fillable = [
-		'name', 'rate', 'avatar','extra', 'city_id', 'parent_id', 'summary', 'content',
+		'name', 'rate', 'avatar', 'extra', 'city_id', 'parent_id', 'summary', 'content',
 	];
 
 	//多态关联，图片
@@ -39,10 +40,14 @@ class Sight extends Model {
 		return $this->hasMany(Sight::class, 'parent_id', 'id');
 	}
 
-
 	//景点分类 多对多，逆向
 	public function categories() {
 		return $this->belongsToMany(Category::class, 'category_sight', 'sight_id', 'category_id');
+	}
+
+	//评论
+	public function comments() {
+		return $this->morphMany(Comment::class, 'commentable');
 	}
 
 	//设置图片json属性
