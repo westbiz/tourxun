@@ -171,8 +171,10 @@ return [
 
 
 		'star-rating' => [
+			// set to false if you want to disable this extension
 			'enable' => true,
 
+			// configuration
 			'config' => [
 				'min' => 1, 'max' => 5, 'size' => 'xs'
 			]

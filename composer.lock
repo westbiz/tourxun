@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa429b89175c1fe867dc0ee56e96c3c7",
+    "content-hash": "051738db1464a80d73b24d8d476d9098",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -927,6 +927,58 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "jxlwqq/star-rating",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/star-rating.git",
+                "reference": "169899729833035587a2a599366bde293179b53e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/star-rating/zipball/169899729833035587a2a599366bde293179b53e",
+                "reference": "169899729833035587a2a599366bde293179b53e",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jxlwqq\\StarRating\\StarRatingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jxlwqq\\StarRating\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jxlwqq",
+                    "email": "jxlwqq@gmail.com"
+                }
+            ],
+            "description": "Star Rating extension for laravel-admin.",
+            "homepage": "https://github.com/jxlwqq/star-rating",
+            "keywords": [
+                "extension",
+                "laravel-admin"
+            ],
+            "time": "2018-09-12T10:20:07+00:00"
         },
         {
             "name": "laravel-admin-ext/api-tester",

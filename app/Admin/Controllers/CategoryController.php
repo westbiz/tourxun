@@ -57,6 +57,14 @@ class CategoryController extends Controller {
 					});
 				});
 
+				$show->sights('景区', function($sight){
+					$sight->resource('/admin/sights');
+					$sight->id();
+					$sight->name();
+					$sight->avatar()->file();
+					$sight->rate();
+				});
+
 			}));
 		});
 	}

@@ -52,7 +52,6 @@ class SightController extends Controller {
 				$show->extra('扩展项')->display(function ($extra) {
 					return "<span>{$extra}</span>";
 				})->badge();
-				$show->rate();
 				$show->summary('概况');
 				$show->content('内容');
 				//多态关联图片
@@ -355,7 +354,7 @@ class SightController extends Controller {
 				$form->text('name', '名称')->rules(function ($form) {
 					return 'required|unique:tx_sights,name,' . $form->model()->id . ',id';
 				});
-				$form->rate('rate', '星级')->default(1)->rules('required|min:1,max:5');
+				$form->starRating('rate', '星级');
 
 				//通过categories获取分类表对应类型
 				$form->checkbox('categories', '类型')->options(Category::where('parent_id', 2)->pluck('name', 'id'));
