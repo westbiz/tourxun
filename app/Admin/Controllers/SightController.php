@@ -201,7 +201,7 @@ class SightController extends Controller {
 			})->label();
 			$grid->city()->areaName('所属区域');
 
-			$grid->name('名称')->editable();
+			$grid->name('点评')->editable();
 			$grid->rate('星级');
 			$grid->comments('次数')->count()->badge();
 

@@ -85,6 +85,8 @@ class CommentController extends Controller {
 		return Admin::grid(Comment::class, function (Grid $grid) {
 
 			$grid->id('ID')->sortable();
+			$grid->content('内容');
+			$grid->pictureuri('图片');
 
 			$grid->created_at();
 			$grid->updated_at();

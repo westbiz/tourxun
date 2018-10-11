@@ -39,13 +39,19 @@ class ProductController extends Controller {
 				$show->name('名称');
 				$show->avatar('图片')->image();
 				$show->summary('概况');
-				$show->content('内容');
-
+				// $show->content('内容')->as(function ($content) {
+				// 	return "<pre>{$content}</pre>";
+				// });
+				$show->prices('价格', function ($price) {
+					$price->id('ID');
+					$price->price('价格');
+					$price->departure('出发日期');
+					$price->remark('备注');
+				});
 
 			}));
 		});
 	}
-
 
 	/**
 	 * Edit interface.
