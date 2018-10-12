@@ -207,7 +207,7 @@ class SightController extends Controller {
 			$grid->categories('类型')->pluck('name')->label('info');
 
 			// dd($grid->avatar('图片'));
-			$grid->avatar('图片')->image('http://tourxun.test/uploads/', 50, 50);
+			$grid->avatar('图片')->lightbox(['http://tourxun.test/uploads/', 'width' => 50, 'height' => 50, 'zooming' => true]);
 			// $grid->extra();
 			$grid->extra('门票')->display(function ($extra) {
 				return "<span>{$extra['price']}</span>";
@@ -354,14 +354,20 @@ class SightController extends Controller {
 				$form->text('name', '名称')->rules(function ($form) {
 					return 'required|unique:tx_sights,name,' . $form->model()->id . ',id';
 				});
-				$form->starRating('rate', '星级');
+				// if (request()->isMethod('POST')) {
+				// 		return 'required|unique:tx_sights,name,';
+				// 	}
+				// 	if (request()->isMethod('PUT')) {
+				// 		return 'required';
+				// 	}
+				$form->rate('rate', '星级');
 
 				//通过categories获取分类表对应类型
 				$form->checkbox('categories', '类型')->options(Category::where('parent_id', 2)->pluck('name', 'id'));
 
 				// $editor1 = new Editor();
 				$form->textarea('content', '介绍');
-				$form->image('avatar', '图片');
+				$form->cropper('avatar', '图片');
 				// $form->multipleImage('pictureuri', '图片')->removable();
 				$form->text('summary', '概述');
 
