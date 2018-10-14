@@ -61,11 +61,11 @@ class CityController extends Controller {
 				//一对多，多个景点
 				//如果是父节点，不添加
 				$show->sights('景点', function ($sights) {
-					$sights->resource('/admin/sight');
+					$sights->resource('/admin/sights');
 
 					$sights->id('ID');
 					$sights->name('名称');
-					$sights->city_id('区域名');
+					$sights->city()->areaName('所属区域');
 					$sights->pictures()->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 				});
 

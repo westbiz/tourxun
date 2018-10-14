@@ -54,9 +54,17 @@ class SightController extends Controller {
 				})->badge();
 				$show->summary('概况');
 				$show->content('内容');
+				//所有景点
+				$show->spot('所有景点', function ($spot) {
+					$spot->resource('/admin/sight');
+					$spot->id();
+					$spot->name('名称');
+					$spot->city_id('区域ID');
+					$spot->summary('概述');
+				});				
 				//多态关联图片
 				$show->pictures('多态_图片', function ($pictures) {
-					$pictures->resource('/admin/picture');
+					$pictures->resource('/admin/pictures');
 					$pictures->id('ID');
 					$pictures->title('标题');
 					$pictures->pictureuri('多态图片')->image();
@@ -68,17 +76,11 @@ class SightController extends Controller {
 					//添加自定义按钮
 					$pictures->tools(function ($tools) {
 						$sid = request()->route()->parameters('sight');
-						$tools->append("<a href='/admin/picture/create?sight_id={$sid['sight']}&type=Sight' class='btn btn-default'>添加图片</a>");
+						$tools->append("<a href='/admin/pictures/create?sight_id={$sid['sight']}&type=Sight' class='btn btn-default'>添加图片</a>");
 					});
 
 				});
-				$show->spot('所有景点', function ($spot) {
-					$spot->resource('/admin/sight');
-					$spot->id();
-					$spot->name('名称');
-					$spot->city_id('区域ID');
-					$spot->summary('概述');
-				});
+
 				$show->comments('评论', function ($comments) {
 					$comments->resource('/admin/comments');
 					$comments->id();
@@ -182,7 +184,7 @@ class SightController extends Controller {
 				$c_id = Sight::where('id', $s_id)->pluck('city_id')->all();
 				// dd($c_id);
 				$actions->prepend("<a href='sights/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
-				$actions->prepend("<a href='picture/create?sight_id=" . $actions->getKey() . "&type=Sight' title='添加图片'><i class='fa fa-plus'></i></a>&nbsp;");
+				$actions->prepend("<a href='pictures/create?sight_id=" . $actions->getKey() . "&type=Sight' title='添加图片'><i class='fa fa-plus'></i></a>&nbsp;");
 			});
 
 			//修改源数据
@@ -194,37 +196,29 @@ class SightController extends Controller {
 			});
 
 			$grid->id('ID');
+			$grid->name('名称')->editable();
+			$grid->avatar('图片')->lightbox(['http://tourxun.test/uploads/', 'width' => 50, 'height' => 50, 'zooming' => true]);				
 			// $pid = $grid->city()->parent_id();
-			$grid->city()->parent_id('区域')->display(function ($parent_id) {
+			$grid->city()->parent_id('地区')->display(function ($parent_id) {
 				return Area::where('id', $parent_id)->pluck('areaName')->all();
 			})->label();
 			$grid->city()->areaName('所属区域');
 
-			$grid->name('点评')->editable();
 			$grid->rate('星级');
-			$grid->comments('次数')->count()->badge();
+			$grid->comments('点评')->count()->badge();
 
 			$grid->categories('类型')->pluck('name')->label('info');
 
-			// dd($grid->avatar('图片'));
-			$grid->avatar('图片')->lightbox(['http://tourxun.test/uploads/', 'width' => 50, 'height' => 50, 'zooming' => true]);
-			// $grid->extra();
 			$grid->extra('门票')->display(function ($extra) {
 				return "<span>{$extra['price']}</span>";
 			})->badge();
-			$grid->spot('所有景点')->display(function ($sights) {
-				$sights = array_map(function ($sight) {
-					return "<a href='sights/{$sight['id']}'><span class='label label-info'>{$sight['name']}</span></a>";
-				}, $sights);
-				return join('&nbsp;', $sights);
-			});
-			// $grid->spot('所有景点')->pluck('name')->label();
+			$grid->spot('景点数')->count();
 
-			$grid->pictures('多图')->pluck('pictureuri')->display(function ($pictureuri) {
-				return json_decode($pictureuri, true);
-			})->map(function ($path) {
-				return $path[0];
-			})->image('http://tourxun.test/uploads/', 50);
+			// $grid->pictures('多图')->pluck('pictureuri')->display(function ($pictureuri) {
+			// 	return json_decode($pictureuri, true);
+			// })->map(function ($path) {
+			// 	return $path[0];
+			// })->image('http://tourxun.test/uploads/', 50);
 
 			// $grid->pictures()->pluck('pictureuri')->map(function ($item, $key) {
 			// 	// return $item[0];
@@ -232,7 +226,7 @@ class SightController extends Controller {
 			// })->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->pictures()->pluck('pictureuri')->image('http://tourxun.test/uploads/', 50, 50);
 
-			$grid->summary('概况');
+			$grid->summary('概况')->limit(30);
 			// $grid->content('内容');
 
 			// $grid->created_at();
@@ -352,7 +346,7 @@ class SightController extends Controller {
 				}
 
 				$form->text('name', '名称')->rules(function ($form) {
-					return 'required|unique:tx_sights,name,' . $form->model()->id . ',id';
+					return 'required|min:3|unique:tx_sights,name,' . $form->model()->id . ',id';
 				});
 				// if (request()->isMethod('POST')) {
 				// 		return 'required|unique:tx_sights,name,';
@@ -366,7 +360,7 @@ class SightController extends Controller {
 				$form->checkbox('categories', '类型')->options(Category::where('parent_id', 2)->pluck('name', 'id'));
 
 				// $editor1 = new Editor();
-				$form->textarea('content', '介绍');
+				$form->editor('content', '介绍');
 				$form->cropper('avatar', '图片');
 				// $form->multipleImage('pictureuri', '图片')->removable();
 				$form->text('summary', '概述');
@@ -378,7 +372,7 @@ class SightController extends Controller {
 
 			})->tab('扩展属性', function ($form) {
 				$form->embeds('extra', '扩展项目', function ($form) {
-					$form->text('price', '门票价格');
+					$form->currency('price', '门票价格')->symbol('￥');
 					$form->text('opentime', '开放时间');
 					$form->textarea('offer', '优惠信息');
 					$form->text('traffic', '交通');

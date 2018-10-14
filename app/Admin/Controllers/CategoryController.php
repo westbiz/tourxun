@@ -61,7 +61,7 @@ class CategoryController extends Controller {
 					$sight->resource('/admin/sights');
 					$sight->id();
 					$sight->name();
-					$sight->avatar()->file();
+					$sight->avatar()->lightbox();
 					$sight->rate();
 				});
 
