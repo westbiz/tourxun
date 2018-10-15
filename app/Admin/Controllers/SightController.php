@@ -56,10 +56,10 @@ class SightController extends Controller {
 				$show->content('内容');
 				//所有景点
 				$show->spot('所有景点', function ($spot) {
-					$spot->resource('/admin/sight');
+					$spot->resource('/admin/sights');
 					$spot->id();
 					$spot->name('名称');
-					$spot->city_id('区域ID');
+					$spot->city()->areaName('区域');
 					$spot->summary('概述');
 				});				
 				//多态关联图片
@@ -346,7 +346,7 @@ class SightController extends Controller {
 				}
 
 				$form->text('name', '名称')->rules(function ($form) {
-					return 'required|min:3|unique:tx_sights,name,' . $form->model()->id . ',id';
+					return 'required|min:2|unique:tx_sights,name,' . $form->model()->id . ',id';
 				});
 				// if (request()->isMethod('POST')) {
 				// 		return 'required|unique:tx_sights,name,';
