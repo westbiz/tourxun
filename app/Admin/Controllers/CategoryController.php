@@ -140,6 +140,7 @@ class CategoryController extends Controller {
 				return "<span class='label label-info'>{$parentcategory['name']}</span>";
 			});
 			$grid->parent_id('父类');
+			$grid->childcategories('子类')->count();
 			$grid->description('说明')->limit(30)->editable();
 			$grid->order('排序');
 
