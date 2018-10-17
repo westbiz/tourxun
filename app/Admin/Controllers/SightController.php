@@ -4,8 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
-use App\Models\Category;
 use App\Models\Sight;
+use App\Models\Sighttype;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -61,7 +61,7 @@ class SightController extends Controller {
 					$spot->name('名称');
 					$spot->city()->areaName('区域');
 					$spot->summary('概述');
-				});				
+				});
 				//多态关联图片
 				$show->pictures('多态_图片', function ($pictures) {
 					$pictures->resource('/admin/pictures');
@@ -197,7 +197,7 @@ class SightController extends Controller {
 
 			$grid->id('ID');
 			$grid->name('名称')->editable();
-			$grid->avatar('图片')->lightbox(['http://tourxun.test/uploads/', 'width' => 50, 'height' => 50, 'zooming' => true]);				
+			$grid->avatar('图片')->lightbox(['http://tourxun.test/uploads/', 'width' => 50, 'height' => 50, 'zooming' => true]);
 			// $pid = $grid->city()->parent_id();
 			$grid->city()->parent_id('地区')->display(function ($parent_id) {
 				return Area::where('id', $parent_id)->pluck('areaName')->all();
@@ -357,7 +357,7 @@ class SightController extends Controller {
 				$form->rate('rate', '星级');
 
 				//通过categories获取分类表对应类型
-				$form->checkbox('categories', '类型')->options(Category::where('parent_id', 2)->pluck('name', 'id'));
+				$form->checkbox('sighttype', '类型')->options(Sighttype::all()->pluck('name', 'id'));
 
 				// $editor1 = new Editor();
 				$form->editor('content', '介绍');

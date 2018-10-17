@@ -45,6 +45,11 @@ class Sight extends Model {
 		return $this->belongsToMany(Category::class, 'category_sight', 'sight_id', 'category_id');
 	}
 
+	//景点分类多对多
+	public function sighttype() {
+		return $this->belongsToMany(Sighttype::class, 'sight_sighttype', 'sight_id', 'type_id');
+	}
+
 	//评论
 	public function comments() {
 		return $this->morphMany(Comment::class, 'commentable');

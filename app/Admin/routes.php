@@ -53,7 +53,7 @@ Route::group([
 	$router->get('sights/createsight', 'SightController@createsight');
 	$router->resource('sights', 'SightController');
 
-	$router->resource('sighttype','SighttypeController');
+	$router->resource('sighttypes', 'SighttypeController');
 
 	$router->resource('pictures', 'PictureController');
 

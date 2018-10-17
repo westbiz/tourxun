@@ -22,8 +22,8 @@ class SighttypeController extends Controller {
 	 */
 	public function index(Content $content) {
 		return $content
-			->header('Index')
-			->description('description')
+			->header('列表')
+			->description('详细')
 			->body($this->grid());
 	}
 
@@ -36,8 +36,8 @@ class SighttypeController extends Controller {
 	 */
 	public function show($id, Content $content) {
 		return $content
-			->header('Detail')
-			->description('description')
+			->header('概览')
+			->description('详细')
 			->body($this->detail($id));
 	}
 
@@ -50,8 +50,8 @@ class SighttypeController extends Controller {
 	 */
 	public function edit($id, Content $content) {
 		return $content
-			->header('Edit')
-			->description('description')
+			->header('更新')
+			->description('表单')
 			->body($this->form()->edit($id));
 	}
 
@@ -63,8 +63,8 @@ class SighttypeController extends Controller {
 	 */
 	public function create(Content $content) {
 		return $content
-			->header('Create')
-			->description('description')
+			->header('新增')
+			->description('表单')
 			->body($this->form());
 	}
 
@@ -75,6 +75,10 @@ class SighttypeController extends Controller {
 	 */
 	protected function grid() {
 		$grid = new Grid(new Sighttype);
+		$grid->actions(function ($actions) {
+			$p_id = $actions->getKey();
+			$actions->prepend("<a href='sighttypes/create?parent_id=" . $p_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+		});
 
 		$grid->id('ID');
 		$grid->name('名称')->editable();
@@ -107,8 +111,8 @@ class SighttypeController extends Controller {
 		// dd($show->parent_id());
 
 		$show->order('排序');
-		$show->created_at('Created at');
-		$show->updated_at('Updated at');
+		// $show->created_at('Created at');
+		// $show->updated_at('Updated at');
 
 		return $show;
 	}

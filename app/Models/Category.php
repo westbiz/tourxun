@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Area;
-use App\Models\Sight;
 use App\Models\Category;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -34,7 +33,7 @@ class Category extends Model {
 	}
 
 	//景点分类多对多
-	public function sights(){
+	public function sights() {
 		return $this->belongsToMany(Sight::class, 'category_sight');
 	}
 
@@ -60,6 +59,6 @@ class Category extends Model {
 
 	// public function setCategoryIdAttribute($value) {
 	// 	$this->attributes['category_id'] = implode(',', $value);
-	// }	
+	// }
 
 }
