@@ -86,6 +86,7 @@ class SighttypeController extends Controller {
 		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		// });
 		$grid->parent_id('父类');
+		$grid->childtypes()->count()->badge();
 		$grid->description('说明')->limit(30)->editable();
 		$grid->order('排序');
 		// $grid->created_at('Created at');
@@ -113,6 +114,14 @@ class SighttypeController extends Controller {
 		$show->order('排序');
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
+
+		$show->childtypes('子类', function($childtype){
+			$childtype->resource('/admin/sighttypes');
+			$childtype->id('ID');
+			$childtype->name('名称');
+			$childtype->childtypes('子类数')->count();
+			$childtype->description('描述');
+		});
 
 		return $show;
 	}

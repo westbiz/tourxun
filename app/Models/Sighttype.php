@@ -17,12 +17,12 @@ class Sighttype extends Model {
 	}
 
 	//一对多父类
-	public function parenttype() {
+	public function childtypes() {
 		return $this->hasMany(Sighttype::class, 'parent_id', 'id');
 	}
 
 	//一对多逆向
-	public function childrentypes() {
+	public function parenttype() {
 		return $this->belongsTo(Sighttype::class, 'parent_id', 'id');
 	}
 
