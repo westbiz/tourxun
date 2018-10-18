@@ -357,7 +357,7 @@ class SightController extends Controller {
 				$form->rate('rate', '星级');
 
 				//通过categories获取分类表对应类型
-				$form->checkbox('sighttype', '类型')->options(Sighttype::all()->pluck('name', 'id'));
+				$form->checkbox('sighttype', '类型')->options(Sighttype::where('parent_id', '1')->pluck('name', 'id'));
 
 				// $editor1 = new Editor();
 				$form->editor('content', '介绍');
