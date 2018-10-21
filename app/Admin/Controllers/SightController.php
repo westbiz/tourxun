@@ -205,6 +205,7 @@ class SightController extends Controller {
 			$grid->city()->areaName('所属区域');
 
 			$grid->rate('星级');
+			$grid->grade('等级');
 			$grid->comments('点评')->count()->badge();
 
 			$grid->categories('类型')->pluck('name')->label('info');
@@ -355,6 +356,7 @@ class SightController extends Controller {
 				// 		return 'required';
 				// 	}
 				$form->rate('rate', '星级');
+				$form->text('grade','级别')->help('1A-5A');
 
 				//通过categories获取分类表对应类型
 				$form->checkbox('sighttype', '类型')->options(Sighttype::where('parent_id', '1')->pluck('name', 'id'));
@@ -374,6 +376,7 @@ class SightController extends Controller {
 				$form->embeds('extra', '扩展项目', function ($form) {
 					$form->currency('price', '门票价格')->symbol('￥');
 					$form->text('opentime', '开放时间');
+					$form->text('grade','级别')->help('1A-5A');
 					$form->textarea('offer', '优惠信息');
 					$form->text('traffic', '交通');
 					$form->image('pic', '图片')->removable();

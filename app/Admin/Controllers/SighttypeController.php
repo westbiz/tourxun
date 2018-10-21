@@ -85,8 +85,8 @@ class SighttypeController extends Controller {
 		// $grid->parentcategory('归属父类')->display(function ($parentcategory) {
 		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		// });
-		$grid->parent_id('父类');
-		$grid->childtypes()->count()->badge();
+		$grid->parent_id('父ID');
+		$grid->childtypes('子类')->count()->badge();
 		$grid->description('说明')->limit(30)->editable();
 		$grid->order('排序');
 		// $grid->created_at('Created at');
