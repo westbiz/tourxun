@@ -122,6 +122,10 @@ class SighttypeController extends Controller {
 			$childtype->childtypes('子类数')->count();
 			$childtype->description('描述');
 		});
+		$show->sights('', function($sights){
+			$sights->resource('/admin/sights');
+			$sights->name('名称');
+		});
 
 		return $show;
 	}
