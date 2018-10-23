@@ -400,6 +400,10 @@ class SightController extends Controller {
 
 				});
 			});
+		$form->footer(function($footer){
+			$footer->disableEditingCheck();
+		});
+			
 
 		});
 	}

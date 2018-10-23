@@ -150,6 +150,11 @@ class SighttypeController extends Controller {
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
+		$form->footer(function($footer){
+			$footer->disableEditingCheck();
+		});
+		
+
 		return $form;
 	}
 }
