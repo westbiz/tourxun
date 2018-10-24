@@ -147,7 +147,7 @@ class CategoryController extends Controller {
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
 				$filter->between('created_at', 'Created Time')->datetime();
-				$filter->equal('name')->select('/api/v1/categories');
+				$filter->equal('name')->select('/api/v1/categories/all');
 			});
 
 			//自定义action
