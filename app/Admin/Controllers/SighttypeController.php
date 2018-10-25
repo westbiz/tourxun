@@ -82,9 +82,9 @@ class SighttypeController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('名称')->editable();
-		// $grid->parentcategory('归属父类')->display(function ($parentcategory) {
-		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
-		// });
+		$grid->parenttype('归属父类')->display(function ($parenttype) {
+			return "<span class='label label-info'>{$parenttype['name']}</span>";
+		});
 		$grid->parent_id('父ID');
 		$grid->childtypes('子类')->count()->badge();
 		$grid->description('说明')->limit(30)->editable();
@@ -115,14 +115,14 @@ class SighttypeController extends Controller {
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
 
-		$show->childtypes('子类', function($childtype){
+		$show->childtypes('子类', function ($childtype) {
 			$childtype->resource('/admin/sighttypes');
 			$childtype->id('ID');
 			$childtype->name('名称');
 			$childtype->childtypes('子类数')->count();
 			$childtype->description('描述');
 		});
-		$show->sights('', function($sights){
+		$show->sights('', function ($sights) {
 			$sights->resource('/admin/sights');
 			$sights->name('名称');
 		});
@@ -150,10 +150,9 @@ class SighttypeController extends Controller {
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
-		$form->footer(function($footer){
+		$form->footer(function ($footer) {
 			$footer->disableEditingCheck();
 		});
-		
 
 		return $form;
 	}
