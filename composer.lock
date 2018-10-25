@@ -538,16 +538,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.6.5",
+            "version": "v1.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "01c6dea115da521782aa5bab939227b4fe17ce2d"
+                "reference": "d4950856fe59be95e7d5f9cfeaad1da3f7320cbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/01c6dea115da521782aa5bab939227b4fe17ce2d",
-                "reference": "01c6dea115da521782aa5bab939227b4fe17ce2d",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/d4950856fe59be95e7d5f9cfeaad1da3f7320cbc",
+                "reference": "d4950856fe59be95e7d5f9cfeaad1da3f7320cbc",
                 "shasum": ""
             },
             "require": {
@@ -605,7 +605,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2018-10-18T02:28:39+00:00"
+            "time": "2018-10-25T09:02:19+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1146,16 +1146,16 @@
         },
         {
             "name": "laravel-admin-ext/helpers",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/helpers.git",
-                "reference": "c8cd4329702dfa865bac3cd7223e408d63fadcc5"
+                "reference": "67b2573029f90ca1873e1598a2d46ae8d9acca66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/c8cd4329702dfa865bac3cd7223e408d63fadcc5",
-                "reference": "c8cd4329702dfa865bac3cd7223e408d63fadcc5",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/67b2573029f90ca1873e1598a2d46ae8d9acca66",
+                "reference": "67b2573029f90ca1873e1598a2d46ae8d9acca66",
                 "shasum": ""
             },
             "require": {
@@ -1194,7 +1194,7 @@
                 "helpers",
                 "laravel-admin"
             ],
-            "time": "2018-09-16T10:35:40+00:00"
+            "time": "2018-10-24T15:21:11+00:00"
         },
         {
             "name": "laravel-admin-ext/media-manager",
