@@ -61,4 +61,14 @@ class Category extends Model {
 	// 	$this->attributes['category_id'] = implode(',', $value);
 	// }
 
+	//设置select默认值
+	// public static function getSelectOptions() {
+	// 	$options = Category::select('id', 'name as text')->get();
+	// 	$selectOption = [];
+	// 	foreach ($options as $option) {
+	// 		$selectOption[$option->id] = $option->text;
+	// 	}
+	// 	return $selectOption;
+	// }
+
 }
