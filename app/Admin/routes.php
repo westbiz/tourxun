@@ -61,6 +61,8 @@ Route::group([
 
 	$router->resource('comments', 'CommentController');
 
+	$router->resource('catattrs','CatattrController');
+
 });
 
 //子域名路由

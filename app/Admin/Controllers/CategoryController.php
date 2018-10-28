@@ -57,6 +57,12 @@ class CategoryController extends Controller {
 					});
 				});
 
+				$show->attrvalues('属性', function($attrvalues){
+					$attrvalues->resource('/admin/attrvalues');
+					$attrvalues->catattr()->name();
+					$attrvalues->attrvalue();
+				});
+
 				$show->sights('景区', function ($sight) {
 					$sight->resource('/admin/sights');
 					$sight->id();
@@ -120,6 +126,7 @@ class CategoryController extends Controller {
 		return Admin::grid(Category::class, function (Grid $grid) {
 
 			$grid->model()->with('sights');
+			// $grid->model()->with('attrvalues');
 			$grid->actions(function ($actions) {
 				$c_id = $actions->getKey();
 				$actions->prepend("<a href='categories/create?parent_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
@@ -143,6 +150,8 @@ class CategoryController extends Controller {
 			$grid->childcategories('子类')->count();
 			$grid->description('说明')->limit(30)->editable();
 			$grid->order('排序');
+
+			$grid->attrvalues()->attrvalue();
 
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
