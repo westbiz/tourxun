@@ -98,7 +98,7 @@ class ProductController extends Controller {
 
 			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			// $grid->pictures()->pictureuri()->image('localhost/uploads/', 50, 50);
-			$grid->category('分类')->name();
+			$grid->category()->name('分类');
 			$grid->day('天数');
 			$grid->night('晚数');
 			$grid->hotel('酒店');
@@ -195,7 +195,7 @@ class ProductController extends Controller {
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
-			$form->number('hotel', '酒店星级')->min(3)->max(5)->default(3);
+			$form->number('hotel', '酒店星级')->min(0)->max(5)->default(3);
 
 			// $form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
 			$form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
