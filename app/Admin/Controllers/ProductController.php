@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Attrvalue;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -206,7 +207,7 @@ class ProductController extends Controller {
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');
 
-			$form->checkbox('catattr', '属性')->options(Catattr::where('category_id', '29')->with('attrvalue')->pluck('name', 'id'));
+			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->with('attrvalues')->pluck('name', 'id'));
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');
