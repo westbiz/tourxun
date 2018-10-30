@@ -2,6 +2,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Product;
 use Encore\Admin\Controllers\ModelForm;
@@ -204,6 +205,8 @@ class ProductController extends Controller {
 			$form->switch('active', '激活？');
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');
+
+			$form->checkbox('catattr', '属性')->options(Catattr::where('category_id', '29')->with('attrvalue')->pluck('name', 'id'));
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Category;
-use App\Models\Sight;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
+use App\Models\Category;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -54,18 +54,16 @@ class Category extends Model {
 		return $this->childcategory()->with('allchildcategories');
 	}
 
-
-
-
-
-	//属性值远层一对多
-	public function attrvalues()
-	{
-		return $this->hasManyThrough(Attrvalue::class, Catattr::class,
-			 'category_id', 'catattr_id', 'id', 'id');
+	//多个属性
+	public function catattrs() {
+		return $this->hasMany(Catattr::class);
 	}
 
-
+	//属性值远层一对多
+	public function attrvalues() {
+		return $this->hasManyThrough(Attrvalue::class, Catattr::class,
+			'category_id', 'catattr_id', 'id', 'id');
+	}
 
 	//定义修改器访问器
 	// public function getCategoryIdAttribute($value) {
