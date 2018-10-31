@@ -18,7 +18,7 @@ class Catattr extends Model {
 
 	//所属分类
 	public function category() {
-		return $this->belongsTo(Category::class, 'category_id', 'id');
+		return $this->belongsTo(Category::class, 'category_id', 'id')->withPivot('name');
 	}
 
 	//父子一对多
