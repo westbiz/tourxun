@@ -6,7 +6,7 @@ use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Attrvalue;
+// use App\Models\Attrvalue;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -208,13 +208,11 @@ class ProductController extends Controller {
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');
 
-<<<<<<< HEAD
 			$cate = Catattr::all()->pluck('name', 'id');
 			// dd($cate);
 			$form->checkbox('catattr', $cate[1])->options(Attrvalue::where('catattr_id', 2)->pluck('attrvalue', 'id'));
-=======
+
 			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->with('attrvalues')->pluck('name', 'id'));
->>>>>>> 368472d156f23b78bcd394e31d63caf4a49db57b
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');
