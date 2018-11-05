@@ -210,9 +210,13 @@ class ProductController extends Controller {
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');
 
-			$cate = Catattr::all()->pluck('name', 'id');
-			// dd($cate);
-			$form->checkbox('catattr', $cate[1])->options(Attrvalue::where('catattr_id', 2)->pluck('attrvalue', 'id'));
+			$cates = Catattr::all()->pluck('name', 'id', 'inputtype');
+			// dd($cates);
+			foreach ($cates as $id => $cate) {
+				$form->checkbox('catattr', $cate)->options(Attrvalue::where('catattr_id', $id)->pluck('attrvalue', 'id'));
+			}
+			
+
 
 			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->pluck('name', 'id'));
 

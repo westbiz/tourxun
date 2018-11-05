@@ -79,7 +79,7 @@ class CatattrController extends Controller {
 		$grid->name('属性名称');
 		$grid->note('说明');
 		$grid->category()->name('分类');
-		$grid->parent_id('父ID');
+		$grid->product_id('父ID');
 		$grid->fieldname('列名');
 		$grid->displayname('显示名');
 		$grid->isrequired('必填');
@@ -117,7 +117,7 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->select('parent_id', '父类')->options(Catattr::all()->pluck('name', 'id'));
+		$form->select('product_id', '商品')->options(Catattr::all()->pluck('name', 'id')->prepend('选择商品', 0));
 		$form->text('name', '属性名称');
 		$form->text('fieldname', '列名');
 		$form->text('note', '说明');
