@@ -40,7 +40,9 @@ class ProductController extends Controller {
 			$content->body(Admin::show(Product::findOrFail($id), function (Show $show) {
 
 				$show->name('名称');
-				$show->avatar('图片')->image();
+				$show->avatar('图片')->unescape()->as(function ($avatar) {
+					return "<img src='http://tourxun.test/uploads/{$avatar}'>";
+				});
 				$show->summary('概况');
 				// $show->content('内容')->as(function ($content) {
 				// 	return "<pre>{$content}</pre>";
@@ -212,7 +214,7 @@ class ProductController extends Controller {
 			// dd($cate);
 			$form->checkbox('catattr', $cate[1])->options(Attrvalue::where('catattr_id', 2)->pluck('attrvalue', 'id'));
 
-			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->with('attrvalues')->pluck('name', 'id'));
+			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->pluck('name', 'id'));
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');

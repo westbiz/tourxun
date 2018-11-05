@@ -21,6 +21,12 @@ class Catattr extends Model {
 		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
 
+	//
+	//商品反向
+	public function product() {
+		return $this->belongsTo(Product::class, 'product_id', 'id');
+	}
+
 	//父子一对多
 	public function childcatattr() {
 		return $this->hasMany(Catattr::class, 'parent_id', 'id');

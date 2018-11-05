@@ -32,14 +32,10 @@ class Product extends Model {
 		return $this->belongsToMany(Attrvalue::class, 'product_values');
 	}
 
-
-
 	//多个属性
-	// public function catattrs()
-	// {
-	// 	return $this->hasMany(Catattr::class, '');
-	// }
-
+	public function catattrs() {
+		return $this->hasMany(Catattr::class, 'product_id', 'id');
+	}
 
 	//价格一对多
 	public function prices() {
