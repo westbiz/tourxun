@@ -77,15 +77,16 @@ class CatattrController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('属性名称');
+		$grid->fieldname('列名');
 		$grid->note('说明');
 		$grid->category()->name('分类');
+		$grid->attrvalues()->pluck('attrvalue', 'id')->label();
 		$grid->product_id('父ID');
-		$grid->fieldname('列名');
+
 		$grid->displayname('显示名');
 		$grid->isrequired('必填');
 		$grid->inputtype('控件');
 
-		$grid->attrvalues()->pluck('attrvalue', 'id')->label();
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 

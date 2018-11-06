@@ -213,10 +213,8 @@ class ProductController extends Controller {
 			$cates = Catattr::all()->pluck('name', 'id', 'inputtype');
 			// dd($cates);
 			foreach ($cates as $id => $cate) {
-				$form->checkbox('catattr', $cate)->options(Attrvalue::where('catattr_id', $id)->pluck('attrvalue', 'id'));
+				$form->checkbox('attrvalue', $cate)->options(Attrvalue::where('catattr_id', $id)->pluck('attrvalue', 'id'));
 			}
-			
-
 
 			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->pluck('name', 'id'));
 
