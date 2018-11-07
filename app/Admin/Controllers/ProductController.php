@@ -213,10 +213,10 @@ class ProductController extends Controller {
 			$cates = Catattr::all()->pluck('name', 'id', 'inputtype');
 			// dd($cates);
 			foreach ($cates as $id => $cate) {
-				$form->checkbox('attrvalue', $cate)->options(Attrvalue::where('catattr_id', $id)->pluck('attrvalue', 'id'));
+				$form->checkbox('catavalues', $cate)->options(Attrvalue::where('catattr_id', $id)->pluck('attrvalue', 'id'));
 			}
 
-			$form->checkbox('attrvalues', '属性')->options(Catattr::where('category_id', 29)->pluck('name', 'id'));
+			$form->checkbox('catavalues', '属性')->options(Catattr::where('category_id', 29)->pluck('name', 'id'));
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');
