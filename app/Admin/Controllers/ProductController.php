@@ -218,7 +218,7 @@ class ProductController extends Controller {
 				} elseif ($cate->inputtype == 'checkbox') {
 					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} elseif ($cate->inputtype == 'text') {
-					$form->text('catavalues', $cate->name);
+					$form->text('catavalues.days', $cate->name);
 				} else {
 					# code...
 				}
