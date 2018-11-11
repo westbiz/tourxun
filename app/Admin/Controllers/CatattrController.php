@@ -125,12 +125,12 @@ class CatattrController extends Controller {
 		$form->text('category_id', '类别id');
 		$form->text('displayname', '显示名');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);
-		$form->text('inputtype', '控件类型');
+		$form->select('inputtype', '控件类型')->options(['select'=>'下拉框', 'checkbox'=>'复选框', 'radio'=>'单选框','text'=>'文本框']);
 
 		$form->hasMany('attrvalues', '属性值', function (Form\NestedForm $form) {
 			$form->text('attrvalue');
 			$form->text('order');
-			$form->text('status');
+			$form->radio('isrequired', '状态')->options([1 => '是', 0 => '否'])->default(1);
 		});
 
 		// $form->display('Created at');

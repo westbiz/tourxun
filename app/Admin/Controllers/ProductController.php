@@ -213,15 +213,15 @@ class ProductController extends Controller {
 			$cates = Catattr::all();
 			// dd($cates->inputtype);
 			foreach ($cates as $cate) {
-				if ($cate->inputtype == 'select') {
-					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'checkbox') {
+				if ($cate->inputtype == 'checkbox') {
 					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'text') {
-					$form->text('catavalues.days', $cate->name);
+				} elseif ($cate->inputtype == 'select') {
+					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} elseif ($cate->inputtype == 'radio') {
+					$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} else {
-					# code...
-				}
+					$form->text('catavalues.attrvalue', $cate->name);
+				} 
 
 			}
 
