@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Catattr;
+use App\Models\Category;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -118,18 +119,18 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->select('product_id', '商品')->options(Catattr::all()->pluck('name', 'id')->prepend('选择商品', 0));
+		$form->select('product_id', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id')->prepend('选择分类', 0));
 		$form->text('name', '属性名称');
 		$form->text('fieldname', '列名');
 		$form->text('note', '说明');
 		$form->text('category_id', '类别id');
 		$form->text('displayname', '显示名');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);
-		$form->select('inputtype', '控件类型')->options(['select'=>'下拉框', 'checkbox'=>'复选框', 'radio'=>'单选框','text'=>'文本框']);
+		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框']);
 
 		$form->hasMany('attrvalues', '属性值', function (Form\NestedForm $form) {
-			$form->text('attrvalue');
-			$form->text('order');
+			$form->text('attrvalue', '值');
+			$form->text('order', '排序');
 			$form->radio('isrequired', '状态')->options([1 => '是', 0 => '否'])->default(1);
 		});
 
