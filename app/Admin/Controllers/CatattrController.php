@@ -104,8 +104,11 @@ class CatattrController extends Controller {
 		$show = new Show(Catattr::findOrFail($id));
 
 		$show->id('ID');
-		$show->created_at('Created at');
-		$show->updated_at('Updated at');
+        $show->name();
+        $show->note();
+        $show->inputtype();
+		// $show->created_at('Created at');
+		// $show->updated_at('Updated at');
 
 		return $show;
 	}
