@@ -78,13 +78,10 @@ class CatattrController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('属性名称');
-		$grid->fieldname('列名');
-		$grid->note('说明');
-		$grid->category()->name('分类');
-		$grid->attrvalues()->pluck('attrvalue', 'id')->label();
+		$grid->describtion('说明');
+		$grid->category('类别')->pluck('name')->label();
+		$grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		$grid->product_id('父ID');
-
-		$grid->displayname('显示名');
 		$grid->isrequired('必填');
 		$grid->inputtype('控件');
 
@@ -104,9 +101,9 @@ class CatattrController extends Controller {
 		$show = new Show(Catattr::findOrFail($id));
 
 		$show->id('ID');
-        $show->name();
-        $show->note();
-        $show->inputtype();
+		$show->name();
+		$show->describtion();
+		$show->inputtype();
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
 
@@ -122,12 +119,10 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->select('product_id', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id')->prepend('选择分类', 0));
+		$form->multipleSelect('category_id', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id')->prepend('选择分类', 0));
 		$form->text('name', '属性名称');
-		$form->text('fieldname', '列名');
-		$form->text('note', '说明');
+		$form->text('describtion', '说明');
 		$form->text('category_id', '类别id');
-		$form->text('displayname', '显示名');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);
 		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框']);
 

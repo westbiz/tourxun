@@ -8,7 +8,7 @@ class Catattr extends Model {
 	protected $table = 'p_catattrs';
 
 	protected $fillable = [
-		'name', 'fieldname', 'note', 'category_id', 'parent_id', 'displayname', 'isrequired', 'inputtype',
+		'name', 'fieldname', 'describtion', 'category_id', 'parent_id', 'isrequired', 'inputtype',
 	];
 
 	//多个属性
@@ -17,8 +17,11 @@ class Catattr extends Model {
 	}
 
 	//所属分类
+	// public function category() {
+	// 	return $this->belongsTo(Category::class, 'category_id', 'id');
+	// }
 	public function category() {
-		return $this->belongsTo(Category::class, 'category_id', 'id');
+		return $this->belongsToMany(Category::class, 'catattr_category', 'catattr_id', 'category_id');
 	}
 
 	//

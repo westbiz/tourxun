@@ -56,7 +56,7 @@ class Category extends Model {
 
 	//多个属性
 	public function catattrs() {
-		return $this->hasMany(Catattr::class);
+		return $this->belongsToMany(Catattr::class, 'catattr_category');
 	}
 
 	//属性值远层一对多
