@@ -79,7 +79,7 @@ class CatattrController extends Controller {
 		$grid->id('ID');
 		$grid->name('属性名称');
 		$grid->describtion('说明');
-		$grid->category('类别')->pluck('name')->label();
+		$grid->category('类别')->pluck('name')->label('danger');
 		$grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		$grid->product_id('父ID');
 		$grid->isrequired('必填');
@@ -119,7 +119,7 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->multipleSelect('category_id', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id')->prepend('选择分类', 0));
+		$form->checkbox('category', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id')->prepend('选择分类', 0));
 		$form->text('name', '属性名称');
 		$form->text('describtion', '说明');
 		$form->text('category_id', '类别id');

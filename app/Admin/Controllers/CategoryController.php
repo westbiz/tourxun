@@ -198,15 +198,16 @@ class CategoryController extends Controller {
 					$form->textarea('description');
 				});
 
-			})->tab('属性', function ($form) {
-				$form->hasMany('catattrs', '属性', function (Form\NestedForm $form) {
-					$form->text('name');
-					$form->text('note');
-					$form->text('parent_id');
-					$form->text('fieldname');
-					$form->text('inputtype');
-				});
 			});
+			// ->tab('属性', function ($form) {
+			// 	$form->hasMany('catattrs', '属性', function (Form\NestedForm $form) {
+			// 		$form->text('name');
+			// 		$form->text('note');
+			// 		$form->text('parent_id');
+			// 		$form->text('fieldname');
+			// 		$form->text('inputtype');
+			// 	});
+			// });
 
 			// $form->display('created_at', 'Created At');
 			// $form->display('updated_at', 'Updated At');
