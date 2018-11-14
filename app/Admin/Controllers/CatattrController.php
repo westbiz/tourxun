@@ -81,7 +81,7 @@ class CatattrController extends Controller {
 		$grid->name('属性名称');
 		$grid->describtion('说明');
 		$grid->categories('类别')->pluck('name')->label('danger');
-		$grid->categories('类别')->pivot()->created_at();
+		
 		$grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		$grid->product_id('父ID');
 		$grid->isrequired('必填');
@@ -104,6 +104,7 @@ class CatattrController extends Controller {
 
 		$show->id('ID');
 		$show->name();
+        $show->categories()->pivot('product_id');
 		$show->describtion();
 		$show->inputtype();
 		// $show->created_at('Created at');
