@@ -20,7 +20,8 @@ class Catattr extends Model {
 	// public function category() {
 	// 	return $this->belongsTo(Category::class, 'category_id', 'id');
 	// }
-	public function category() {
+	//分类、属性 多对多
+	public function categories() {
 		return $this->belongsToMany(Category::class, 'catattr_category', 'catattr_id', 'category_id');
 	}
 

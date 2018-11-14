@@ -55,6 +55,7 @@ class Category extends Model {
 	}
 
 	//多个属性
+	//分类、属性 多对多
 	public function catattrs() {
 		return $this->belongsToMany(Catattr::class, 'catattr_category', 'category_id', 'catattr_id');
 	}
