@@ -10,7 +10,6 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class CatattrController extends Controller {
 	use HasResourceActions;
@@ -81,7 +80,7 @@ class CatattrController extends Controller {
 		$grid->name('属性名称');
 		$grid->describtion('说明');
 		$grid->categories('类别')->pluck('name')->label('danger');
-		
+
 		$grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		$grid->product_id('父ID');
 		$grid->isrequired('必填');
@@ -104,7 +103,7 @@ class CatattrController extends Controller {
 
 		$show->id('ID');
 		$show->name();
-        $show->categories()->pivot('product_id');
+		$show->categories()->pluck('pivot');
 		$show->describtion();
 		$show->inputtype();
 		// $show->created_at('Created at');
@@ -122,9 +121,10 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->checkbox('categories', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id')->prepend('选择分类', 0));
+		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id'));
+
 		$form->text('name', '属性名称');
-		$form->text('describtion', '说明');
+		$form->text('description', '说明');
 		$form->text('category_id', '类别id');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);
 		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框']);
