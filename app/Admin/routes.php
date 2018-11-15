@@ -63,6 +63,8 @@ Route::group([
 
 	$router->resource('catattrs','CatattrController');
 
+	$router->resource('attrvalues','AttrvalueController');
+
 });
 
 //子域名路由

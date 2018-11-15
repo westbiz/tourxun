@@ -82,6 +82,8 @@ class AttrvalueController extends Controller
         $grid = new Grid(new Attrvalue);
 
         $grid->id('ID');
+        $grid->attrvalue();
+        $grid->catattr_id();
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
 
@@ -115,6 +117,7 @@ class AttrvalueController extends Controller
         $form = new Form(new Attrvalue);
 
         $form->display('ID');
+        $form->text('attrvalue');
         $form->display('Created at');
         $form->display('Updated at');
 
