@@ -78,7 +78,7 @@ class CatattrController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('属性名称');
-		$grid->describtion('说明');
+		$grid->description('说明');
 		$grid->categories('类别')->pluck('name')->label('danger');
 
 		$grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
@@ -125,7 +125,7 @@ class CatattrController extends Controller {
 
 		$form->text('name', '属性名称');
 		$form->text('description', '说明');
-		$form->text('category_id', '类别id');
+		// $form->text('category_id', '类别id');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);
 		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框']);
 
