@@ -30,7 +30,7 @@ class Product extends Model {
 	//多个属性值 多对多
 	public function catavalues() {
 		return $this->belongsToMany(Attrvalue::class, 'product_attrvalues',
-			'product_id', 'attrvalue_id');
+			'product_id', 'attrvalue_id')->withPivot('fieldname');
 	}
 
 	//多个属性

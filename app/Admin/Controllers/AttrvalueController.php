@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attrvalue;
+use App\Models\Catattr;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -76,8 +77,9 @@ class AttrvalueController extends Controller {
 		$grid = new Grid(new Attrvalue);
 
 		$grid->id('ID');
+        $grid->catattr()->name('属性')->color('#f00');
 		$grid->attrvalue('属性值')->editable();
-		$grid->catattr()->name('属性')->color('#f00');
+        $grid->order('排序');
 		$grid->status('状态')->using(['1' => '是', '0' => '否']);
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
@@ -95,9 +97,10 @@ class AttrvalueController extends Controller {
 		$show = new Show(Attrvalue::findOrFail($id));
 
 		$show->id('ID');
+        $show->catattr()->name();
 		$show->attrvalue();
-		$show->created_at('Created at');
-		$show->updated_at('Updated at');
+		// $show->created_at('Created at');
+		// $show->updated_at('Updated at');
 
 		return $show;
 	}
@@ -111,9 +114,16 @@ class AttrvalueController extends Controller {
 		$form = new Form(new Attrvalue);
 
 		$form->display('ID');
+        $form->select('catattr_id')->options(Catattr::all()->pluck('name','id'));
 		$form->text('attrvalue');
-		$form->text('order');
-		$form->text('status');
+        $states = [
+            'on'  => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+        ];
+        $form->text('order');
+        $form->switch('status')->states($states);
+
+		// $form->text('status');
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
