@@ -83,7 +83,7 @@ class CatattrController extends Controller {
 
 		// $grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		$grid->isrequired('必填')->using(['1' => '是', '0' => '否']);
-		// $grid->inputtype('控件')->using(['checkbox'=>'复选框','text'=>'文本框','select'=>'下拉框','radio'=>'单选']);
+		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');;
 		$grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
 
 		// $grid->created_at('Created at');
