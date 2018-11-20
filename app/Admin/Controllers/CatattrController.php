@@ -83,7 +83,7 @@ class CatattrController extends Controller {
 
 		// $grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		$grid->isrequired('必填')->using(['1' => '是', '0' => '否']);
-		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');;
+		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');
 		$grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
 
 		// $grid->created_at('Created at');
@@ -124,7 +124,7 @@ class CatattrController extends Controller {
 		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id'));
 
 		$form->text('name', '属性名称')->rules('required|min:2');
-		$form->text('description', '说明')->rules('required|min:4');
+		$form->text('description', '说明')->rules('required|min:2');
 		// $form->text('category_id', '类别id');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);
 		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框'])->rules('required');

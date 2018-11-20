@@ -91,18 +91,13 @@ class ProductController extends Controller {
 	protected function grid() {
 		return Admin::grid(Product::class, function (Grid $grid) {
 
-			// $product = Product::find(1);
-			// dd($product->pictures());
 			$grid->id('ID')->sortable();
-			$grid->name('名称')->editable();
-			// $grid->avatar('图片');
-
 			$grid->avatar('图片')->display(function ($avatar) {
-				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='20%' class='img img-thumbnail'>";
+				return "<img src='http://tourxun.test/uploads/$avatar' height='10%' width='20%' class='img img-thumbnail'>";
 			});
+			$grid->name('名称')->editable();
 
-			$grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			// $grid->pictures()->pictureuri()->image('localhost/uploads/', 50, 50);
+			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category()->name('分类');
 			$grid->day('天数');
 			$grid->night('晚数');
@@ -113,9 +108,9 @@ class ProductController extends Controller {
 					return "<span class='label label-info'>{$price['departure']} : {$price['price']}</span>";
 				}, $prices);
 				return join('&nbsp;', $prices);
-			});
+			})->style('max-width:300px;word-break:break-all;');;
 			$grid->summary('概述');
-			$grid->content('正文')->limit(30);
+			// $grid->content('正文')->limit(30);
 			$grid->active('激活');
 
 			// $grid->created_at();
@@ -221,7 +216,7 @@ class ProductController extends Controller {
 					$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} else {
 					$form->text('catavalues.attrvalue', $cate->name);
-				} 
+				}
 
 			}
 

@@ -151,7 +151,7 @@ class CategoryController extends Controller {
 			$grid->description('说明')->limit(30)->editable();
 			$grid->order('排序');
 
-			$grid->attrvalues()->attrvalue();
+			// $grid->attrvalues()->attrvalue();
 
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
