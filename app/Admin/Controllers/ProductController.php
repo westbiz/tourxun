@@ -111,7 +111,7 @@ class ProductController extends Controller {
 			})->style('max-width:300px;word-break:break-all;');;
 			$grid->summary('概述');
 			// $grid->content('正文')->limit(30);
-			$grid->active('激活');
+			// $grid->active('激活');
 
 			// $grid->created_at();
 			// $grid->updated_at();
