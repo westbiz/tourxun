@@ -50,7 +50,7 @@ class ProductController extends Controller {
 				$show->prices('价格', function ($price) {
 					$price->id('ID');
 					$price->price('价格');
-					$price->departure('出发日期');
+					$price->schedule('出发日期');
 					$price->remark('备注');
 				});
 
@@ -105,7 +105,7 @@ class ProductController extends Controller {
 			$grid->star('评星');
 			$grid->prices('价格')->display(function ($prices) {
 				$prices = array_map(function ($price) {
-					return "<span class='label label-info'>{$price['departure']} : {$price['price']}</span>";
+					return "<span class='label label-info'>{$price['schedule']} : {$price['price']}</span>";
 				}, $prices);
 				return join('&nbsp;', $prices);
 			})->style('max-width:300px;word-break:break-all;');;
@@ -126,7 +126,8 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-
+			$form->text('areatext','出发地');
+			$form->text('destination','目的地');
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
@@ -222,7 +223,7 @@ class ProductController extends Controller {
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');
-				$form->date('departure', '出发日期');
+				$form->date('schedule', '出发日期');
 				$form->text('remark', '说明');
 			});
 
