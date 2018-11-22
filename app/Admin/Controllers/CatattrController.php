@@ -137,7 +137,7 @@ class CatattrController extends Controller {
 		$form->hasMany('attrvalues', '属性值', function (Form\NestedForm $form) {
 			$form->text('attrvalue', '值');
 			$form->text('order', '排序');
-			$form->radio('isrequired', '状态')->options([1 => '是', 0 => '否'])->default(1);
+			$form->radio('status', '状态')->options([1 => '是', 0 => '否'])->default(0);
 		});
 
 		// $form->display('Created at');
