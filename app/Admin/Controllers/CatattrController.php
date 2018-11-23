@@ -80,15 +80,17 @@ class CatattrController extends Controller {
 		$grid->name('属性名称')->editable();
 		$grid->description('说明')->editable();
 		$grid->categories('类别')->pluck('name')->label('danger');
-
+		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');
 		// $grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		// $grid->isrequired('必填')->using(['1' => '是', '0' => '否']);
+		// $grid->isrequired('必须？')->display(function ($isrequired) {
+		// 	return $isrequired ? '是' : '否';
+		// });
 		$states = [
 			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
 			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 		];
 		$grid->isrequired('必填')->switch($states);
-		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');
 		$grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
 
 		// $grid->created_at('Created at');

@@ -49,8 +49,9 @@ class ProductController extends Controller {
 				// });
 				$show->prices('价格', function ($price) {
 					$price->id('ID');
-					$price->price('价格');
 					$price->schedule('出发日期');
+					$price->quantity('数量');
+					$price->price('价格');
 					$price->remark('备注');
 				});
 
@@ -126,8 +127,8 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			$form->text('areatext','出发地');
-			$form->text('destination','目的地');
+			$form->text('departure_id', '出发地');
+			$form->text('destination', '目的地');
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
@@ -224,6 +225,7 @@ class ProductController extends Controller {
 			$form->hasMany('prices', function (Form\NestedForm $form) {
 				$form->currency('price', '价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
+				$form->text('quantity', '数量');
 				$form->text('remark', '说明');
 			});
 
