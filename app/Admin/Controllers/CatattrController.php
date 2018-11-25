@@ -111,7 +111,7 @@ class CatattrController extends Controller {
 		$show->id('ID');
 		$show->name();
 		$show->categories()->pluck('pivot');
-		$show->describtion();
+		$show->description();
 		$show->inputtype();
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
