@@ -128,7 +128,7 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '3')->pluck('name', 'id'));
+		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '1')->pluck('name', 'id'));
 
 		$form->text('name', '属性名称')->rules('required|min:2');
 		$form->text('description', '说明')->rules('required|min:2');

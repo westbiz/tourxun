@@ -148,7 +148,7 @@ class CategoryController extends Controller {
 			});
 			$grid->parent_id('父类');
 			$grid->childcategories('子类')->count();
-			$grid->description('说明')->limit(30)->editable();
+			$grid->description('说明')->limit(40)->editable();
 			$grid->order('排序');
 
 			// $grid->attrvalues()->attrvalue();
