@@ -133,6 +133,10 @@ class CategoryController extends Controller {
 			});
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
+			$grid->parentcategory('归属父类')->display(function ($parentcategory) {
+				return "<span class='label label-info'>{$parentcategory['name']}</span>";
+			});			
+			$grid->description('说明')->limit(40)->editable();
 
 			// $grid->column('expand')->expand(function () {
 			//           if (empty($this->sights)) {
@@ -142,17 +146,10 @@ class CategoryController extends Controller {
 			//           return new Table([], $sights);
 			//       }, 'Sights');
 
-			// dd($grid->parent('父类'));
-			$grid->parentcategory('归属父类')->display(function ($parentcategory) {
-				return "<span class='label label-info'>{$parentcategory['name']}</span>";
-			});
+
 			$grid->parent_id('父类');
-			$grid->childcategories('子类')->count();
-			$grid->description('说明')->limit(40)->editable();
+			$grid->childcategories('子类')->count()->label('danger');
 			$grid->order('排序');
-
-			// $grid->attrvalues()->attrvalue();
-
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
 				$filter->between('created_at', 'Created Time')->datetime();
