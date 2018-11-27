@@ -102,7 +102,7 @@ class ProductController extends Controller {
 			$grid->category()->name('分类')->label('danger');
 			$grid->day('天数');
 			$grid->night('晚数');
-			$grid->hotel('酒店');
+			// $grid->hotel('酒店');
 			$grid->star('评星');
 			$grid->prices('价格')->display(function ($prices) {
 				$prices = array_map(function ($price) {
@@ -127,8 +127,12 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			// $form->text('departure_id', '出发地');
-			// $form->text('destination', '目的地');
+
+			$form->text('departure_id', '出发地');
+			$form->text('destination', '目的地');
+			$categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
+			$form->select('category_id', '分类')->options($categories);
+			// $form->select('category_id', '分类')->options('/api/v1/categories/all');				
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
@@ -191,9 +195,7 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/categories/ajax');
 
-			$categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
-			$form->select('category_id', '分类')->options($categories);
-			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
+
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
@@ -223,6 +225,7 @@ class ProductController extends Controller {
 			}
 
 			$form->hasMany('prices', function (Form\NestedForm $form) {
+				$form->text('taocan', '套餐');
 				$form->currency('price', '价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
 				$form->text('quantity', '数量');
