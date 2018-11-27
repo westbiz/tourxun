@@ -99,7 +99,7 @@ class ProductController extends Controller {
 			$grid->name('名称')->editable();
 
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
-			$grid->category()->name('分类');
+			$grid->category()->name('分类')->label('danger');
 			$grid->day('天数');
 			$grid->night('晚数');
 			$grid->hotel('酒店');
@@ -127,8 +127,8 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
-			$form->text('departure_id', '出发地');
-			$form->text('destination', '目的地');
+			// $form->text('departure_id', '出发地');
+			// $form->text('destination', '目的地');
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
@@ -197,12 +197,12 @@ class ProductController extends Controller {
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
-			$form->number('hotel', '酒店星级')->min(0)->max(5)->default(3);
 
-			// $form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
-			$form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
+			$form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
+			// $form->starRating('star', '评星');
+			// $form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
 			$form->text('summary', '概述');
-			$form->editor('content', '正文');
+			$form->editor('content', '商品详情');
 			$form->switch('active', '激活？');
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');

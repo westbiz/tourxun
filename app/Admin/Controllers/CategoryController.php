@@ -135,8 +135,8 @@ class CategoryController extends Controller {
 			$grid->name('名称')->editable();
 			$grid->parentcategory('归属父类')->display(function ($parentcategory) {
 				return "<span class='label label-info'>{$parentcategory['name']}</span>";
-			});			
-			$grid->description('说明')->limit(40)->editable();
+			});
+			$grid->description('说明')->limit(60)->editable();
 
 			// $grid->column('expand')->expand(function () {
 			//           if (empty($this->sights)) {
@@ -145,7 +145,6 @@ class CategoryController extends Controller {
 			//           $sights = array_only($this->sights->toArray(), ['name', 'avatar']);
 			//           return new Table([], $sights);
 			//       }, 'Sights');
-
 
 			$grid->parent_id('父类');
 			$grid->childcategories('子类')->count()->label('danger');
