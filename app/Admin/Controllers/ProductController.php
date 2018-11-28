@@ -2,11 +2,11 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Product;
-// use App\Models\Attrvalue;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -128,11 +128,11 @@ class ProductController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
-			$form->text('departure_id', '出发地');
-			$form->text('destination', '目的地');
+			$form->select('start', '出发地')->options(Area::all()->pluck('areaName', 'id'))->default('2809');
+			$form->select('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'))->default('2809');
 			$categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
 			$form->select('category_id', '分类')->options($categories);
-			// $form->select('category_id', '分类')->options('/api/v1/categories/all');				
+			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
 				$constraint->upsize();
@@ -195,8 +195,6 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/categories/ajax');
 
-
-
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 
@@ -224,7 +222,7 @@ class ProductController extends Controller {
 
 			}
 
-			$form->hasMany('prices', function (Form\NestedForm $form) {
+			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 				$form->text('taocan', '套餐');
 				$form->currency('price', '价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
