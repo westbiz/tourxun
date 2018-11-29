@@ -142,6 +142,11 @@ class CityController extends Controller {
 			$grid->areaName('区域名')->display(function ($c_id) {
 				return "<a href='city/" . $this->id . "'><span class='label label-info'>" . $this->areaName . "</span></a>";
 			});
+			$states = [
+				'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+				'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+			];
+			$grid->active('激活')->switch($states);
 			// $grid->column('position')->openMap(function () {
 			//           return [$this->profile['lat'], $this->profile['lng']];
 			//       }, 'Position');
@@ -183,6 +188,7 @@ class CityController extends Controller {
 			$form->number('level', '级别');
 			$form->text('cityCode', '城市区号');
 			$form->text('center', '经纬度');
+			$form->radio('active', '激活')->options(['1' => 'on', '0' => 'off']);
 			$form->hasMany('cities', '添加区县', function (Form\NestedForm $form) {
 				$form->text('areaCode', '区域编码');
 				$form->text('areaName', '地区名');

@@ -136,9 +136,7 @@ class AreaController extends Controller {
 			$grid->model()->where('parent_id', -1);
 			$c_id = $grid->id('id');
 			// dd($c_id);
-			$grid->areaName('区域名')->display(function ($c_id) {
-				return "<a href='city/" . $this->id . "'><span class='label label-success'>" . $this->areaName . "</span></a>";
-			});
+			$grid->areaName('区域名')->label('danger');
 			$grid->cities()->display(function ($cities) {
 				$cities = array_map(function ($city) {
 					return "<a href='area/{$city['id']}'><span class='label label-info'>{$city['areaName']}</span></a>";
@@ -206,15 +204,15 @@ class AreaController extends Controller {
 	protected function cascadingform() {
 		return Admin::form(Area::class, function (Form $form) {
 
-			$form->select('shengqu','省区')->options(
-				Area::shengqu()->pluck('areaName','id')
-			)->load('chengshi','/api/v1/area/city');
+			$form->select('shengqu', '省区')->options(
+				Area::shengqu()->pluck('areaName', 'id')
+			)->load('chengshi', '/api/v1/area/city');
 
-			$form->select('chengshi','市辖区')->options(function($id){
+			$form->select('chengshi', '市辖区')->options(function ($id) {
 				return Area::options($id);
-			})->load('city_id','/api/v1/area/district');
+			})->load('city_id', '/api/v1/area/district');
 
-			$form->select('city_id','区县')->options(function($id) {
+			$form->select('city_id', '区县')->options(function ($id) {
 				return Area::options($id);
 			});
 			// $provinces = Area::where('parent_id', '-1')->pluck('areaName', 'id');
