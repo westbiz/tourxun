@@ -79,18 +79,20 @@ class CatattrController extends Controller {
 		$grid->id('ID');
 		$grid->name('属性名称')->editable();
 		$grid->description('说明')->editable();
-		$grid->categories('类别')->pluck('name')->label('danger');
-		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');
+		// $grid->categories('类别')->pluck('name')->label('danger');
+		$grid->parentcatattr()->name('属性类别')->label('danger');
+        $grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');
 		// $grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		// $grid->isrequired('必填')->using(['1' => '是', '0' => '否']);
 		// $grid->isrequired('必须？')->display(function ($isrequired) {
 		// 	return $isrequired ? '是' : '否';
 		// });
-		$states = [
-			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
-			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
-		];
-		$grid->isrequired('必填')->switch($states);
+		// $states = [
+		// 	'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+		// 	'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+		// ];
+		// $grid->isrequired('必填')->switch($states);
+        $grid->isrequired('必须')->select(['1' => '是', '0' => '否']);
 		$grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
 
 		// $grid->created_at('Created at');
@@ -110,7 +112,7 @@ class CatattrController extends Controller {
 
 		$show->id('ID');
 		$show->name();
-		$show->categories()->pluck('pivot');
+		$show->parentcatattr()->name();
 		$show->description();
 		$show->inputtype();
 		// $show->created_at('Created at');
@@ -128,7 +130,8 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '1')->pluck('name', 'id'));
+		// $form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '1')->pluck('name', 'id'));
+        $form->select('parentcatattr','属性分类')->options(Catattr::where('parent_id',0)->pluck('name','id'));
 
 		$form->text('name', '属性名称')->rules('required|min:2');
 		$form->text('description', '说明')->rules('required|min:2');
