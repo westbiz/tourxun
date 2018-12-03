@@ -77,8 +77,8 @@ class AttrvalueController extends Controller {
 		$grid = new Grid(new Attrvalue);
 
 		$grid->id('ID');
-        $grid->catattr()->name('属性')->color('#f00');
 		$grid->attrvalue('属性值')->editable();
+        $grid->catattr()->name('属性')->color('#f00');
         $grid->order('排序');
 		$grid->status('状态')->using(['1' => '是', '0' => '否']);
 		// $grid->created_at('Created at');
