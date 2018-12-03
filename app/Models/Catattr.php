@@ -16,7 +16,6 @@ class Catattr extends Model {
 		return $this->hasMany(Attrvalue::class, 'catattr_id', 'id');
 	}
 
-
 	//分类、属性 多对多
 	public function categories() {
 		return $this->belongsToMany(Category::class, 'p_catattr_category', 'catattr_id', 'category_id')->withPivot(['created_at', 'product_id']);
@@ -30,13 +29,12 @@ class Catattr extends Model {
 
 	//父子一对多
 	public function childcatattr() {
-		return $this->hasMany(Catattr::class, 'parent_id', 'id');
+		return $this->hasMany(Catattr::class);
 	}
 
 	//值名反向
 	public function parentcatattr() {
 		return $this->belongsTo(Catattr::class, 'parent_id', 'id');
 	}
-
 
 }

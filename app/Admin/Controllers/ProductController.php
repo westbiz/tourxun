@@ -207,7 +207,7 @@ class ProductController extends Controller {
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');
 
-			$cates = Catattr::where('parent_id','<>','0')->get();
+			$cates = Catattr::where('parent_id', '<>', '0')->get();
 			// dd($cates->inputtype);
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
@@ -224,9 +224,9 @@ class ProductController extends Controller {
 
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 				$form->text('taocan', '套餐名');
-				$form->text('chufadi','出发地');
-				$form->text('dengji','等级');
-				$form->text('renqun','人群');
+				$form->text('chufadi', '出发地');
+				$form->text('dengji', '等级');
+				$form->text('renqun', '人群');
 				$form->currency('price', '价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
 				$form->text('quantity', '数量');
