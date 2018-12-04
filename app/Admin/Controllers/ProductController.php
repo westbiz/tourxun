@@ -130,8 +130,8 @@ class ProductController extends Controller {
 
 			$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
 			$form->select('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'))->default('2809');
-			$categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
-			$form->select('category_id', '分类')->options($categories);
+			// $categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
+			// $form->select('category_id', '分类')->options($categories);
 			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
 			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
 				// $constraint->aspectRatio();
@@ -198,8 +198,8 @@ class ProductController extends Controller {
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 
-			$form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
-			// $form->starRating('star', '评星');
+			// $form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
+			$form->starRating('star', '评星')->default(4);
 			// $form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
 			$form->text('summary', '概述');
 			$form->editor('content', '商品详情');
@@ -207,11 +207,11 @@ class ProductController extends Controller {
 			// $form->text('prices.price', '价格');
 			// $form->date('prices.date', '日期');
 
-			$cates = Catattr::where('parent_id', '<>', '0')->get();
+			$cates = Catattr::where('parent_id', 1)->orderBy('order', 'desc')->get();
 			// dd($cates->inputtype);
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
-					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->where('status', '1')->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 				} elseif ($cate->inputtype == 'select') {
 					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} elseif ($cate->inputtype == 'radio') {

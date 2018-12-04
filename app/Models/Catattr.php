@@ -8,7 +8,7 @@ class Catattr extends Model {
 	protected $table = 'p_catattrs';
 
 	protected $fillable = [
-		'name', 'parent_id', 'description', 'category_id', 'isrequired', 'inputtype',
+		'name', 'parent_id', 'description', 'category_id', 'isrequired', 'inputtype', 'order',
 	];
 
 	//多个属性
