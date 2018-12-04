@@ -129,7 +129,7 @@ class ProductController extends Controller {
 			$form->text('name', '名称')->rules('required|min:3');
 
 			$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
-			$form->select('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'))->default('2809');
+			$form->multipleSelect('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'));
 			// $categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
 			// $form->select('category_id', '分类')->options($categories);
 			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
