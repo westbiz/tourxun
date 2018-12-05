@@ -138,8 +138,8 @@ class ProductController extends Controller {
 				$constraint->upsize();
 			})->removable();
 
-			$form->multipleImage('pictureuri', '多图')->removable();
-			$form->text('graphs.description', '图片描述');
+			// $form->multipleImage('pictureuri', '多图')->removable();
+			// $form->text('graphs.description', '图片描述');
 
 			// $manager = new ImageManager(array('driver' => 'imagick'));
 			// $image = $manager->make('images/AAA170509322152256644.jpg')->resize(300, 200);
@@ -195,13 +195,11 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/categories/ajax');
 
-			$form->number('day', '天数')->min(1)->max(90)->default(1);
-			$form->number('night', '晚数')->min(0);
-
 			// $form->text('star', '评星')->attribute(['class' => 'rating', 'min' => 0, 'max' => 5, 'step' => 1, 'step' => 1, 'data-size' => 'sm', 'value=' => 2]);
-			$form->starRating('star', '评星')->default(4);
+			$form->starRating('star', '推荐指数')->default(4);
 			// $form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
 			$form->text('summary', '概述');
+			$form->file('route', '上传行程');
 			$form->editor('content', '商品详情');
 			$form->switch('active', '激活？');
 			// $form->text('prices.price', '价格');
@@ -225,9 +223,11 @@ class ProductController extends Controller {
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 				$form->text('taocan', '套餐名');
 				$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
+				$form->number('day', '天数')->min(1)->max(90)->default(1);
+				$form->number('night', '晚数')->min(0);
 				$form->text('dengji', '等级');
-				$form->text('renqun', '成人|儿童|老年');
-				$form->currency('price', '价格')->symbol('￥');
+				$form->currency('price', '成人价格')->symbol('￥');
+				$form->currency('price', '儿童价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
 				$form->text('quantity', '数量');
 				$form->text('remark', '说明');

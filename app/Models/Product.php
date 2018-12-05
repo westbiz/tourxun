@@ -11,7 +11,7 @@ class Product extends Model {
 
 	protected $table = 'tx_products';
 
-	protected $fillable = ['name', 'category_id', 'day', 'night', 'star', 'summary', 'content', 'active'];
+	protected $fillable = ['name', 'category_id', 'day', 'night', 'star', 'summary', 'route', 'content', 'active'];
 
 	//多态关联，图片
 	public function pictures() {
