@@ -78,9 +78,10 @@ class PriceController extends Controller {
 			$grid->product()->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
-			$grid->product()->name();
+			$grid->product()->name('商品名称');
+			$grid->departure_id('出发地');
 			$grid->price('价格');
-			$grid->departure('日期');
+			$grid->schedule('日期');
 			$grid->remark('说明');
 
 			// $grid->created_at();

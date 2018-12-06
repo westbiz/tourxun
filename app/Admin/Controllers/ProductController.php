@@ -222,10 +222,8 @@ class ProductController extends Controller {
 			}
 
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
-				$form->text('taocan', '套餐名');
+				$form->text('taocan', '套餐名|属性名|...');
 				$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
-
-				$form->text('dengji', '等级');
 				$form->currency('price', '成人价格')->symbol('￥');
 				$form->currency('price', '儿童价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
