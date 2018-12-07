@@ -130,6 +130,22 @@ class ProductController extends Controller {
 
 			$form->select('start', '线路类型')->options(Attrvalue::where('catattr_id', 5)->pluck('attrvalue', 'id'));
 			$form->multipleSelect('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'));
+
+			$cates = Catattr::where('parent_id', 1)->orderBy('order', 'desc')->get();
+			// dd($cates->inputtype);
+			foreach ($cates as $cate) {
+				if ($cate->inputtype == 'checkbox') {
+					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->where('status', '1')->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+				} elseif ($cate->inputtype == 'select') {
+					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} elseif ($cate->inputtype == 'radio') {
+					$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} else {
+					$form->text('catavalues.attrvalue', $cate->name);
+				}
+
+			}
+
 			// $categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
 			// $form->select('category_id', '分类')->options($categories);
 			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
@@ -206,26 +222,10 @@ class ProductController extends Controller {
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
 
-			$cates = Catattr::where('parent_id', 1)->orderBy('order', 'desc')->get();
-			// dd($cates->inputtype);
-			foreach ($cates as $cate) {
-				if ($cate->inputtype == 'checkbox') {
-					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->where('status', '1')->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'select') {
-					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'radio') {
-					$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} else {
-					$form->text('catavalues.attrvalue', $cate->name);
-				}
-
-			}
-
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 				$form->text('taocan', '套餐名');
 				$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
 
-				$form->text('dengji', '等级');
 				$form->currency('price', '成人价格')->symbol('￥');
 				$form->currency('price', '儿童价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
