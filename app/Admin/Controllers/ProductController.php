@@ -223,9 +223,12 @@ class ProductController extends Controller {
 			$form->number('night', '晚数')->min(0);
 
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
-				$form->text('taocan', '套餐名');
+				$form->text('taocan', '套餐名|属性名|...');
 				$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
+<<<<<<< HEAD
 
+=======
+>>>>>>> e4059ad19ccd2ea1b1045b9d4de6801d8eda6b75
 				$form->currency('price', '成人价格')->symbol('￥');
 				$form->currency('price', '儿童价格')->symbol('￥');
 				$form->date('schedule', '出发日期');
