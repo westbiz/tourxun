@@ -109,7 +109,7 @@ class ProductController extends Controller {
 					return "<span class='label label-info'>{$price['schedule']} : {$price['price']}</span>";
 				}, $prices);
 				return join('&nbsp;', $prices);
-			})->style('max-width:300px;word-break:break-all;');;
+			})->style('max-width:300px;word-break:break-all;');
 			$grid->summary('概述');
 			// $grid->content('正文')->limit(30);
 			// $grid->active('激活');
@@ -218,6 +218,9 @@ class ProductController extends Controller {
 			$form->file('route', '上传行程');
 			$form->editor('content', '商品详情');
 			$form->switch('active', '激活？');
+			
+
+
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			$form->number('night', '晚数')->min(0);
@@ -225,13 +228,13 @@ class ProductController extends Controller {
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 				$form->text('taocan', '套餐名|属性名|...');
 				$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
-<<<<<<< HEAD
 
-=======
->>>>>>> e4059ad19ccd2ea1b1045b9d4de6801d8eda6b75
 				$form->currency('price', '成人价格')->symbol('￥');
-				$form->currency('price', '儿童价格')->symbol('￥');
-				$form->date('schedule', '出发日期');
+				$form->currency('childprice', '儿童价格')->symbol('￥');
+				$form->text('chutuan','发团方式')->default('天天');
+				$form->dateRange('start_date', 'end_date', 'Date range');
+
+				$form->date('schedule', '团期');
 				$form->text('quantity', '数量');
 				$form->text('remark', '说明');
 				$cates = Catattr::where('parent_id', 2)->orderBy('order', 'desc')->get();

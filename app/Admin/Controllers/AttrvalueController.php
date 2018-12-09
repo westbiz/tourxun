@@ -76,10 +76,10 @@ class AttrvalueController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Attrvalue);
 
-		$grid->id('ID');
+		$grid->id('ID')->sortable();
 		$grid->attrvalue('属性值')->editable();
-        $grid->catattr()->name('属性')->color('#f00');
-        $grid->order('排序');
+        $grid->catattr()->name('属性')->color('#f00')->sortable();
+        $grid->order('排序')->editable();
 		$grid->status('状态')->using(['1' => '是', '0' => '否']);
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');

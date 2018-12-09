@@ -8,7 +8,7 @@ class Price extends Model {
 	protected $table = 'tx_prices';
 
 	protected $fillable = [
-		'product_id', 'departure_id', 'star', 'sku', 'price', 'quantity', 'schedule', 'remark',
+		'product_id', 'departure_id', 'star', 'sku', 'price', 'start_date','end_date','quantity', 'schedule', 'remark',
 	];
 
 	public function product() {
