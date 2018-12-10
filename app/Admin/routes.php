@@ -39,6 +39,7 @@ Route::group([
 	//大洲国家地区
 	$router->resource('continents', 'ContinentController');
 
+	// $router->get('countries/{countries}','CountryController@getbycontinent');
 	$router->resource('countries', 'CountryController');
 
 	$router->resource('area', 'AreaController');
