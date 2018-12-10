@@ -131,11 +131,15 @@ class ProductController extends Controller {
 			$form->select('start', '线路类型')->options(Attrvalue::where('catattr_id', 5)->pluck('attrvalue', 'id'));
 			$form->multipleSelect('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'));
 
-			$cates = Catattr::where('parent_id', 1)->orderBy('order', 'desc')->get();
+			$cates = Catattr::where('parent_id', 1)
+			// ->where('active', '1')
+				->orderBy('order', 'desc')->get();
 			// dd($cates->inputtype);
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
-					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->where('status', '1')->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+							->where('status', '1')
+							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 				} elseif ($cate->inputtype == 'select') {
 					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} elseif ($cate->inputtype == 'radio') {
@@ -218,20 +222,16 @@ class ProductController extends Controller {
 			$form->file('route', '上传行程');
 			$form->editor('content', '商品详情');
 			$form->switch('active', '激活？');
-			
-
-
-
-			$form->number('day', '天数')->min(1)->max(90)->default(1);
-			$form->number('night', '晚数')->min(0);
 
 			$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 				$form->text('taocan', '套餐名|属性名|...');
 				$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
 
+				$form->number('day', '天数')->min(1)->max(90)->default(1);
+				// $form->number('night', '晚数')->min(0);
 				$form->currency('price', '成人价格')->symbol('￥');
 				$form->currency('childprice', '儿童价格')->symbol('￥');
-				$form->text('chutuan','发团方式')->default('天天');
+				$form->text('chutuan', '发团方式')->default('天天');
 				$form->dateRange('start_date', 'end_date', 'Date range');
 
 				$form->date('schedule', '团期');

@@ -36,7 +36,10 @@ Route::group([
 
 	$router->resource('city', 'CityController');
 
-	//准备删除  $router->get('areas/{id}/add', 'AreaController@addarea');
+	//大洲国家地区
+	$router->resource('continents', 'ContinentController');
+
+	$router->resource('countries', 'CountryController');
 
 	$router->resource('area', 'AreaController');
 
@@ -61,9 +64,9 @@ Route::group([
 
 	$router->resource('comments', 'CommentController');
 
-	$router->resource('catattrs','CatattrController');
+	$router->resource('catattrs', 'CatattrController');
 
-	$router->resource('attrvalues','AttrvalueController');
+	$router->resource('attrvalues', 'AttrvalueController');
 
 });
 
