@@ -75,6 +75,16 @@ class CountryController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Country);
 
+		
+		$grid->filter(function($filter){
+			$filter->disableIdFilter();
+			$filter->where(function($query){
+				$query->whereHas('continent', function($query){
+					$query->where('cn_name', 'like', "%{$this->input}%");
+				});
+			},'洲名');
+			$filter->like('cname', '名称');
+		});
 		$grid->id('ID');
 		$grid->cname('中文');
 		$grid->continent()->cn_name('大洲')->label('info');

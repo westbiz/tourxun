@@ -79,7 +79,7 @@ class ContinentController extends Controller {
 		$grid->cn_name('中文')->display(function () {
 			return "<a href='/admin/continents/" . $this->id . "'><span>" . $this->cn_name . "</span></a>";
 		});
-		$grid->parent_id('父类');
+		$grid->parentcontinent()->cn_name('父级')->label('info');
 		$grid->en_name('英文')->editable();
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
