@@ -79,12 +79,19 @@ class WorldcityController extends Controller {
 		$grid->filter(function ($filter) {
 			$filter->disableIdFilter();
 			$continents = Country::pluck('cname', 'id');
-			$filter->expand()->equal('country_id', '国家')->select($continents);
+			$filter->expand()->equal('country_id', '按国家')->select($continents);			
+			$filter->expand()->where(function ($query) {
+			    $query->where('cn_name', 'like', "%{$this->input}%")
+			        ->orWhere('cn_state', 'like', "%{$this->input}%");
+			    // $query->whereHas('country', function ($query){
+			    // 	$query->where('cname', 'like', "%{$this->input}%");
+			    // });
+			}, '关键字');
 		});
 		$grid->id('ID');
 		$grid->cn_name('中文名称');
 		$grid->name('英文名称');
-		$grid->country()->cname('国家id')->label('info');
+		$grid->country()->cname('国家')->label('info');
 		$grid->cn_state('省区/州');
 		$grid->state('英文省区/州');
 		$grid->lower_name('小写');
