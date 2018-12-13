@@ -65,9 +65,9 @@ return [
 		    |
 	*/
 
-	'locale' => 'zh_CN',
+	'locale' => 'zh-CN',
 
-	'faker_locale' => 'en',		    
+	'faker_locale' => 'en',
 
 	'timezone' => 'PRC',
 
@@ -81,8 +81,6 @@ return [
 		    | to any of the locales which will be supported by the application.
 		    |
 	*/
-
-
 
 	/*
 		    |--------------------------------------------------------------------------

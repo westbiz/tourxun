@@ -85,8 +85,11 @@ class CountryController extends Controller {
 			// 			$query->where('cn_name', 'like', "%{$this->input}%");
 			// 		});
 			// 	}, '洲名');
-			$continents = Continent::pluck('cn_name', 'id');
-			$filter->expand()->equal('continent_id', '大洲')->select($continents);
+			$filter->column(1 / 2, function ($filter) {
+				$continents = Continent::pluck('cn_name', 'id');
+				$filter->expand()->equal('continent_id', '大洲')->select($continents);
+			});
+
 			// $filter->like('cname', '名称');
 		});
 		$grid->id('ID');
@@ -144,7 +147,7 @@ class CountryController extends Controller {
 		$form->text('country_code', '代码');
 		$form->text('full_name', '英文全称');
 		$form->text('full_cname', '中文全称');
-		$form->text('remark', '简介');
+		$form->textarea('remark', '简介');
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
