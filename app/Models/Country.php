@@ -20,4 +20,10 @@ class Country extends Model {
 	public function worldcities() {
 		return $this->hasMany(Country::class, 'country_id', 'id');
 	}
+
+	//多对多，分类多家
+	public function categories() {
+		return $this->belongsToMany(Category::class, 't_category_countries');
+	}
+
 }

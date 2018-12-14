@@ -78,7 +78,7 @@ class WorldcityController extends Controller {
 
 		$grid->filter(function ($filter) {
 			$filter->disableIdFilter();
-			$filter->column(1 / 2, function ($filter) {
+			$filter->column(3 / 4, function ($filter) {
 				$continents = Country::pluck('cname', 'id');
 				$filter->expand()->equal('country_id', '按国家')->select($continents);
 				$filter->expand()->where(function ($query) {

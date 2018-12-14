@@ -29,6 +29,10 @@ class Category extends Model {
 		return $query->where('parent_id', 0);
 	}
 
+	public function countries() {
+		return $this->belongsToMany(Country::class, 't_category_countries');
+	}
+
 	//一对多，多个产品
 	public function products() {
 		return $this->hasMany(Product::class, 'category_id', 'id');

@@ -85,7 +85,7 @@ class CountryController extends Controller {
 			// 			$query->where('cn_name', 'like', "%{$this->input}%");
 			// 		});
 			// 	}, '洲名');
-			$filter->column(1 / 2, function ($filter) {
+			$filter->column(3 / 4, function ($filter) {
 				$continents = Continent::pluck('cn_name', 'id');
 				$filter->expand()->equal('continent_id', '大洲')->select($continents);
 			});
