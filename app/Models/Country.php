@@ -16,14 +16,21 @@ class Country extends Model {
 		return $this->belongsTo(Continent::class, 'continent_id', 'id');
 	}
 
+
+	//多对多，大洲国家地区地理位置
+	public function continentlocated() {
+		return $this->belongsToMany(Continent::class, 't_country_continent', 'country_id', 'continent_id');
+	}
+
+
 	//一对多反向，国家
 	public function worldcities() {
 		return $this->hasMany(Country::class, 'country_id', 'id');
 	}
 
-	//多对多，分类多家
-	public function categories() {
-		return $this->belongsToMany(Category::class, 't_category_countries');
+	//多对多，分类多国家
+	public function categorycountry() {
+		return $this->belongsToMany(Category::class, 't_category_countries','country_id','category_id');
 	}
 
 }

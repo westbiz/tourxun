@@ -30,7 +30,7 @@ class Category extends Model {
 	}
 
 	public function countries() {
-		return $this->belongsToMany(Country::class, 't_category_countries');
+		return $this->belongsToMany(Country::class, 't_category_countries','country_id','category_id');
 	}
 
 	//一对多，多个产品

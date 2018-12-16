@@ -92,10 +92,10 @@ class WorldcityController extends Controller {
 		});
 		$grid->id('ID');
 		$grid->cn_name('中文名称');
-		$grid->name('英文名称');
+		$grid->name('en名称');
 		$grid->country()->cname('国家')->label('info');
 		$grid->cn_state('省区/州');
-		$grid->state('英文省区/州');
+		$grid->state('en省区/州');
 		$grid->lower_name('小写');
 		$grid->city_code('代码');
 		$grid->state_code('州代码');
@@ -131,10 +131,10 @@ class WorldcityController extends Controller {
 
 		$form->display('ID');
 		$form->text('cn_name', '中文名称');
-		$form->text('name', '英文名称');
+		$form->text('name', 'en名称');
 		$form->text('country_id', '国家');
 		$form->text('cn_state', '州名');
-		$form->text('state', '英文州名');
+		$form->text('state', 'en州名');
 		$form->text('lower_name', '小写');
 		$form->text('city_code', '城市代码');
 		$form->text('state_code', '州代码');

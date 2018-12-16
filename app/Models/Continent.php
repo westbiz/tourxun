@@ -16,6 +16,11 @@ class Continent extends Model {
 		return $this->hasmany(Country::class, 'continent_id', 'id');
 	}
 
+	//多对多，大洲地区多个国家-地理位置
+	public function continentcountries() {
+		return $this->belongsToMany(Country::class, 't_country_continent', 'country_id', 'continent_id');
+	}
+
 	//一对多，多个子类
 	public function childrencontinent()
 	{

@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Country;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -182,7 +183,8 @@ class CategoryController extends Controller {
 			$form->tab('基本信息', function ($form) {
 				$p_id = request()->get('parent_id');
 				$form->display('id', 'ID');
-				$form->select('parent_id', '父类')->options(Category::all()->pluck('name', 'id'))->default('0')->value($p_id);
+				$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default('0')->value($p_id);
+				$form->select('categoryecountry','国家地区')->options(Country::pluck('cname','id'));
 				$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 				$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 				$form->text('order', '排序')->value($next_id[0]->Auto_increment);

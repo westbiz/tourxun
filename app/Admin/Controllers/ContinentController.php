@@ -75,6 +75,7 @@ class ContinentController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Continent);
 
+		// $grid->model()->orderBy('parent_id','asc');
 		$grid->id('ID');
 		$grid->cn_name('中文')->display(function () {
 			return "<a href='/admin/continents/" . $this->id . "'><span>" . $this->cn_name . "</span></a>";
