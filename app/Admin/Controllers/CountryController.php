@@ -109,6 +109,13 @@ public function assign(Request $request)
 			$filter->column(3 / 4, function ($filter) {
 				$continents = Continent::where('parent_id','0')->pluck('cn_name', 'id');
 				$filter->expand()->equal('continent_id', '大洲')->select($continents);
+				$filter->expand()->where(function ($query) {
+					$query->where('cname', 'like', "%{$this->input}%")
+						->orWhere('full_cname', 'like', "%{$this->input}%");
+					// $query->whereHas('country', function ($query){
+					// 	$query->where('cname', 'like', "%{$this->input}%");
+					// });
+				}, '关键字');
 			});
 
 			// $filter->like('cname', '名称');

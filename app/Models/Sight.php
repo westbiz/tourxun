@@ -40,10 +40,10 @@ class Sight extends Model {
 		return $this->hasMany(Sight::class, 'parent_id', 'id');
 	}
 
-	//景点分类 多对多，逆向
-	public function categories() {
-		return $this->belongsToMany(Category::class, 'category_sight', 'sight_id', 'category_id');
-	}
+	// //景点分类 多对多，逆向
+	// public function categories() {
+	// 	return $this->belongsToMany(Category::class, 'category_sight', 'sight_id', 'category_id');
+	// }
 
 	//景点分类多对多
 	public function sighttype() {
