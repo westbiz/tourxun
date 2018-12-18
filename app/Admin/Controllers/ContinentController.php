@@ -77,10 +77,9 @@ class ContinentController extends Controller {
 
 		// $grid->model()->orderBy('parent_id','asc');
 		$grid->id('ID');
-		$grid->cn_name('中文')->display(function () {
-			return "<a href='/admin/continents/" . $this->id . "'><span>" . $this->cn_name . "</span></a>";
-		});
+		$grid->cn_name('中文')->editable();
 		$grid->parentcontinent()->cn_name('父级')->label('info');
+		$grid->childrencontinent('子类')->pluck('cn_name')->label('danger');
 		$grid->en_name('英文')->editable();
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
@@ -128,6 +127,7 @@ class ContinentController extends Controller {
 		$form = new Form(new Continent);
 
 		$form->display('ID');
+		$form->select('parent_id', '大洲')->options(Continent::where('parent_id', '0')->pluck('cn_name', 'id'));
 		$form->text('cn_name', '中文名称');
 		$form->text('en_name', '英文名称');
 		// $form->display('Created at');
