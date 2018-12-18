@@ -38,10 +38,10 @@ class Category extends Model {
 		return $this->hasMany(Product::class, 'category_id', 'id');
 	}
 
-	//景点分类多对多
-	public function sights() {
-		return $this->belongsToMany(Sight::class, 'category_sight');
-	}
+	// //景点分类多对多
+	// public function sights() {
+	// 	return $this->belongsToMany(Sight::class, 'category_sight');
+	// }
 
 	//一对多
 	public function childcategories() {
@@ -64,11 +64,11 @@ class Category extends Model {
 		return $this->belongsToMany(Catattr::class, 'p_catattr_category');
 	}
 
-	//属性值远层一对多
-	public function attrvalues() {
-		return $this->hasManyThrough(Attrvalue::class, Catattr::class,
-			'category_id', 'catattr_id', 'id', 'id');
-	}
+	// //属性值远层一对多
+	// public function attrvalues() {
+	// 	return $this->hasManyThrough(Attrvalue::class, Catattr::class,
+	// 		'category_id', 'catattr_id', 'id', 'id');
+	// }
 
 	//定义修改器访问器
 	// public function getCategoryIdAttribute($value) {
