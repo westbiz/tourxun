@@ -6,7 +6,6 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Country;
 use App\Models\Product;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -132,7 +131,7 @@ class ProductController extends Controller {
 			$form->select('start', '线路类型')->options(Attrvalue::where('catattr_id', 5)->pluck('attrvalue', 'id'));
 			// $form->multipleSelect('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'));
 
-			$form->multipleSelect('destination', '目的地')->options(Country::all()->pluck('cname', 'id'));
+			$form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')

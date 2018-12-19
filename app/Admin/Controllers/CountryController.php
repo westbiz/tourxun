@@ -3,9 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Continent;
 use App\Models\Country;
-use App\Models\Category;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,16 +15,12 @@ use Encore\Admin\Show;
 class CountryController extends Controller {
 	use HasResourceActions;
 
-public function assign(Request $request)
-    {
-        foreach (Country::find($request->get('ids')) as $assign) {
-            $assign->released = $request->get('action');
-            $assign->save();
-        }
-    }
-
-
-
+	public function assign(Request $request) {
+		foreach (Country::find($request->get('ids')) as $assign) {
+			$assign->released = $request->get('action');
+			$assign->save();
+		}
+	}
 
 	/**
 	 * Index interface.
@@ -89,12 +85,12 @@ public function assign(Request $request)
 		$grid = new Grid(new Country);
 
 		$grid->tools(function ($tools) {
-		    $tools->batch(function ($batch) {
-		        // $batch->disableDelete();
-		        // $batch->add('归类到', new AssignCountry(1));
-		        // $batch->
+			$tools->batch(function ($batch) {
+				// $batch->disableDelete();
+				// $batch->add('归类到', new AssignCountry(1));
+				// $batch->
 
-		    });
+			});
 		});
 
 		$grid->filter(function ($filter) {
@@ -107,11 +103,12 @@ public function assign(Request $request)
 			// 		});
 			// 	}, '洲名');
 			$filter->column(3 / 4, function ($filter) {
-				$continents = Continent::where('parent_id','0')->pluck('cn_name', 'id');
+				$continents = Continent::where('parent_id', '0')->pluck('cn_name', 'id');
 				$filter->expand()->equal('continent_id', '大洲')->select($continents);
 				$filter->expand()->where(function ($query) {
 					$query->where('cname', 'like', "%{$this->input}%")
-						->orWhere('full_cname', 'like', "%{$this->input}%");
+						->orWhere('full_cname', 'like', "%{$this->input}%")
+						->orWhere('name', 'like', "%{$this->input}%");
 					// $query->whereHas('country', function ($query){
 					// 	$query->where('cname', 'like', "%{$this->input}%");
 					// });
@@ -149,7 +146,7 @@ public function assign(Request $request)
 		$show->cname('中文名称');
 		$show->continent_id('大洲');
 		$show->name('英文名称');
-		// $show->lower_name('en小写');
+		$show->lower_name('en小写');
 		$show->country_code('代码');
 		$show->full_name('英文全称');
 		$show->full_cname('中文全称');
@@ -169,12 +166,13 @@ public function assign(Request $request)
 		$form = new Form(new Country);
 
 		$form->display('ID');
-		$form->text('cname', '中文名称');
+		$form->text('cnname', '中文名称');
 		$continents = Continent::pluck('cn_name', 'id');
 		$form->select('continent_id', '大洲')->options($continents);
-		$form->multipleSelect('continentlocated','地理位置')->options(Continent::where('parent_id','>','0')->pluck('cn_name', 'id'));
-		$form->multipleSelect('categorycountry','目的地归类')->options(Category::where('parent_id',1)->pluck('name','id'));
+		$form->multipleSelect('continentlocated', '地理位置')->options(Continent::where('parent_id', '>', '0')->pluck('cn_name', 'id'));
+		$form->multipleSelect('categorycountry', '目的地归类')->options(Category::where('parent_id', 1)->pluck('name', 'id'));
 		$form->text('name', 'en名称');
+		$form->text('lower_name', '小写');
 		$form->text('country_code', '代码');
 		$form->text('full_name', 'en全称');
 		$form->text('full_cname', '中文全称');

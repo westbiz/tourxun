@@ -82,7 +82,7 @@ class WorldcityController extends Controller {
 				$continents = Country::pluck('cname', 'id');
 				$filter->expand()->equal('country_id', '按国家')->select($continents);
 				$filter->expand()->where(function ($query) {
-					$query->where('cn_name', 'like', "%{$this->input}%")
+					$query->where('cn_city', 'like', "%{$this->input}%")
 						->orWhere('cn_state', 'like', "%{$this->input}%");
 					// $query->whereHas('country', function ($query){
 					// 	$query->where('cname', 'like', "%{$this->input}%");
@@ -91,11 +91,11 @@ class WorldcityController extends Controller {
 			});
 		});
 		$grid->id('ID');
-		$grid->cn_name('中文名称');
+		$grid->cn_city('城市名');
 		$grid->name('en名称');
 		$grid->country()->cname('国家')->label('info');
-		$grid->cn_state('省区/州');
-		$grid->state('en省区/州');
+		$grid->cn_state('省/州');
+		$grid->state('en省/州');
 		$grid->lower_name('小写');
 		$grid->city_code('代码');
 		$grid->state_code('州代码');
@@ -115,8 +115,16 @@ class WorldcityController extends Controller {
 		$show = new Show(Worldcity::findOrFail($id));
 
 		$show->id('ID');
-		$show->created_at('Created at');
-		$show->updated_at('Updated at');
+		$show->cn_city('城市名');
+		$show->name('en名称');
+		$show->country()->cname('国家')->label('info');
+		$show->cn_state('省/州');
+		$show->state('en省/州');
+		$show->lower_name('小写');
+		$show->city_code('代码');
+		$show->state_code('州代码');
+		// $show->created_at('Created at');
+		// $show->updated_at('Updated at');
 
 		return $show;
 	}
@@ -130,11 +138,11 @@ class WorldcityController extends Controller {
 		$form = new Form(new Worldcity);
 
 		$form->display('ID');
-		$form->text('cn_name', '中文名称');
+		$form->text('cn_city', '城市名');
 		$form->text('name', 'en名称');
 		$form->text('country_id', '国家');
-		$form->text('cn_state', '州名');
-		$form->text('state', 'en州名');
+		$form->text('cn_state', '省/州名');
+		$form->text('state', 'en省/州名');
 		$form->text('lower_name', '小写');
 		$form->text('city_code', '城市代码');
 		$form->text('state_code', '州代码');
