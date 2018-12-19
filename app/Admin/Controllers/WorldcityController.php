@@ -83,7 +83,9 @@ class WorldcityController extends Controller {
 				$filter->expand()->equal('country_id', '按国家')->select($continents);
 				$filter->expand()->where(function ($query) {
 					$query->where('cn_city', 'like', "%{$this->input}%")
-						->orWhere('cn_state', 'like', "%{$this->input}%");
+						->orWhere('cn_state', 'like', "%{$this->input}%")
+						->orWhere('lower_name', 'like', "%{$this->input}%")
+						;
 					// $query->whereHas('country', function ($query){
 					// 	$query->where('cname', 'like', "%{$this->input}%");
 					// });
