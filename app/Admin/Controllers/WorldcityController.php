@@ -85,7 +85,10 @@ class WorldcityController extends Controller {
 					$query->where('cn_city', 'like', "%{$this->input}%")
 						->orWhere('cn_state', 'like', "%{$this->input}%")
 						->orWhere('lower_name', 'like', "%{$this->input}%")
-						;
+						->orWhere('state', 'like', "%{$this->input}%")
+						->orWhere('city_code', 'like', "%{$this->input}%")
+						->orWhere('state_code', 'like', "%{$this->input}%")
+					;
 					// $query->whereHas('country', function ($query){
 					// 	$query->where('cname', 'like', "%{$this->input}%");
 					// });
