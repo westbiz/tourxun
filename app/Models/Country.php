@@ -23,7 +23,7 @@ class Country extends Model {
 
 	//一对多反向，国家
 	public function worldcities() {
-		return $this->hasMany(Country::class, 'country_id', 'id');
+		return $this->hasMany(Worldcity::class, 'country_id', 'id');
 	}
 
 	//多对多，分类多国家

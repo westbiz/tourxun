@@ -144,8 +144,9 @@ class WorldcityController extends Controller {
 
 		$form->display('ID');
 		$form->text('cn_city', '城市名');
+		$form->select('country_id','国家')->options(Country::pluck('cname', 'id'));
 		$form->text('name', 'en名称');
-		$form->text('country_id', '国家');
+		// $form->text('country_id', '国家');
 		$form->text('cn_state', '省/州名');
 		$form->text('state', 'en省/州名');
 		$form->text('lower_name', '小写');

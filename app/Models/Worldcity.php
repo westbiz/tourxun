@@ -8,7 +8,7 @@ class Worldcity extends Model {
 	protected $table = 't_world_cities';
 
 	protected $fillable = [
-		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code',
+		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_city', 'city_code', 'state_code',
 	];
 
 	//一对多反向，国家
