@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,11 +24,11 @@ class Category extends Model {
 	];
 
 	public function scopeParents($query) {
-		return $query->where('parent_id', 0);
+		return $query->where('parent_id', 1);
 	}
 
 	public function countries() {
-		return $this->belongsToMany(Country::class, 't_category_countries','country_id','category_id');
+		return $this->belongsToMany(Country::class, 't_category_countries', 'country_id', 'category_id');
 	}
 
 	//一对多，多个产品
@@ -62,6 +60,26 @@ class Category extends Model {
 	//分类、属性 多对多
 	public function catattrs() {
 		return $this->belongsToMany(Catattr::class, 'p_catattr_category');
+	}
+
+	public function parent() {
+		return $this->belongsTo(Category::class, 'parent_id');
+	}
+
+	public function children() {
+		return $this->hasMany(Category::class, 'parent_id');
+	}
+
+	public function brothers() {
+		return $this->parent->children();
+	}
+
+	//
+	public static function options($id) {
+		if (!$self = static::find($id)) {
+			return [];
+		}
+		return $self->brothers()->pluck('areaName', 'id');
 	}
 
 	// //属性值远层一对多

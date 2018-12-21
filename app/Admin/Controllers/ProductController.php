@@ -6,7 +6,6 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Worldcity;
 use App\Models\Product;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -129,10 +128,15 @@ class ProductController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
-			$form->select('start', '线路类型')->options(Category::where('parent_id', 1)->pluck('name', 'id'));
+			$form->select('start', '线路类型')->options(
+				Category::parents()->pluck('name', 'id')
+			)->load('children', '/api/v1/categories/children');
+			$form->select('children', '目的地')->options(function ($id) {
+				return Category::options($id);
+			});
 			// $form->multipleSelect('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'));
 
-			$form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
+			// $form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')
