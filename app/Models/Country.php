@@ -17,7 +17,7 @@ class Country extends Model {
 	}
 
 	//多对多，大洲国家地区地理位置
-	public function continentlocated() {
+	public function continentlocation() {
 		return $this->belongsToMany(Continent::class, 't_country_continent', 'country_id', 'continent_id');
 	}
 

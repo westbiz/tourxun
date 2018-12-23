@@ -148,7 +148,7 @@ class CategoryController extends Controller {
 
 			$grid->parent_id('父类');
 			$grid->childcategories('子类')->count()->label('danger');
-			$grid->order('排序');
+			$grid->order('排序')->editable();
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
 				$filter->between('created_at', 'Created Time')->datetime();

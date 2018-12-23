@@ -134,7 +134,17 @@ class ProductController extends Controller {
 			$form->select('children', '目的地')->options(function ($id) {
 				return Category::options($id);
 			});
-			// $form->multipleSelect('destination', '目的地')->options(Area::all()->pluck('areaName', 'id'));
+
+			$form->select('destination', 'test')->groups(
+            [
+             	[
+            	'label' => 'grouplabel',
+	             'options' => [
+	                 1 => '国内',
+	                 2 => '国际', 
+		            ],
+		        ]
+		    ]);
 
 			// $form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
 

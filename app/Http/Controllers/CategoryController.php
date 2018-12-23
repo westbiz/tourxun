@@ -45,7 +45,7 @@ class CategoryController extends Controller {
 		// 	return ['label' => $parent->name, 'options' => [$parent->id => $parent->name]];
 		// }
 		// $parents = Category::with('childCategory')->get(['id', DB::RAW('name as text')]);
-		$parents = Category::with('childcategories:id,name as text,parent_id')->get(['id', DB::RAW('name as label')]);
+		$parents = Category::where('parent_id','>',0)->with('childcategories:id,name as text,parent_id')->get(['id', DB::RAW('name as label')]);
 		return $parents;
 
 	}
@@ -98,7 +98,7 @@ class CategoryController extends Controller {
 	//用于ajax的select联动api的子级返回选项
 	public function children(Request $request) {
 		$categoryId = $request->get('q');
-		return Category::where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
+		return Category::where('parent_id', $categoryId)->orderBy('order','asc')->get(['id', DB::RAW('name as text')]);
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项

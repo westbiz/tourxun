@@ -22,7 +22,7 @@ class AttrvalueController extends Controller {
 	 */
 	public function index(Content $content) {
 		return $content
-			->header('Index')
+			->header('属性值管理')
 			->description('description')
 			->body($this->grid());
 	}

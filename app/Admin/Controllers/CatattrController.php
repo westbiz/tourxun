@@ -21,7 +21,7 @@ class CatattrController extends Controller {
 	 */
 	public function index(Content $content) {
 		return $content
-			->header('Index')
+			->header('属性管理')
 			->description('description')
 			->body($this->grid());
 	}
@@ -75,6 +75,7 @@ class CatattrController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Catattr);
 
+		$grid->model()->orderBy('parent_id','asc');
 		$grid->id('ID');
 		$grid->name('属性名称')->editable();
 		$grid->description('说明')->editable();
@@ -141,7 +142,7 @@ class CatattrController extends Controller {
 		$form->radio('active', '激活')->options([1 => '是', 0 => '否'])->default(0);
 
 		$form->hasMany('attrvalues', '属性值', function (Form\NestedForm $form) {
-			$form->text('attrvalue', '值');
+			$form->text('attrvalue', '值名');
 			$form->text('order', '排序');
 			$form->radio('status', '状态')->options([1 => '是', 0 => '否'])->default(0);
 		});
