@@ -136,7 +136,8 @@ class CategoryController extends Controller {
 			$grid->parentcategory('归属父类')->display(function ($parentcategory) {
 				return "<span class='label label-info'>{$parentcategory['name']}</span>";
 			});
-			$grid->description('说明')->limit(60)->editable();
+			$grid->childcategories('子类')->pluck('name')->label('danger')->style('max-width:240px;word-break:break-all;');
+			// $grid->description('说明')->limit(60)->editable();
 
 			// $grid->column('expand')->expand(function () {
 			//           if (empty($this->sights)) {
@@ -147,7 +148,7 @@ class CategoryController extends Controller {
 			//       }, 'Sights');
 
 			$grid->parent_id('父类');
-			$grid->childcategories('子类')->count()->label('danger');
+			// $grid->childcategories('子类')->count()->label('danger');
 			$grid->order('排序')->editable();
 			$grid->filter(function ($filter) {
 				// 设置created_at字段的范围查询
