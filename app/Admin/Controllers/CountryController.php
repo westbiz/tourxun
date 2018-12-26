@@ -108,7 +108,8 @@ class CountryController extends Controller {
 				$filter->expand()->where(function ($query) {
 					$query->where('cname', 'like', "%{$this->input}%")
 						->orWhere('full_cname', 'like', "%{$this->input}%")
-						->orWhere('name', 'like', "%{$this->input}%");
+						->orWhere('name', 'like', "%{$this->input}%")
+						->orWhere('country_code', 'like', "%{$this->input}%");
 					// $query->whereHas('country', function ($query){
 					// 	$query->where('cname', 'like', "%{$this->input}%");
 					// });
