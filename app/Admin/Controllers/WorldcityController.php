@@ -84,6 +84,7 @@ class WorldcityController extends Controller {
 				$filter->expand()->where(function ($query) {
 					$query->where('cn_city', 'like', "%{$this->input}%")
 						->orWhere('cn_state', 'like', "%{$this->input}%")
+						->orWhere('name', 'like', "%{$this->input}%")
 						->orWhere('lower_name', 'like', "%{$this->input}%")
 						->orWhere('state', 'like', "%{$this->input}%")
 						->orWhere('city_code', 'like', "%{$this->input}%")
@@ -144,12 +145,13 @@ class WorldcityController extends Controller {
 
 		$form->display('ID');
 		$form->text('cn_city', '城市名');
-		$form->select('country_id','国家')->options(Country::pluck('cname', 'id'));
+		$form->select('country_id', '国家')->options(Country::pluck('cname', 'id'));
 		$form->text('name', 'en名称');
+		$form->text('lower_name', '小写');
 		// $form->text('country_id', '国家');
 		$form->text('cn_state', '省/州名');
 		$form->text('state', 'en省/州名');
-		$form->text('lower_name', '小写');
+
 		$form->text('city_code', '城市代码');
 		$form->text('state_code', '州代码');
 		// $form->display('Created at');

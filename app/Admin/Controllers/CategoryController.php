@@ -133,10 +133,10 @@ class CategoryController extends Controller {
 			});
 			$grid->id('ID')->sortable();
 			$grid->name('名称')->editable();
-			$grid->parentcategory('归属父类')->display(function ($parentcategory) {
+			$grid->parentcategory('父类')->display(function ($parentcategory) {
 				return "<span class='label label-info'>{$parentcategory['name']}</span>";
 			});
-			$grid->childcategories('子类')->pluck('name')->label('danger')->style('max-width:240px;word-break:break-all;');
+			$grid->childcategories('子类')->pluck('name')->label('danger')->style('max-width:230px;word-break:break-all;');
 			// $grid->description('说明')->limit(60)->editable();
 
 			// $grid->column('expand')->expand(function () {

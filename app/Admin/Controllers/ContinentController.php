@@ -75,7 +75,8 @@ class ContinentController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Continent);
 
-		// $grid->model()->orderBy('parent_id', 'asc');
+		$grid->model()->orderBy('parent_id', 'asc')
+			->orderBy('id', 'asc');
 		$grid->id('ID')->sortable();
 		$grid->cn_name('中文')->editable();
 		$grid->parentcontinent()->cn_name('父级')->label('info');
