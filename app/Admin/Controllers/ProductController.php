@@ -136,17 +136,17 @@ class ProductController extends Controller {
 			});
 
 			$form->select('destination', 'test')->groups(
-            [
-             	[
-            	'label' => 'grouplabel',
-	             'options' => [
-	                 1 => '国内',
-	                 2 => '国际', 
-		            ],
-		        ]
-		    ]);
+				[
+					[
+						'label' => 'grouplabel',
+						'options' => [
+							1 => '国内',
+							2 => '国际',
+						],
+					],
+				]);
 
-			// $form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
+			$form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')

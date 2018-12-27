@@ -122,6 +122,7 @@ class CountryController extends Controller {
 		$grid->cname('中文');
 		$grid->continent()->cn_name('大洲')->label('info');
 		$grid->continentlocation('地理位置')->pluck('cn_name')->label('danger');
+		$grid->categorycountry('归类')->pluck('name')->label();
 		$grid->name('英文');
 		// $grid->lower_name('en小写');
 		$grid->country_code('代码');
