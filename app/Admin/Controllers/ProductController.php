@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Worldcity;
 use App\Models\Product;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -146,7 +147,7 @@ class ProductController extends Controller {
 					],
 				]);
 
-			$form->multipleSelect('destination', '目的地')->options(Category::where('parent_id', '>', '1')->pluck('name', 'id'));
+			// $form->multipleSelect('destination', '目的地')->options(Worldcity::pluck('cn_city', 'id'));
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')

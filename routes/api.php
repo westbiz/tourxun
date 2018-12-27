@@ -69,3 +69,5 @@ Route::get('area/city', 'AreaController@city')->name('city');
 Route::get('area/district', 'AreaController@district')->name('district');
 
 Route::get('area/province', 'AreaController@province')->name('province');
+
+Route::get('worldcities/ajax', 'WorldcityController@citiesajax')->name('ajax');
