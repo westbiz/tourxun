@@ -6,8 +6,8 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Worldcity;
 use App\Models\Product;
+use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -136,18 +136,23 @@ class ProductController extends Controller {
 				return Category::options($id);
 			});
 
-			$form->select('destination', 'test')->groups(
-				[
-					[
-						'label' => 'grouplabel',
-						'options' => [
-							1 => '国内',
-							2 => '国际',
-						],
-					],
-				]);
+			// $form->select('destination', 'test')->groups(
+			// 	[
+			// 		[
+			// 			'label' => 'grouplabel',
+			// 			'options' => [
+			// 				1 => '国内',
+			// 				2 => '国际',
+			// 			],
+			// 		],
+			// 	]);
 
-			// $form->multipleSelect('destination', '目的地')->options(Worldcity::pluck('cn_city', 'id'));
+			$form->select('city', '城市')->options(function ($id) {
+				$city = Worldcity::find($id);
+				if ($city) {
+					return [$city->id => $city->cn_city];
+				}
+			})->ajax('api/v1/worldcities/ajax');
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')
