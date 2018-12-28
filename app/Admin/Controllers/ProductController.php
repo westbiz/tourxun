@@ -147,12 +147,12 @@ class ProductController extends Controller {
 			// 		],
 			// 	]);
 
-			$form->select('city', '城市')->options(function ($id) {
+			$form->multipleSelect('city', '城市')->options(function ($id) {
 				$city = Worldcity::find($id);
 				if ($city) {
 					return [$city->id => $city->cn_city];
 				}
-			})->ajax('api/v1/worldcities/ajax');
+			})->ajax('/api/v1/worldcities/ajax');
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')
