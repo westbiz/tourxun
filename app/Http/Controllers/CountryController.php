@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\WorldcityController;
-use App\Models\Worldcity;
-// use App\Http\Controllers\Worldcity;
+use App\Http\Controllers\CountryController;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
-class WorldcityController extends Controller {
+class CountryController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -79,13 +77,13 @@ class WorldcityController extends Controller {
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项
-	public function citiesajax(Request $request) {
+	public function countryajax(Request $request) {
 		$q = $request->get('q');
-		return Worldcity::where('cn_city', 'like', "%$q%")
+		return Country::where('cname', 'like', "%$q%")
 			->orWhere('name', 'like', "%$q%")
-			->orWhere('city_code', 'like', "%$q%")
-			->orWhere('cn_state', 'like', "%$q%")
-			->paginate(null, ['id', 'cn_city as text']);
+			->orWhere('country_code', 'like', "%$q%")
+		// ->orWhere('cn_state', 'like', "%$q%")
+			->paginate(null, ['id', 'cname as text']);
 	}
 
 }

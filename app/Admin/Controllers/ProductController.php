@@ -6,8 +6,8 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Product;
-use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -147,12 +147,19 @@ class ProductController extends Controller {
 			// 		],
 			// 	]);
 
-			$form->multipleSelect('city', '城市')->options(function ($id) {
-				$city = Worldcity::find($id);
-				if ($city) {
-					return [$city->id => $city->cn_city];
+			// $form->multipleSelect('city', '城市')->options(function ($id) {
+			// 	$city = Worldcity::find($id);
+			// 	if ($city) {
+			// 		return [$city->id => $city->cn_city];
+			// 	}
+			// })->ajax('/api/v1/worldcities/ajax');
+
+			$form->multipleSelect('city', '地区')->options(function ($id) {
+				$country = Country::find($id);
+				if ($country) {
+					return [$country->id => $country->cname];
 				}
-			})->ajax('/api/v1/worldcities/ajax');
+			})->ajax('/api/v1/countries/ajax');
 
 			$cates = Catattr::where('parent_id', 1)
 			// ->where('active', '1')
