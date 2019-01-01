@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Country;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -43,6 +44,7 @@ class CategoryController extends Controller {
 				// $show->id('ID');
 				$show->panel()->title('概览');
 				$show->name('名称');
+				// $show->countries()->cname();
 				$show->order('排序');
 				$show->description('描述');
 
@@ -125,7 +127,7 @@ class CategoryController extends Controller {
 	protected function grid() {
 		return Admin::grid(Category::class, function (Grid $grid) {
 
-			// $grid->model()->with('sights');
+			// $grid->model()->where('parent_id','1');
 			// $grid->model()->with('attrvalues');
 			$grid->actions(function ($actions) {
 				$c_id = $actions->getKey();
@@ -136,7 +138,12 @@ class CategoryController extends Controller {
 			$grid->parentcategory('父类')->display(function ($parentcategory) {
 				return "<span class='label label-info'>{$parentcategory['name']}</span>";
 			});
-			$grid->childcategories('子类')->pluck('name')->label('danger')->style('max-width:230px;word-break:break-all;');
+			$grid->childcategories('线路')->display(function ($categories) {
+				$categories = array_map(function ($category) {
+					return "<a href='products/create?ctn_id=chn&category_id={$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
+				}, $categories);
+				return join('&nbsp;', $categories);
+			})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
 			// $grid->description('说明')->limit(60)->editable();
 
 			// $grid->column('expand')->expand(function () {
@@ -183,9 +190,10 @@ class CategoryController extends Controller {
 			$form->tab('基本信息', function ($form) {
 				$p_id = request()->get('parent_id');
 				$form->display('id', 'ID');
+
+				$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');				
 				$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
-				// $form->select('categoryecountry','国家地区')->options(Country::pluck('cname','id'));
-				$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
+				$form->multipleSelect('countries','国家地区')->options(Country::pluck('cname','id'));
 				$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 				$form->text('order', '排序')->value($next_id[0]->Auto_increment);
 				$form->textarea('description', '说明')->help('请输入2-50个字符！');

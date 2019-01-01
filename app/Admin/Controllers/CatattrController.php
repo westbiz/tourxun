@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Catattr;
+use App\Models\Category;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -78,10 +79,11 @@ class CatattrController extends Controller {
 		$grid->model()->orderBy('parent_id','asc');
 		$grid->id('ID');
 		$grid->name('属性名称')->editable();
-		$grid->description('说明')->editable();
-		// $grid->categories('类别')->pluck('name')->label('danger');
+		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;line-height:1.5em;word-break:break-all;');		
+		// $grid->description('说明')->editable();
 		$grid->parentcatattr()->name('属性类别')->label('danger');
-		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;word-break:break-all;');
+		$grid->categories('归属分类')->pluck('name')->label('warning');
+
 		// $grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
 		// $grid->isrequired('必填')->using(['1' => '是', '0' => '否']);
 		// $grid->isrequired('必须？')->display(function ($isrequired) {
@@ -92,9 +94,9 @@ class CatattrController extends Controller {
 		// 	'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 		// ];
 		// $grid->isrequired('必填')->switch($states);
-		$grid->isrequired('必须')->select(['1' => '是', '0' => '否']);
-		$grid->active('激活')->using(['1' => '是', '0' => '否']);
-		$grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
+		// $grid->isrequired('必须')->select(['1' => '是', '0' => '否']);
+		// $grid->active('激活')->using(['1' => '是', '0' => '否']);
+		// $grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
 
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
@@ -112,10 +114,10 @@ class CatattrController extends Controller {
 		$show = new Show(Catattr::findOrFail($id));
 
 		$show->id('ID');
-		$show->name();
-		$show->parentcatattr()->name();
-		$show->description();
-		$show->inputtype();
+		$show->name('属性名称');
+		$show->parentcatattr()->name('上级分类');
+		$show->description('说明');
+		$show->inputtype('控件类型');
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
 
@@ -131,10 +133,10 @@ class CatattrController extends Controller {
 		$form = new Form(new Catattr);
 
 		$form->display('ID');
-		// $form->multipleSelect('categories', '分类')->options(Category::where('parent_id', '1')->pluck('name', 'id'));
-		$form->select('parent_id', '属性分类')->options(Catattr::where('parent_id', 0)->pluck('name', 'id'));
+		$form->text('name', '属性名称')->rules('required|min:2');		
+		$form->multipleSelect('categories', '归属分类')->options(Category::where('parent_id', '1')->pluck('name', 'id'));
+		$form->select('parent_id', '属性类别')->options(Catattr::where('parent_id', 0)->pluck('name', 'id'));
 
-		$form->text('name', '属性名称')->rules('required|min:2');
 		$form->text('description', '说明')->rules('required|min:2');
 		// $form->text('category_id', '类别id');
 		$form->radio('isrequired', '必填')->options([1 => '是', 0 => '否'])->default(0);

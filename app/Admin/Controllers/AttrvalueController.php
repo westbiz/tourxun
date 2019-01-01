@@ -114,14 +114,14 @@ class AttrvalueController extends Controller {
 		$form = new Form(new Attrvalue);
 
 		$form->display('ID');
-        $form->select('catattr_id')->options(Catattr::all()->pluck('name','id'));
-		$form->text('attrvalue');
+        $form->select('catattr_id','属性名')->options(Catattr::all()->pluck('name','id'));
+		$form->text('attrvalue','值');
         $states = [
             'on'  => ['value' => 1, 'text' => '打开', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
         ];
-        $form->text('order');
-        $form->switch('status')->states($states);
+        $form->text('order','排序');
+        $form->switch('status','激活')->states($states);
 
 		// $form->text('status');
 		// $form->display('Created at');
