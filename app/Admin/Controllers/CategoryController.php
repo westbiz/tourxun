@@ -144,6 +144,11 @@ class CategoryController extends Controller {
 				}, $categories);
 				return join('&nbsp;', $categories);
 			})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
+			$states = [
+				'on' => ['value' => 1, 'text' => '推荐', 'color' => 'primary'],
+				'off' => ['value' => 2, 'text' => '关闭', 'color' => 'default'],
+			];
+			$grid->promotion('推荐')->switch($states);
 			// $grid->description('说明')->limit(60)->editable();
 
 			// $grid->column('expand')->expand(function () {
@@ -191,11 +196,16 @@ class CategoryController extends Controller {
 				$p_id = request()->get('parent_id');
 				$form->display('id', 'ID');
 
-				$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');				
+				$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 				$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
-				$form->multipleSelect('countries','国家地区')->options(Country::pluck('cname','id'));
+				$form->multipleSelect('countries', '目的地')->options(Country::pluck('cname', 'id'));
 				$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 				$form->text('order', '排序')->value($next_id[0]->Auto_increment);
+				$states = [
+					'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+					'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+				];
+				$form->switch('promotion', '推荐')->states($states);
 				$form->textarea('description', '说明')->help('请输入2-50个字符！');
 			})->tab('子分类', function ($form) {
 				$form->hasMany('childcategories', '子分类', function (Form\NestedForm $form) {

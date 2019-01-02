@@ -20,7 +20,7 @@ class Category extends Model {
 	// ];
 
 	protected $fillable = [
-		'name', 'parent_id',  'order', 'description',
+		'name', 'parent_id', 'order', 'promotion', 'description',
 	];
 
 	public function scopeParents($query) {
