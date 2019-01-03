@@ -29,8 +29,20 @@ class CategoryController extends Controller {
 				['text' => '首页', 'url' => '/'],
 				['text' => '分类列表']
 			)
+			->body($this->rootlist());
+	}
+
+	public function lines(Content $content) {
+		return $content
+			->header('分类管理')
+			->description('列表')
+			->breadcrumb(
+				['text' => '首页', 'url' => '/'],
+				['text' => '分类列表']
+			)
 			->body($this->grid());
 	}
+
 
 	/**
 	 * Show interface.
@@ -92,13 +104,13 @@ class CategoryController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Category);
 
-		$grid->filter(function ($filter) {
-			$filter->disableIdFilter();
-			$categories = Category::where('parent_id', 1)->pluck('name', 'id');
-			$filter->expand()->equal('parent_id', '选择分类')->select($categories);
-		});
+		// $grid->filter(function ($filter) {
+		// 	$filter->disableIdFilter();
+		// 	$categories = Category::where('parent_id', 1)->pluck('name', 'id');
+		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
+		// });
 
-		// $grid->model()->where('parent_id', '1');
+		$grid->model()->where('parent_id','>', '1');
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
@@ -111,7 +123,7 @@ class CategoryController extends Controller {
 		});
 		$grid->childcategories('线路')->display(function ($categories) {
 			$categories = array_map(function ($category) {
-				return "<a href='products/create?ctn_id=chn&category_id={$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
+				return "<a href='categories?{$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
 			}, $categories);
 			return join('&nbsp;', $categories);
 		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
@@ -151,6 +163,47 @@ class CategoryController extends Controller {
 
 		return $grid;
 	}
+
+
+	//rootcategories
+	protected function rootlist() {
+		$grid = new Grid(new Category);
+
+		// $grid->filter(function ($filter) {
+		// 	$filter->disableIdFilter();
+		// 	$categories = Category::where('parent_id', 1)->pluck('name', 'id');
+		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
+		// });
+
+		$grid->model()->where('parent_id', '0');
+		// $grid->model()->with('attrvalues');
+		$grid->actions(function ($actions) {
+			$c_id = $actions->getKey();
+			$actions->prepend("<a href='categories/create?parent_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+		});
+		$grid->id('ID')->sortable();
+		$grid->name('名称')->editable();
+		$grid->parentcategory('父类')->display(function ($parentcategory) {
+			return "<span class='label label-info'>{$parentcategory['name']}</span>";
+		});
+		$grid->childcategories('线路')->display(function ($categories) {
+			$categories = array_map(function ($category) {
+				return "<a href='categories/{$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
+			}, $categories);
+			return join('&nbsp;', $categories);
+		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
+
+
+
+		// $grid->childcategories('子类')->count()->label('danger');
+		$grid->order('排序')->editable();
+
+		// $grid->deleted_at();
+		// $grid->created_at();
+		// $grid->updated_at();
+
+		return $grid;
+	}	
 
 	/**
 	 * Make a show builder.
