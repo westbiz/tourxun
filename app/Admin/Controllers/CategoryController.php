@@ -43,7 +43,6 @@ class CategoryController extends Controller {
 			->body($this->grid());
 	}
 
-
 	/**
 	 * Show interface.
 	 *
@@ -110,7 +109,7 @@ class CategoryController extends Controller {
 		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
 		// });
 
-		$grid->model()->where('parent_id','>', '1');
+		$grid->model()->where('parent_id', '>', '1');
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
@@ -164,7 +163,6 @@ class CategoryController extends Controller {
 		return $grid;
 	}
 
-
 	//rootcategories
 	protected function rootlist() {
 		$grid = new Grid(new Category);
@@ -193,8 +191,6 @@ class CategoryController extends Controller {
 			return join('&nbsp;', $categories);
 		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
 
-
-
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
 
@@ -203,7 +199,7 @@ class CategoryController extends Controller {
 		// $grid->updated_at();
 
 		return $grid;
-	}	
+	}
 
 	/**
 	 * Make a show builder.
@@ -224,9 +220,22 @@ class CategoryController extends Controller {
 			$child->resource('/admin/categories');
 			$child->id('ID');
 			$child->name('名称')->editable();
-			$child->description('描述')->editable();
+			$child->description('描述')->limit(30);
 			$child->order('排序');
+			$child->parentcategory()->name('类目');
+			$parent = request()->route()->parameters('categories');
+			// dd($parent['category']);
+			if ($parent['category'] > 1) {
+				$states = [
+					'on' => ['value' => 1, 'text' => '打开', 'color' => 'primary'],
+					'off' => ['value' => 0, 'text' => '关闭', 'color' => 'default'],
+				];
+				$child->promotion('推荐')->switch($states);
+			}
+
+			// $child->promotion('推荐')->using(['0' => '否', '1' => '是']);
 			$child->filter(function ($filter) {
+				$filter->disableIdFilter();
 				$filter->like('name');
 			});
 		});
