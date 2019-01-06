@@ -132,8 +132,8 @@ class ProductController extends Controller {
 
 			$form->select('start', '线路类型')->options(
 				Category::parents()->pluck('name', 'id')
-			)->load('children', '/api/v1/categories/children')->rules('required');
-			$form->select('children', '线路')->options(function ($id) {
+			)->load('lines', '/api/v1/categories/children')->rules('required');
+			$form->multipleSelect('lines', '线路')->options(function ($id) {
 				return Category::options($id);
 			});
 

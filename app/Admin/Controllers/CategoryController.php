@@ -220,7 +220,7 @@ class CategoryController extends Controller {
 			$child->resource('/admin/categories');
 			$child->id('ID');
 			$child->name('名称')->editable();
-			$child->description('描述')->limit(30);
+			$child->description('描述')->limit(50)->editable();
 			$child->order('排序');
 			$child->parentcategory()->name('类目');
 			$parent = request()->route()->parameters('categories');
