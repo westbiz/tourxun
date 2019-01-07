@@ -134,7 +134,8 @@ class ProductController extends Controller {
 			)->load('lines', '/api/v1/categories/children')->rules('required');
 			$form->multipleSelect('lines', '目的地')->options(function ($id) {
 				return Category::options($id);
-			})->help('没有需要的分类？前往创建');
+			})->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
+			// $form->html('<div><a href="/admin/categories/create">创建</a></div>', $label = 'test');
 
 			// $form->select('destination', 'test')->groups(
 			// 	[
