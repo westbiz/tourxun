@@ -184,9 +184,9 @@ class CategoryController extends Controller {
 		$grid->parentcategory('父类')->display(function ($parentcategory) {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
-		$grid->childcategories('线路')->display(function ($categories) {
+		$grid->childcategories('目的地')->display(function ($categories) {
 			$categories = array_map(function ($category) {
-				return "<a href='categories/{$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
+				return "<a href='products/create?category={$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
 			}, $categories);
 			return join('&nbsp;', $categories);
 		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');

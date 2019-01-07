@@ -6,9 +6,8 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Country;
-use App\Models\Worldcity;
 use App\Models\Product;
+use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -130,12 +129,12 @@ class ProductController extends Controller {
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
-			$form->select('start', '线路类型')->options(
+			$form->select('start', '分类')->options(
 				Category::parents()->pluck('name', 'id')
 			)->load('lines', '/api/v1/categories/children')->rules('required');
-			$form->multipleSelect('lines', '线路')->options(function ($id) {
+			$form->multipleSelect('lines', '目的地')->options(function ($id) {
 				return Category::options($id);
-			});
+			})->help('没有需要的分类？前往创建');
 
 			// $form->select('destination', 'test')->groups(
 			// 	[
@@ -148,7 +147,7 @@ class ProductController extends Controller {
 			// 		],
 			// 	]);
 
-			$form->multipleSelect('city', '城市')->options(function ($id) {
+			$form->multipleSelect('city', '途经城市')->options(function ($id) {
 				$city = Worldcity::find($id);
 				if ($city) {
 					return [$city->id => $city->cn_city];
