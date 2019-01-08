@@ -18,7 +18,7 @@ class Catattr extends Model {
 
 	//分类、属性 多对多
 	public function categories() {
-		return $this->belongsToMany(Category::class, 'p_catattr_category', 'catattr_id', 'category_id')->withPivot(['created_at', 'product_id']);
+		return $this->belongsToMany(Category::class, 'p_catattr_category', 'catattr_id', 'category_id');
 	}
 
 	//
