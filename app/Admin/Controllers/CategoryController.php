@@ -139,8 +139,8 @@ class CategoryController extends Controller {
 
 		$grid->parent_id('父类');
 		$states = [
-			'on' => ['value' => 1, 'text' => '推荐', 'color' => 'primary'],
-			'off' => ['value' => 2, 'text' => '关闭', 'color' => 'default'],
+			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+			'off' => ['value' => 2, 'text' => '否', 'color' => 'default'],
 		];
 		$grid->promotion('推荐')->switch($states);
 		// $grid->childcategories('子类')->count()->label('danger');
@@ -227,8 +227,8 @@ class CategoryController extends Controller {
 			// dd($parent['category']);
 			if ($parent['category'] > 1) {
 				$states = [
-					'on' => ['value' => 1, 'text' => '打开', 'color' => 'primary'],
-					'off' => ['value' => 0, 'text' => '关闭', 'color' => 'default'],
+					'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+					'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 				];
 				$child->promotion('推荐')->switch($states);
 			}
