@@ -162,9 +162,13 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/countries/ajax')->rules('required');
 
-			$cates = Catattr::where('parent_id', 1)
-				->has('categories', '>=', 6)
-				->orderBy('order', 'desc')->get();
+			
+			// dd($c_id);
+			$cates = Catattr::with('categories')->where('parent_id', 1)
+				->whereHas('categories', function($query){
+					$c_id = request()->get('category');
+					$query->where('category_id','=', $c_id);
+				})->get();
 			// dd($cates);
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
