@@ -163,9 +163,9 @@ class ProductController extends Controller {
 			// })->ajax('/api/v1/countries/ajax')->rules('required');
 
 			$cates = Catattr::where('parent_id', 1)
-			// ->where('active', '1')
+				->has('categories', '>=', 6)
 				->orderBy('order', 'desc')->get();
-			// dd($cates->inputtype);
+			// dd($cates);
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
 					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
