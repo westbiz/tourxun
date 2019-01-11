@@ -126,12 +126,14 @@ class ProductController extends Controller {
 	 */
 	protected function form() {
 		return Admin::form(Product::class, function (Form $form) {
+
+			$c_id = request()->get('category');
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
 			$form->select('start', '分类')->options(
 				Category::parents()->pluck('name', 'id')
-			)->load('lines', '/api/v1/categories/children')->rules('required');
+			)->load('lines', '/api/v1/categories/children')->rules('required')->default($c_id);
 			$form->multipleSelect('lines', '目的地')->options(function ($id) {
 				return Category::options($id);
 			})->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
@@ -162,12 +164,11 @@ class ProductController extends Controller {
 			// 	}
 			// })->ajax('/api/v1/countries/ajax')->rules('required');
 
-			
 			// dd($c_id);
 			$cates = Catattr::with('categories')->where('parent_id', 1)
-				->whereHas('categories', function($query){
+				->whereHas('categories', function ($query) {
 					$c_id = request()->get('category');
-					$query->where('category_id','=', $c_id);
+					$query->where('category_id', '=', $c_id);
 				})->get();
 			// dd($cates);
 			foreach ($cates as $cate) {
