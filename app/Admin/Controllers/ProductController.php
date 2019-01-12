@@ -137,7 +137,6 @@ class ProductController extends Controller {
 			$form->multipleSelect('lines', '目的地')->options(function ($id) {
 				return Category::options($id);
 			})->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
-			// $form->html('<div><a href="/admin/categories/create">创建</a></div>', $label = 'test');
 
 			// $form->select('destination', 'test')->groups(
 			// 	[
@@ -150,8 +149,8 @@ class ProductController extends Controller {
 			// 		],
 			// 	]);
 
-			$form->multipleSelect('city', '途经城市')->options(function ($id) {
-				$city = Worldcity::find($id);
+			$form->multipleSelect('city_id', '途经城市')->options(function ($id) {
+				$city = Worldcity::worldcities()->find($id);
 				if ($city) {
 					return [$city->id => $city->cn_city];
 				}

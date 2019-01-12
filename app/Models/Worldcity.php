@@ -16,6 +16,13 @@ class Worldcity extends Model {
 		return $this->belongsTo(Country::class, 'country_id', 'id');
 	}
 
-	//
+	//	
+	public function scopeChinacities() {
+		return $this->where('country_id', 101);
+	}
+
+	public function scopeWorldcities() {
+		return $this->where('country_id', '<>',101);
+	}
 
 }
