@@ -109,7 +109,7 @@ class CategoryController extends Controller {
 		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
 		// });
 
-		$grid->model()->where('parent_id', '>', '1');
+		$grid->model()->where('parent_id', '>', '0');
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
@@ -173,7 +173,8 @@ class CategoryController extends Controller {
 		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
 		// });
 
-		$grid->model()->where('parent_id', '0');
+		$grid->model()->where('parent_id', '0')
+			->orWhere('parent_id', null);
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
