@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Destination;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +11,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class Destination extends Controller
+class DestinationController extends Controller
 {
     use HasResourceActions;
 
@@ -82,8 +83,12 @@ class Destination extends Controller
         $grid = new Grid(new Destination);
 
         $grid->id('ID');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->name('名称');
+        $grid->description('说明');
+        $grid->categories('分类')->pluck('name')->label('info');
+        $grid->promotion('推荐');
+        // $grid->created_at('Created at');
+        // $grid->updated_at('Updated at');
 
         return $grid;
     }
@@ -99,8 +104,11 @@ class Destination extends Controller
         $show = new Show(Destination::findOrFail($id));
 
         $show->id('ID');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->name('名称');
+        $show->description('说明');
+        $show->promotion('推荐');
+        // $show->created_at('Created at');
+        // $show->updated_at('Updated at');
 
         return $show;
     }
@@ -115,8 +123,17 @@ class Destination extends Controller
         $form = new Form(new Destination);
 
         $form->display('ID');
-        $form->display('Created at');
-        $form->display('Updated at');
+        $form->text('name','名称');
+        $form->multipleSelect('categories', '分类')->options(Category::where('parent_id', 0)->pluck('name', 'id'));
+        $form->text('description','说明');
+        $states = [
+                'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+                'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+            ];
+        $form->switch('promotion', '推荐')->states($states);
+        // $form->text('promotion','推荐');
+        // $form->display('Created at');
+        // $form->display('Updated at');
 
         return $form;
     }

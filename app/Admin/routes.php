@@ -16,6 +16,8 @@ Route::group([
 
 	$router->resource('categories', 'CategoryController');
 
+	$router->resource('destinations', 'DestinationController');
+
 	$router->resource('products', 'ProductController');
 
 	$router->resource('navs', 'NavController');

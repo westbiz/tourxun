@@ -31,6 +31,12 @@ class Category extends Model {
 		return $this->belongsToMany(Country::class, 't_category_countries', 'country_id', 'category_id');
 	}
 
+
+	public function destinations() {
+		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'destination_id', 'category_id');
+	}
+
+
 	//一对多，多个产品
 	public function products() {
 		return $this->hasMany(Product::class, 'category_id', 'id');
