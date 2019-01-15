@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Destination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -24,18 +25,16 @@ class Category extends Model {
 	];
 
 	public function scopeParents($query) {
-		return $query->where('parent_id', 1);
+		return $query->where('parent_id', 0);
 	}
 
 	public function countries() {
 		return $this->belongsToMany(Country::class, 't_category_countries', 'country_id', 'category_id');
 	}
 
-
 	public function destinations() {
-		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'destination_id', 'category_id');
+		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'category_id', 'destination_id')->withTimestamps();
 	}
-
 
 	//一对多，多个产品
 	public function products() {
