@@ -84,7 +84,7 @@ class Category extends Model {
 		if (!$self = static::find($id)) {
 			return [];
 		}
-		return $self->brothers()->pluck('areaName', 'id');
+		return $self->brothers()->pluck('name', 'id');
 	}
 
 	// //属性值远层一对多

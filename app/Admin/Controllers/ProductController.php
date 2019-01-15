@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Destination;
 use App\Models\Product;
 use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
@@ -135,7 +136,7 @@ class ProductController extends Controller {
 				Category::parents()->pluck('name', 'id')
 			)->load('lines', '/api/v1/categories/children')->rules('required')->default($c_id);
 			$form->multipleSelect('lines', '目的地')->options(function ($id) {
-				return Category::options($id);
+				return Destination::options($id);
 			})->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
 
 			// $form->select('destination', 'test')->groups(

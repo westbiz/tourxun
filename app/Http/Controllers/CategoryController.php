@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 // use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -98,7 +99,7 @@ class CategoryController extends Controller {
 	//用于ajax的select联动api的子级返回选项
 	public function children(Request $request) {
 		$categoryId = $request->get('q');
-		return Category::where('parent_id', $categoryId)->get(['id', DB::RAW('name as text')]);
+		return Destination::where('id', $categoryId)->get(['id', DB::RAW('name as text')]);
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项
