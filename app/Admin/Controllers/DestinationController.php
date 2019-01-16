@@ -115,7 +115,7 @@ class DestinationController extends Controller {
 		$form = new Form(new Destination);
 
 		$form->display('ID');
-		$form->text('name', '名称');
+		$form->text('name', '名称')->rules('required|min:2');
 		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', 0)->pluck('name', 'id'))->rules('required');
 		$form->text('description', '说明');
 		$states = [

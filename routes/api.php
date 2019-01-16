@@ -1,6 +1,7 @@
 <?php
 
-// use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryCollection;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 /*
@@ -57,6 +58,9 @@ Route::get('categories/groups', 'CategoryController@groups')->name('groups');
 // 	return new CategoryResource(Category::find($id));
 // });
 
+Route::get('/categories', function () {
+	return new CategoryCollection(Category::find(1));
+});
 Route::get('categories/ajax', 'CategoryController@categoryajax')->name('ajax');
 Route::get('categories/children', 'CategoryController@children')->name('children');
 

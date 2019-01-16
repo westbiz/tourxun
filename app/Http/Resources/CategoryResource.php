@@ -21,9 +21,7 @@ class CategoryResource extends JsonResource {
 			'parent_id' => $this->parent_id,
 			// 'options' => new CategoryCollection($this->childcategory),
 			'children' => CategoryResource::collection($this->childcategories),
-			'destinations' => $this->whenPivotLoaded('tx_category_destinations',function(){
-				return $this->pivot->destination_id;
-			}),
+			'destinations' => DestinationResource::collection($this->destinations),
 			// 'description' => $this->description,
 			// 'created_at' => $this->created_at,
 			// 'updated_at' => $this->updated_at,
