@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Destination extends Model {
+
 	protected $table = 'tx_destinations';
+
+	protected $hidden = ['pivot'];
 
 	protected $fillable = [
 		'name', 'parent_id', 'order', 'promotion', 'description',
@@ -36,6 +39,5 @@ class Destination extends Model {
 		}
 		return $self->brothers()->pluck('name', 'id');
 	}
-
 
 }
