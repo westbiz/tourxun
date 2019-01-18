@@ -25,4 +25,10 @@ class Worldcity extends Model {
 		return $this->where('country_id', '<>',101);
 	}
 
+	public function scopeGangaotai() {
+		return $this->where('country_id', '=',75)
+					->orWhere('country_id',71)
+					->orWhere('country_id',100);
+	}
+
 }

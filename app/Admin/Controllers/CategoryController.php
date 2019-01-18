@@ -185,11 +185,13 @@ class CategoryController extends Controller {
 		$grid->parentcategory('父类')->display(function ($parentcategory) {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
-		$grid->destinations('目的地')->display(function ($categories) {
-			$categories = array_map(function ($category) {
-				return "<a href='products/create?category={$category['id']}'><span class='label label-danger'>{$category['name']}</span></a>";
-			}, $categories);
-			return join('&nbsp;', $categories);
+		// $grid->id();
+		$grid->destinations('目的地')->display(function ($destinations) {
+			
+			$destinations = array_map(function ($destination) {
+				return "<a href='products/create?c_id=".$this->id."&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+			}, $destinations);
+			return join('&nbsp;', $destinations);
 		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
 
 		// $grid->childcategories('子类')->count()->label('danger');

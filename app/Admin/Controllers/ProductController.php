@@ -128,7 +128,7 @@ class ProductController extends Controller {
 	protected function form() {
 		return Admin::form(Product::class, function (Form $form) {
 
-			$c_id = request()->get('category');
+			$c_id = request()->get('c_id');
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
@@ -151,7 +151,7 @@ class ProductController extends Controller {
 			// 	]);
 
 			$form->multipleSelect('city_id', '途经城市')->options(function ($id) {
-				$city = Worldcity::worldcities()->find($id);
+				$city = Worldcity::gangaotai()->find($id);
 				if ($city) {
 					return [$city->id => $city->cn_city];
 				}
@@ -167,7 +167,7 @@ class ProductController extends Controller {
 			// dd($c_id);
 			$cates = Catattr::with('categories')->where('parent_id', 1)
 				->whereHas('categories', function ($query) {
-					$c_id = request()->get('category');
+					$c_id = request()->get('c_id');
 					$query->where('category_id', '=', $c_id);
 				})->get();
 			// dd($cates);
