@@ -79,14 +79,25 @@ class WorldcityController extends Controller {
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项
+	public function allcities(Request $request) {
+		$q = $request->get('q');
+		// return Worldcity::chinacities()
+		return Worldcity::where('cn_city', 'like', "%$q%")
+			->orWhere('name', 'like', "%$q%")
+			->orWhere('city_code', 'like', "%$q%")
+			->orWhere('cn_state', 'like', "%$q%")
+			->paginate(null, ['id', 'cn_city as text']);
+	}
+
+	//选项过多，可通过ajax方式动态分页载入选项
 	public function chinacities(Request $request) {
 		$q = $request->get('q');
-			// return Worldcity::chinacities()
+		// return Worldcity::chinacities()
 		return Worldcity::chinacities()
-		->where('cn_city', 'like', "%$q%")
-			// ->orWhere('name', 'like', "%$q%")
-			// ->orWhere('city_code', 'like', "%$q%")
-			// ->orWhere('cn_state', 'like', "%$q%")
+			->where('cn_city', 'like', "%$q%")
+		// ->orWhere('name', 'like', "%$q%")
+		// ->orWhere('city_code', 'like', "%$q%")
+		// ->orWhere('cn_state', 'like', "%$q%")
 			->paginate(null, ['id', 'cn_city as text']);
 	}
 
@@ -94,11 +105,11 @@ class WorldcityController extends Controller {
 	public function worldcities(Request $request) {
 		$q = $request->get('q');
 		return Worldcity::worldcities()
-		->where('cn_city', 'like', "%$q%")
-			// ->orWhere('name', 'like', "%$q%")
-			// ->orWhere('city_code', 'like', "%$q%")
-			// ->orWhere('cn_state', 'like', "%$q%")
+			->where('cn_city', 'like', "%$q%")
+		// ->orWhere('name', 'like', "%$q%")
+		// ->orWhere('city_code', 'like', "%$q%")
+		// ->orWhere('cn_state', 'like', "%$q%")
 			->paginate(null, ['id', 'cn_city as text']);
-	}	
+	}
 
 }

@@ -151,11 +151,11 @@ class ProductController extends Controller {
 			// 	]);
 
 			$form->multipleSelect('city_id', '途经城市')->options(function ($id) {
-				$city = Worldcity::gangaotai()->find($id);
+				$city = Worldcity::find($id);
 				if ($city) {
 					return [$city->id => $city->cn_city];
 				}
-			})->ajax('/api/v1/worldcities/ajax');
+			})->ajax('/api/v1/worldcities/all');
 
 			// $form->multipleSelect('city', '地区')->options(function ($id) {
 			// 	$country = Country::find($id);

@@ -16,19 +16,19 @@ class Worldcity extends Model {
 		return $this->belongsTo(Country::class, 'country_id', 'id');
 	}
 
-	//	
+	//
 	public function scopeChinacities() {
 		return $this->where('country_id', 101);
 	}
 
 	public function scopeWorldcities() {
-		return $this->where('country_id', '<>',101);
+		return $this->where('country_id', '<>', 101);
 	}
 
 	public function scopeGangaotai() {
-		return $this->where('country_id', '=',75)
-					->orWhere('country_id',71)
-					->orWhere('country_id',100);
+		return $this->where('country_id', 75)
+			->orWhere('country_id', 71)
+			->orWhere('country_id', 100);
 	}
 
 }
