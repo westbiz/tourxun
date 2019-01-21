@@ -194,6 +194,14 @@ class CategoryController extends Controller {
 			return join('&nbsp;', $destinations);
 		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
 
+		$grid->countries()->display(function ($countries) {
+			
+			$countries = array_map(function ($country) {
+				return "<a href='products/create?c_id=".$this->id."&d_id={$country['id']}'><span class='label label-danger'>{$country['cname']}</span></a>";
+			}, $countries);
+			return join('&nbsp;', $countries);
+		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');;
+
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
 

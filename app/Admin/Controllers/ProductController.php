@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
+use App\Models\Country;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\Product;
@@ -129,15 +130,22 @@ class ProductController extends Controller {
 		return Admin::form(Product::class, function (Form $form) {
 
 			$c_id = request()->get('c_id');
+			$d_id = request()->get('d_id');
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
-			$form->select('start', '分类')->options(
+			$form->select('category_id', '分类')->options(
 				Category::parents()->pluck('name', 'id')
 			)->load('destination', '/api/v1/categories/children')->rules('required')->default($c_id);
-			$form->multipleSelect('destination', '目的地')->options(function ($id) {
-				return Destination::options($id);
-			})->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
+			
+			$form->select('categorycountry','目的地')->options(Category::find(2)->countries()->pluck('cname','id'));
+
+			// $form->multipleSelect('destination', '目的地')->options(Destination::pluck('name','id'))->default($d_id);
+
+
+			// $form->multipleSelect('destination', '目的地')->options(function ($id) {
+			// 	return Destination::options($id);
+			// })->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
 
 			// $form->select('destination', 'test')->groups(
 			// 	[
@@ -150,12 +158,15 @@ class ProductController extends Controller {
 			// 		],
 			// 	]);
 
-			$form->multipleSelect('city_id', '途经城市')->options(function ($id) {
-				$city = Worldcity::find($id);
-				if ($city) {
-					return [$city->id => $city->cn_city];
-				}
-			})->ajax('/api/v1/worldcities/all');
+
+				$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
+					$city = Worldcity::find($id);
+					if ($city) {
+						return [$city->id => $city->cn_city];
+					}
+				})->ajax('/api/v1/worldcities/all');
+			
+			
 
 			// $form->multipleSelect('city', '地区')->options(function ($id) {
 			// 	$country = Country::find($id);

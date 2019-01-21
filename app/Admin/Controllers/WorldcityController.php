@@ -82,7 +82,7 @@ class WorldcityController extends Controller {
 				$continents = Country::orderBy('cname','asc')->pluck('cname', 'id');
 				$filter->expand()->equal('country_id', '按国家|地区')->select($continents);
 				$filter->expand()->where(function ($query) {
-					$query->where('cn_city', 'like', "%{$this->input}%")
+					$query->where('cn_name', 'like', "%{$this->input}%")
 						->orWhere('cn_state', 'like', "%{$this->input}%")
 						->orWhere('name', 'like', "%{$this->input}%")
 						->orWhere('lower_name', 'like', "%{$this->input}%")
@@ -97,12 +97,12 @@ class WorldcityController extends Controller {
 			});
 		});
 		$grid->id('ID');
-		$grid->cn_city('城市名');
-		$grid->name('en名称');
+		$grid->cn_name('城市名');
+		$grid->name('EN名称');
 		$grid->country()->cname('国家/地区')->label('info');
 		$grid->cn_state('省/州');
-		$grid->state('en省/州');
-		$grid->lower_name('小写');
+		$grid->state('EN省/州');
+		$grid->lower_name('en小写');
 		$grid->city_code('代码');
 		$grid->state_code('州代码');
 		// $grid->created_at('Created at');
@@ -121,12 +121,12 @@ class WorldcityController extends Controller {
 		$show = new Show(Worldcity::findOrFail($id));
 
 		$show->id('ID');
-		$show->cn_city('城市名');
-		$show->name('en名称');
+		$show->cn_name('城市名');
+		$show->name('EN名称');
 		$show->country()->cname('国家')->label('info');
 		$show->cn_state('省/州');
-		$show->state('en省/州');
-		$show->lower_name('小写');
+		$show->state('EN省/州');
+		$show->lower_name('en小写');
 		$show->city_code('代码');
 		$show->state_code('州代码');
 		// $show->created_at('Created at');
@@ -144,13 +144,13 @@ class WorldcityController extends Controller {
 		$form = new Form(new Worldcity);
 
 		$form->display('ID');
-		$form->text('cn_city', '城市名');
+		$form->text('cn_name', '城市名');
 		$form->select('country_id', '国家')->options(Country::pluck('cname', 'id'));
-		$form->text('name', 'en名称');
-		$form->text('lower_name', '小写');
+		$form->text('name', 'EN名称');
+		$form->text('lower_name', 'en小写');
 		// $form->text('country_id', '国家');
 		$form->text('cn_state', '省/州名');
-		$form->text('state', 'en省/州名');
+		$form->text('state', 'EN省/州名');
 
 		$form->text('city_code', '城市代码');
 		$form->text('state_code', '州代码');

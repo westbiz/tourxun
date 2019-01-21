@@ -28,7 +28,19 @@ class Country extends Model {
 
 	//多对多，分类多国家
 	public function categorycountry() {
-		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id');
+		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id')->wherePivot('active',1);
+	}
+
+
+	//
+	public function scopeChina()
+	{
+		return $this->where('id', 101);
+	}
+
+	public function scopeOutchina($query)
+	{
+		return $query->where('id','<>',101);
 	}
 
 }

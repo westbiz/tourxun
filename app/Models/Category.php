@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Country;
+use App\Models\Worldcity;
 use App\Models\Destination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,12 +31,26 @@ class Category extends Model {
 	}
 
 	public function countries() {
-		return $this->belongsToMany(Country::class, 't_category_countries', 'country_id', 'category_id');
+		return $this->belongsToMany(Country::class, 't_category_countries', 'category_id', 'country_id')->wherePivot('active',1);
 	}
 
 	public function destinations() {
 		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'category_id', 'destination_id')->withTimestamps();
 	}
+
+
+
+
+	//
+	// public function cities()
+	// {
+	// 	return $this->hasManyThrough(Country::class, Worldcity::class, 'country_id','id', 'id','id');
+	// }
+
+
+
+
+
 
 	//一对多，多个产品
 	public function products() {
