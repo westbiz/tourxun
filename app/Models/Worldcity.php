@@ -16,6 +16,36 @@ class Worldcity extends Model {
 		return $this->belongsTo(Country::class, 'country_id', 'id');
 	}
 
+
+
+	//联动
+	public function parent() {
+		return $this->belongsTo(Country::class, 'country_id', 'id');
+	}
+
+	public function children() {
+		return $this->hasMany(Worldcity::class, 'country_id', 'id');
+	}
+
+	public function brothers() {
+		return $this->parent->children();
+	}
+
+	//
+	public static function options($id) {
+		if (!$self = static::find($id)) {
+			return [];
+		}
+		return $self->brothers()->pluck('cn_name', 'id');
+	}
+
+
+
+
+
+
+
+
 	//
 	public function scopeChinacities() {
 		return $this->where('country_id', 101);

@@ -5,6 +5,8 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Destination;
+use App\Models\Country;
+use App\Models\Worldcity;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -78,6 +80,8 @@ class DestinationController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('名称')->editable();
+		$grid->country()->cname('国家');
+		$grid->city()->cn_name('所属城市');
 		$grid->description('说明')->editable();
 		$grid->categories('分类')->pluck('name')->label('info');
 		$grid->promotion('推荐');
@@ -114,13 +118,40 @@ class DestinationController extends Controller {
 	protected function form() {
 		$form = new Form(new Destination);
 
-		$form->display('ID');
-		$form->text('name', '名称')->rules(function($form){
+		// $form->display('ID');
+		$form->text('name', '目的地名称')->rules(function($form){
 			if (!$id=$form->model()->id) {
 				return 'required|unique:tx_destinations';
 			}
 		});
-		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', 0)->pluck('name', 'id'))->rules('required');
+		$c_id = request()->get('category');
+
+		$form->select('country_id','国家地区')->options(
+			Country::orderBy('cname','asc')->pluck('cname','id')
+			)->load('city_id','/api/v1/worldcities/getcities')
+			->rules('required');
+		$form->select('city_id','城市')->options(function($id){
+			return Worldcity::options($id);
+		})->rules('nullable');
+
+
+		// if ($c_id ==2 || $c_id ==3 || $c_id==4) {
+		// 	$form->select('country_id','国家地区')->options(
+		// 		Country::orderBy('cname','asc')->pluck('cname','id')
+		// 		)->rules('required');
+		// 	$form->hidden('city_id')->default(0);
+		// } else {
+		// 	$form->select('country_id','国家地区')->options(
+		// 		Country::orderBy('cname','asc')->pluck('cname','id')
+		// 		)->load('city_id','/api/v1/worldcities/getcities')
+		// 		->rules('required');
+		// 		$form->select('city_id','城市')->options(function($id){
+		// 			return Worldcity::options($id);
+		// 		})->rules('nullable');
+		// }
+		
+
+		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', 0)->pluck('name', 'id'))->default($c_id)->rules('required');
 		$form->text('description', '说明');
 		$states = [
 			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],

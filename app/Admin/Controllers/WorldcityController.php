@@ -143,7 +143,7 @@ class WorldcityController extends Controller {
 	protected function form() {
 		$form = new Form(new Worldcity);
 
-		$form->display('ID');
+		// $form->display('ID');
 		$form->text('cn_name', '城市名');
 		$form->select('country_id', '国家')->options(Country::pluck('cname', 'id'));
 		$form->text('name', 'EN名称');

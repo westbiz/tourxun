@@ -138,7 +138,9 @@ class ProductController extends Controller {
 				Category::parents()->pluck('name', 'id')
 			)->load('destination', '/api/v1/categories/children')->rules('required')->default($c_id);
 			
-			$form->select('categorycountry','目的地')->options(Category::find(2)->countries()->pluck('cname','id'));
+			$form->multipleSelect('destination','目的地')->options(Category::find($c_id)->destinations()->pluck('name','id'))->default($d_id);
+
+			// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
 
 			// $form->multipleSelect('destination', '目的地')->options(Destination::pluck('name','id'))->default($d_id);
 

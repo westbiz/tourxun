@@ -7,6 +7,7 @@ use App\Http\Controllers\WorldcityController;
 use App\Models\Worldcity;
 // use App\Http\Controllers\Worldcity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WorldcityController extends Controller {
 	/**
@@ -79,6 +80,14 @@ class WorldcityController extends Controller {
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项
+	public function getcities(Request $request) {
+		$q = $request->get('q');
+		return Worldcity::where('country_id', $q)->get(['id', DB::raw('cn_name as text')]);
+	}
+
+
+
+	//选项过多，可通过ajax方式动态分页载入选项
 	public function allcities(Request $request) {
 		$q = $request->get('q');
 		// return Worldcity::chinacities()
@@ -105,11 +114,11 @@ class WorldcityController extends Controller {
 	public function worldcities(Request $request) {
 		$q = $request->get('q');
 		return Worldcity::worldcities()
-			->where('cn_city', 'like', "%$q%")
+			->where('cn_name', 'like', "%$q%")
 		// ->orWhere('name', 'like', "%$q%")
 		// ->orWhere('city_code', 'like', "%$q%")
 		// ->orWhere('cn_state', 'like', "%$q%")
-			->paginate(null, ['id', 'cn_city as text']);
+			->paginate(null, ['id', 'cn_name as text']);
 	}
 
 }

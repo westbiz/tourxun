@@ -30,9 +30,7 @@ class Category extends Model {
 		return $query->where('parent_id', 0);
 	}
 
-	public function countries() {
-		return $this->belongsToMany(Country::class, 't_category_countries', 'category_id', 'country_id')->wherePivot('active',1);
-	}
+	
 
 	public function destinations() {
 		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'category_id', 'destination_id')->withTimestamps();

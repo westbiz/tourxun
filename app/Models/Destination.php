@@ -11,12 +11,24 @@ class Destination extends Model {
 	protected $hidden = ['pivot'];
 
 	protected $fillable = [
-		'name', 'parent_id', 'order', 'promotion', 'description',
+		'name', 'parent_id', 'country_id', 'city_id', 'order', 'promotion', 'description',
 	];
 
 	//多对多，父类
 	public function categories() {
 		return $this->belongsToMany(Category::class, 'tx_category_destinations', 'destination_id', 'category_id')->withTimestamps();
+	}
+
+
+	public function country()
+	{
+		return $this->belongsTo(Country::class, 'country_id', 'id');
+	}
+
+
+	public function city()
+	{
+		return $this->belongsTo(Worldcity::class, 'city_id', 'id');
 	}
 
 	//一对多，反向

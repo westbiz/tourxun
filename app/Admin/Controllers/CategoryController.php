@@ -178,29 +178,25 @@ class CategoryController extends Controller {
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
-			$actions->prepend("<a href='categories/create?parent_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			$actions->prepend("<a href='destinations/create?category=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 		});
 		$grid->id('ID')->sortable();
 		$grid->name('名称')->editable();
 		$grid->parentcategory('父类')->display(function ($parentcategory) {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
-		// $grid->id();
-		$grid->destinations('目的地')->display(function ($destinations) {
+		$grid->description('说明')->editable();
+		$grid->destinations('线路')->display(function ($destinations) {
 			
 			$destinations = array_map(function ($destination) {
 				return "<a href='products/create?c_id=".$this->id."&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
 			}, $destinations);
 			return join('&nbsp;', $destinations);
-		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');
+		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
-		$grid->countries()->display(function ($countries) {
-			
-			$countries = array_map(function ($country) {
-				return "<a href='products/create?c_id=".$this->id."&d_id={$country['id']}'><span class='label label-danger'>{$country['cname']}</span></a>";
-			}, $countries);
-			return join('&nbsp;', $countries);
-		})->style('max-width:200px;line-height:1.5em;word-break:break-all;');;
+		// $grid->countries()->pluck('pivot')->map(function($item,$key){
+		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
+		// })->label('warning');
 
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();

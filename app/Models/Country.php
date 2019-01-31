@@ -26,21 +26,63 @@ class Country extends Model {
 		return $this->hasMany(Worldcity::class, 'country_id', 'id');
 	}
 
+
+	//目的地，多对一
+	public function destination()
+	{
+		return $this->hasMany(Destination::class, 'country_id', 'id');
+	}
+
 	//多对多，分类多国家
 	public function categorycountry() {
-		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id')->wherePivot('active',1);
+		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id')->withPivot('line')->wherePivot('active',1);
 	}
 
 
-	//
+	//国内
 	public function scopeChina()
 	{
 		return $this->where('id', 101);
 	}
 
-	public function scopeOutchina($query)
+
+	//境外国家地区
+	public function scopeOutofchina($query)
 	{
 		return $query->where('id','<>',101);
 	}
+
+
+	//港澳台
+	public function scopeGangaotai($query)
+	{
+		return $query->where('id','=',100)
+					->orWhere('id','=',71)
+					->orWhere('id','=',75);
+	}
+
+
+	//联动
+	public function parent() {
+		return $this->belongsTo(Country::class, 'country_id');
+	}
+
+	public function children() {
+		return $this->hasMany(Worldcity::class, 'country_id');
+	}
+
+	public function brothers() {
+		return $this->parent->children();
+	}
+
+	//
+	public static function options($id) {
+		if (!$self = static::find($id)) {
+			return [];
+		}
+		return $self->brothers()->pluck('cn_name', 'id');
+	}
+
+
 
 }
