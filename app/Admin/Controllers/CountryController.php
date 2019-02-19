@@ -120,10 +120,10 @@ class CountryController extends Controller {
 		});
 		$grid->id('ID');
 		$grid->cname('中文');
-		$grid->alias('别名');
+		// $grid->alias('别名');
 		$grid->continent()->cn_name('大洲')->label('info');
 		$grid->continentlocation('地理位置')->pluck('cn_name')->label('danger');
-		$grid->categorycountry('归类')->pluck('name')->label();
+		// $grid->categorycountry('归类')->pluck('name')->label();
 		$grid->name('英文');
 		// $grid->lower_name('en小写');
 		$grid->country_code('代码');
@@ -174,7 +174,7 @@ class CountryController extends Controller {
 		$continents = Continent::pluck('cn_name', 'id');
 		$form->select('continent_id', '大洲')->options($continents);
 		$form->multipleSelect('continentlocation', '地理位置')->options(Continent::where('parent_id', '>', '0')->pluck('cn_name', 'id'));
-		$form->multipleSelect('categorycountry', '目的地归类')->options(Category::where('parent_id', 0)->pluck('name', 'id'));
+		// $form->multipleSelect('categorycountry', '目的地归类')->options(Category::where('parent_id', 0)->pluck('name', 'id'));
 		$form->text('name', 'en名称');
 		$form->text('lower_name', '小写');
 		$form->text('country_code', '代码');
