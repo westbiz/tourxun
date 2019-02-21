@@ -115,9 +115,15 @@ class CatattrController extends Controller {
 
 		$show->id('ID');
 		$show->name('属性名称');
-		$show->parentcatattr()->name('上级分类');
+		$show->categories('分类', function ($category) {
+			$category->resource('/admin/categories');
+			$category->name();
+		});
+		$show->parentcatattr()->name('上级分类')->label();
 		$show->description('说明');
 		$show->inputtype('控件类型');
+		$show->order('排序');
+		$show->active('激活');
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
 
@@ -132,7 +138,7 @@ class CatattrController extends Controller {
 	protected function form() {
 		$form = new Form(new Catattr);
 
-		$form->display('ID');
+		// $form->display('ID');
 		$form->text('name', '属性名称')->rules('required|min:2');
 		$form->multipleSelect('categories', '归属分类')->options(Category::where('parent_id', 0)->pluck('name', 'id'));
 		$form->select('parent_id', '属性类别')->options(Catattr::where('parent_id', 0)->pluck('name', 'id'));
