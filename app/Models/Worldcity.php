@@ -11,6 +11,11 @@ class Worldcity extends Model {
 		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code',
 	];
 
+	public function scopeChina() {
+		return $this->where('country_id', 101);
+	}
+
+
 	//一对多反向，国家
 	public function country() {
 		return $this->belongsTo(Country::class, 'country_id', 'id');
