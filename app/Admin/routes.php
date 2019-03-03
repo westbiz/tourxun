@@ -74,6 +74,8 @@ Route::group([
 
 	$router->resource('attrvalues', 'AttrvalueController');
 
+	$router->resource('users','UserController');
+
 });
 
 //子域名路由
