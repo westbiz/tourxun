@@ -78,13 +78,17 @@ class UserController extends Controller {
 		$grid->id('Id');
 		$grid->avatar('头像')->lightbox(['http://tourxun.test/uploads/', 'width' => 50, 'height' => 50, 'zooming' => true]);
 		$grid->name('用户名');
+		$grid->profile()->nickname('昵称');
 		$grid->email('Email');
+		$grid->profile()->cityid('城市');
 		$grid->profile()->age('年龄');
+		$grid->profile()->gender('性别');
+
 
 		// $grid->password('Password');
 		// $grid->remember_token('Remember token');
-		$grid->created_at('创建时间');
-		$grid->updated_at('更新时间');
+		// $grid->created_at('创建时间');
+		// $grid->updated_at('更新时间');
 
 		return $grid;
 	}
@@ -129,6 +133,7 @@ class UserController extends Controller {
 
 		$form->email('email', 'Email');
 		$form->text('profile.age', '年龄');
+		$form->date('profile.birthdate', '出生日期');
 		$form->password('password', '密码')->rules('required|confirmed');
 		$form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
 			->default(function ($form) {

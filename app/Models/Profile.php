@@ -9,7 +9,8 @@ class Profile extends Model {
 	protected $table = 't_profiles';
 
 	protected $fillable = [
-		'userid', 'nickname', 'gender', 'birthdate', 'mobile', 'address', 'image',
+		'userid', 'nickname', 'gender', 'cityid', 'birthdate', 'mobile', 
+		'address', 'image', 
 	];
 
 	public function user() {
