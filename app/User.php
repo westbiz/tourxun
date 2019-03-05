@@ -5,9 +5,10 @@ namespace App;
 use App\Models\Profile;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable {
-	use Notifiable;
+	use HasApiTokens, Notifiable;
 
 	protected $table = 't_users';
 
