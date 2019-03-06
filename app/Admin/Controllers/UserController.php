@@ -84,7 +84,6 @@ class UserController extends Controller {
 		$grid->profile()->age('年龄');
 		$grid->profile()->gender('性别');
 
-
 		// $grid->password('Password');
 		// $grid->remember_token('Remember token');
 		// $grid->created_at('创建时间');
@@ -106,6 +105,7 @@ class UserController extends Controller {
 		$show->name('用户名');
 		$show->email('Email');
 		$show->avatar('头像')->image();
+		$show->profile()->age()->label();
 		// $show->password('Password');
 		// $show->remember_token('Remember token');
 		$show->created_at('创建时间');
