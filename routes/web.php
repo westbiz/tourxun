@@ -21,4 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/user/{id}', 'UserController@show')->middleware('auth');
 
-Route::resource('user', 'UserController')->middleware('auth');
+Route::group([
+	'middleware' => 'auth',
+], function () {
+	Route::resource('user', 'UserController');
+});
