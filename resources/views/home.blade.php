@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!  欢迎 <b>{{ Auth::user()->email }}</b> 回来！ 
+                    You are logged in!  欢迎 <b>{{ Auth::user()->name }}</b> 回来！ 
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Encore\Admin\Widgets\Form;
 
 class UserController extends Controller {
 	/**
@@ -13,6 +14,7 @@ class UserController extends Controller {
 	 */
 	public function index() {
 		//
+		return view('user.profile');
 	}
 
 	/**
@@ -22,6 +24,16 @@ class UserController extends Controller {
 	 */
 	public function create() {
 		//
+		$form = new Form();
+
+		$form->action('example');
+
+		$form->email('email');
+		$form->password('password');
+		$form->text('name', '输入框');
+
+
+		echo $form->render();
 	}
 
 	/**

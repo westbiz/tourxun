@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller {
 	/*
@@ -37,5 +38,17 @@ class LoginController extends Controller {
 
 	// public function username() {
 	// 	return 'username';
+	// }
+
+	protected function redirectTo()
+	{
+		return '/user';
+	}
+
+
+	// //guard 方法，该方法将会返回一个 guard 实例
+	// protected function guard()
+	// {
+	// 	return Auth::guard('web');
 	// }
 }

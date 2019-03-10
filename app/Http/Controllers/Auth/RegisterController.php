@@ -38,6 +38,15 @@ class RegisterController extends Controller {
 		$this->middleware('guest');
 	}
 
+
+	// //guard 方法，该方法将会返回一个 guard 实例
+	// protected function guard()
+	// {
+	// 	return Auth::guard('guard-name');
+	// }
+
+
+
 	/**
 	 * Get a validator for an incoming registration request.
 	 *
