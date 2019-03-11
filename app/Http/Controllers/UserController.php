@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
 use Encore\Admin\Widgets\Form;
+use Illuminate\Http\Request;
 
 class UserController extends Controller {
 	/**
@@ -31,7 +31,6 @@ class UserController extends Controller {
 		$form->email('email');
 		$form->password('password');
 		$form->text('name', '输入框');
-
 
 		echo $form->render();
 	}
