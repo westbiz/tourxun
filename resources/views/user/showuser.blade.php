@@ -1,1 +1,1 @@
-{{dd($value)}}
+{{dd($user)}}

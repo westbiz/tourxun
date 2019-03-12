@@ -51,9 +51,10 @@ class UserController extends Controller {
 	 * @param  \App\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id) {
+	public function show(Request $request, $id) {
 		//
-		return view('user.profile', ['user' => User::findOrFail($id)]);
+		$value = $request->cookie('name');
+		return view('user.showuser', ['user' => $value]);
 	}
 
 	/**
