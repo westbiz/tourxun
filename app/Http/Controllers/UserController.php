@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserProfile;
 use App\User;
 use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
@@ -24,15 +25,7 @@ class UserController extends Controller {
 	 */
 	public function create() {
 		//
-		$form = new Form();
-
-		$form->action('example');
-
-		$form->email('email');
-		$form->password('password');
-		$form->text('name', '输入框');
-
-		echo $form->render();
+		return view('user.usercreate');
 	}
 
 	/**
@@ -41,8 +34,10 @@ class UserController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) {
+	public function store(StoreUserProfile $request) {
 		//
+
+		$validated = $request->validated();
 	}
 
 	/**
@@ -51,10 +46,9 @@ class UserController extends Controller {
 	 * @param  \App\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Request $request, $id) {
+	public function show($id) {
 		//
-		$value = $request->cookie('name');
-		return view('user.showuser', ['user' => $value]);
+		echo "show";
 	}
 
 	/**
@@ -65,6 +59,7 @@ class UserController extends Controller {
 	 */
 	public function edit(User $user) {
 		//
+		return view('user.edituser');
 	}
 
 	/**
