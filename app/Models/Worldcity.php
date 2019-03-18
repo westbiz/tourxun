@@ -15,13 +15,10 @@ class Worldcity extends Model {
 		return $this->where('country_id', 101);
 	}
 
-
 	//一对多反向，国家
 	public function country() {
 		return $this->belongsTo(Country::class, 'country_id', 'id');
 	}
-
-
 
 	//联动
 	public function parent() {
@@ -44,26 +41,28 @@ class Worldcity extends Model {
 		return $self->brothers()->pluck('cn_name', 'id');
 	}
 
-
-
-
-
-
-
-
-	//
+	//国内城市
 	public function scopeChinacities() {
 		return $this->where('country_id', 101);
 	}
 
+	//世界城市
 	public function scopeWorldcities() {
 		return $this->where('country_id', '<>', 101);
 	}
 
+	//港澳台
 	public function scopeGangaotai() {
 		return $this->where('country_id', 75)
 			->orWhere('country_id', 71)
 			->orWhere('country_id', 100);
+	}
+
+	//海岛
+	public function scopeIslandcities() {
+		return $this->where('country_id', 3761)
+			->orWhere('country_id', 1949)
+			->orWhere('country_id', 2550);
 	}
 
 }

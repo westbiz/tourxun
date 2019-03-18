@@ -5,9 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
-use App\Models\Country;
 use App\Models\Category;
-use App\Models\Destination;
+use App\Models\Country;
 use App\Models\Product;
 use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
@@ -137,13 +136,20 @@ class ProductController extends Controller {
 			$form->select('category_id', '分类')->options(
 				Category::parents()->pluck('name', 'id')
 			)->load('destination', '/api/v1/categories/children')->rules('required')->default($c_id);
-			
-			$form->multipleSelect('destination','目的地')->options(Category::find($c_id)->destinations()->pluck('name','id'))->default($d_id);
+
+			// $form->multipleSelect('destination', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
 
 			// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
 
 			// $form->multipleSelect('destination', '目的地')->options(Destination::pluck('name','id'))->default($d_id);
 
+			if ($c_id == 2 || $c_id == 4) {
+				$form->multipleSelect('destination', '目的地')->options(Country::outofchina()->pluck('cname', 'id'))->default($d_id);
+			} elseif ($c_id == 3) {
+				$form->multipleSelect('destination', '目的地')->options(Country::gangaotai()->pluck('cname', 'id'))->default($d_id);
+			} else {
+				$form->multipleSelect('destination', '目的地')->options(Worldcity::chinacities()->pluck('cn_name', 'id'))->default($d_id);
+			}
 
 			// $form->multipleSelect('destination', '目的地')->options(function ($id) {
 			// 	return Destination::options($id);
@@ -160,15 +166,12 @@ class ProductController extends Controller {
 			// 		],
 			// 	]);
 
-
-				$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
-					$city = Worldcity::find($id);
-					if ($city) {
-						return [$city->id => $city->cn_city];
-					}
-				})->ajax('/api/v1/worldcities/all');
-			
-			
+			$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
+				$city = Worldcity::find($id);
+				if ($city) {
+					return [$city->id => $city->cn_city];
+				}
+			})->ajax('/api/v1/worldcities/all');
 
 			// $form->multipleSelect('city', '地区')->options(function ($id) {
 			// 	$country = Country::find($id);
