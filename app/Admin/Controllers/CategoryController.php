@@ -4,7 +4,6 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Country;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -187,9 +186,9 @@ class CategoryController extends Controller {
 		});
 		$grid->description('说明')->editable();
 		$grid->destinations('线路')->display(function ($destinations) {
-			
+
 			$destinations = array_map(function ($destination) {
-				return "<a href='products/create?c_id=".$this->id."&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
 			}, $destinations);
 			return join('&nbsp;', $destinations);
 		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
@@ -272,38 +271,20 @@ class CategoryController extends Controller {
 	protected function form() {
 		$form = new Form(new Category);
 
-		$form->tab('基本信息', function ($form) {
-			$p_id = request()->get('parent_id');
-			$form->display('id', 'ID');
+		$p_id = request()->get('parent_id');
+		// $form->display('id', 'ID');
 
-			$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
-			$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
-			$form->multipleSelect('countries', '目的地')->options(Country::pluck('cname', 'id'));
-			$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
-			$form->text('order', '排序')->value($next_id[0]->Auto_increment);
-			$states = [
-				'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
-				'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
-			];
-			$form->switch('promotion', '推荐')->states($states);
-			$form->textarea('description', '说明')->help('请输入2-50个字符！');
-		})->tab('子分类', function ($form) {
-			$form->hasMany('childcategories', '子分类', function (Form\NestedForm $form) {
-				$form->text('name');
-				$form->text('order');
-				$form->textarea('description');
-			});
-
-		});
-		// ->tab('属性', function ($form) {
-		//  $form->hasMany('catattrs', '属性', function (Form\NestedForm $form) {
-		//      $form->text('name');
-		//      $form->text('note');
-		//      $form->text('parent_id');
-		//      $form->text('fieldname');
-		//      $form->text('inputtype');
-		//  });
-		// });
+		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
+		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
+		// $form->multipleSelect('countries', '目的地')->options(Country::pluck('cname', 'id'));
+		$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
+		$form->text('order', '排序')->value($next_id[0]->Auto_increment);
+		$states = [
+			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+		];
+		$form->switch('promotion', '推荐')->states($states);
+		$form->textarea('description', '说明')->help('请输入2-50个字符！');
 
 		// $form->display('created_at', 'Created At');
 		// $form->display('updated_at', 'Updated At');

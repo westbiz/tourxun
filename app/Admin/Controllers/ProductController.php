@@ -6,7 +6,6 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Country;
 use App\Models\Product;
 use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
@@ -135,36 +134,17 @@ class ProductController extends Controller {
 
 			$form->select('category_id', '分类')->options(
 				Category::parents()->pluck('name', 'id')
-			)->load('destination', '/api/v1/categories/children')->rules('required')->default($c_id);
+			)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
-			// $form->multipleSelect('destination', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
+			$form->multipleSelect('destinations', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
 
 			// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
 
 			// $form->multipleSelect('destination', '目的地')->options(Destination::pluck('name','id'))->default($d_id);
 
-			if ($c_id == 2 || $c_id == 4) {
-				$form->multipleSelect('destination', '目的地')->options(Country::outofchina()->pluck('cname', 'id'))->default($d_id);
-			} elseif ($c_id == 3) {
-				$form->multipleSelect('destination', '目的地')->options(Country::gangaotai()->pluck('cname', 'id'))->default($d_id);
-			} else {
-				$form->multipleSelect('destination', '目的地')->options(Worldcity::chinacities()->pluck('cn_name', 'id'))->default($d_id);
-			}
-
 			// $form->multipleSelect('destination', '目的地')->options(function ($id) {
 			// 	return Destination::options($id);
 			// })->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
-
-			// $form->select('destination', 'test')->groups(
-			// 	[
-			// 		[
-			// 			'label' => 'grouplabel',
-			// 			'options' => [
-			// 				1 => '国内',
-			// 				2 => '国际',
-			// 			],
-			// 		],
-			// 	]);
 
 			$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
 				$city = Worldcity::find($id);

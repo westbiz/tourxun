@@ -19,15 +19,16 @@ class Destination extends Model {
 		return $this->belongsToMany(Category::class, 'tx_category_destinations', 'destination_id', 'category_id')->withTimestamps();
 	}
 
+	//多对多
+	public function products() {
+		return $this->belongsToMany(Product::class, 'tx_destination_products', 'destination_id', 'product_id');
+	}
 
-	public function country()
-	{
+	public function country() {
 		return $this->belongsTo(Country::class, 'country_id', 'id');
 	}
 
-
-	public function city()
-	{
+	public function city() {
 		return $this->belongsTo(Worldcity::class, 'city_id', 'id');
 	}
 

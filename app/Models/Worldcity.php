@@ -58,11 +58,4 @@ class Worldcity extends Model {
 			->orWhere('country_id', 100);
 	}
 
-	//海岛
-	public function scopeIslandcities() {
-		return $this->where('country_id', 3761)
-			->orWhere('country_id', 1949)
-			->orWhere('country_id', 2550);
-	}
-
 }
