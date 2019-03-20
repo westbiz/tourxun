@@ -95,7 +95,14 @@ class ProductController extends Controller {
 	protected function grid() {
 		return Admin::grid(Product::class, function (Grid $grid) {
 
-			$grid->disableActions();
+			// $grid->disableActions();
+			$grid->actions(function ($actions) {
+				$c_id = $actions->getKey();
+				// $d_id = $actions->row->destinations()->pivot()->destination_id;
+				// dd($d_id);
+				$actions->prepend("<a href='products/1/edit?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			});
+
 
 			$grid->id('ID')->sortable();
 			$grid->avatar('图片')->display(function ($avatar) {
@@ -117,7 +124,7 @@ class ProductController extends Controller {
 			})->style('max-width:300px;word-break:break-all;');
 			$grid->summary('概述');
 
-			$grid->column('actions', '操作')->displayUsing(CustomActions::class);
+			// $grid->column('actions', '操作')->displayUsing(CustomActions::class);
 
 			// $grid->content('正文')->limit(30);
 			// $grid->active('激活');
@@ -300,17 +307,17 @@ class ProductController extends Controller {
 	protected function editform() {
 		return Admin::form(Product::class, function (Form $form) {
 
-			// $c_id = $form;
-			// dd($c_id);
-			$d_id = request()->route()->parameters('products');
+			$c_id = request()->get('c_id');
+			$d_id = request()->get('d_id');
+			// $d_id = request()->route()->parameters('products');
 			$form->display('id', 'ID');
 			$form->text('name', '名称')->rules('required|min:3');
 
 			$form->select('category_id', '分类')->options(
 				Category::parents()->pluck('name', 'id')
-			)->load('destinations', '/api/v1/categories/children')->rules('required');
+			)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
-			$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'));
+			$form->multipleSelect('destinations', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
 
 			$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
 				$city = Worldcity::find($id);
