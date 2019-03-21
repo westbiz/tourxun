@@ -1,13 +1,11 @@
 <?php
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\CustomActions;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Destination;
 use App\Models\Product;
 use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
@@ -102,7 +100,6 @@ class ProductController extends Controller {
 				// dd($d_id);
 				$actions->prepend("<a href='products/1/edit?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
-
 
 			$grid->id('ID')->sortable();
 			$grid->avatar('图片')->display(function ($avatar) {
