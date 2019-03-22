@@ -188,7 +188,7 @@ class CategoryController extends Controller {
 		$grid->destinations('线路')->display(function ($destinations) {
 
 			$destinations = array_map(function ($destination) {
-				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+				return "<a href='products/list?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
 			}, $destinations);
 			return join('&nbsp;', $destinations);
 		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');

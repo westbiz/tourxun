@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Destination;
 use App\Models\Product;
 use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
@@ -25,6 +26,14 @@ class ProductController extends Controller {
 	 * @return Content
 	 */
 	public function index() {
+		return Admin::content(function (Content $content) {
+			$content->header('产品');
+			$content->description('列表');
+			$content->body($this->grid());
+		});
+	}
+
+	public function list() {
 		return Admin::content(function (Content $content) {
 			$content->header('产品');
 			$content->description('列表');
@@ -95,10 +104,12 @@ class ProductController extends Controller {
 
 			// $grid->disableActions();
 			$grid->actions(function ($actions) {
-				$c_id = $actions->getKey();
+				$p_id = $actions->getKey();
+				$c_id = request()->get('c_id');
+				$d_id = request()->get('d_id');
 				// $d_id = $actions->row->destinations()->pivot()->destination_id;
 				// dd($d_id);
-				$actions->prepend("<a href='products/1/edit?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='" . $p_id . "/edit?c_id=" . $c_id . "&d_id=" . $d_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->id('ID')->sortable();
@@ -147,7 +158,7 @@ class ProductController extends Controller {
 				Category::parents()->pluck('name', 'id')
 			)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
-			$form->multipleSelect('destinations', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
+			$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
 
 			// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
 

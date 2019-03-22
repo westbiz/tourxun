@@ -12,11 +12,15 @@ Route::group([
 
 	$router->get('/', 'HomeController@index');
 
-	$router->get('categories/lines','CategoryController@lines');
+	$router->get('categories/lines', 'CategoryController@lines');
 
 	$router->resource('categories', 'CategoryController');
 
 	$router->resource('destinations', 'DestinationController');
+
+	$router->get('products/list', 'ProductController@list');
+
+	// $router->get('products/{id}/edit', 'ProductController@edit');
 
 	$router->resource('products', 'ProductController');
 
@@ -74,7 +78,7 @@ Route::group([
 
 	$router->resource('attrvalues', 'AttrvalueController');
 
-	$router->resource('users','UserController');
+	$router->resource('users', 'UserController');
 
 });
 
