@@ -29,7 +29,7 @@ class Category extends Model {
 	}
 
 	public function destinations() {
-		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'category_id', 'destination_id')->withTimestamps();
+		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'category_id', 'destination_id');
 	}
 
 	//

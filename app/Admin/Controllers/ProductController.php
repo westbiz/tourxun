@@ -116,7 +116,9 @@ class ProductController extends Controller {
 			$grid->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' height='10%' width='20%' class='img img-thumbnail'>";
 			});
-			$grid->name('名称')->editable();
+			$grid->name('名称')->display(function ($name) {
+				return "<a href='/admin/products/1/edit?c_id=".$this->category_id."&d_id=".$this->destinations."'>$name</a>";
+			});
 
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category()->name('分类')->label('danger');
@@ -327,12 +329,12 @@ class ProductController extends Controller {
 
 			$form->multipleSelect('destinations', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
 
-			$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
-				$city = Worldcity::find($id);
-				if ($city) {
-					return [$city->id => $city->cn_city];
-				}
-			})->ajax('/api/v1/worldcities/all');
+			// $form->multipleSelect('city_id', '游览城市')->options(function ($id) {
+			// 	$city = Worldcity::find($id);
+			// 	if ($city) {
+			// 		return [$city->id => $city->cn_city];
+			// 	}
+			// })->ajax('/api/v1/worldcities/all');
 
 			$cates = Catattr::with('categories')->where('parent_id', 1)
 				->whereHas('categories', function ($query) {

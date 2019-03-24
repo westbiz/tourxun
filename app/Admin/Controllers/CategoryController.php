@@ -7,6 +7,7 @@ use App\Models\Category;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use App\Models\Destination;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
@@ -276,7 +277,10 @@ class CategoryController extends Controller {
 
 		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
-		// $form->multipleSelect('countries', '目的地')->options(Country::pluck('cname', 'id'));
+
+
+		$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'));
+
 		$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 		$form->text('order', '排序')->value($next_id[0]->Auto_increment);
 		$states = [

@@ -8,7 +8,7 @@ class Destination extends Model {
 
 	protected $table = 'tx_destinations';
 
-	protected $hidden = ['pivot'];
+	// protected $hidden = ['pivot'];
 
 	protected $fillable = [
 		'name', 'parent_id', 'country_id', 'city_id', 'order', 'promotion', 'description',
@@ -16,7 +16,7 @@ class Destination extends Model {
 
 	//多对多，父类
 	public function categories() {
-		return $this->belongsToMany(Category::class, 'tx_category_destinations', 'destination_id', 'category_id')->withTimestamps();
+		return $this->belongsToMany(Category::class, 'tx_category_destinations', 'destination_id', 'category_id');
 	}
 
 	//多对多
