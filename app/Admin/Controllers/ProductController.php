@@ -1,6 +1,7 @@
 <?php
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\CustomActions;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Attrvalue;
@@ -8,7 +9,6 @@ use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\Product;
-use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -102,14 +102,15 @@ class ProductController extends Controller {
 	protected function grid() {
 		return Admin::grid(Product::class, function (Grid $grid) {
 
-			// $grid->disableActions();
+			$grid->disableActions();
 			$grid->actions(function ($actions) {
 				$p_id = $actions->getKey();
-				$c_id = request()->get('c_id');
+
+				$c_id = $actions->row->category_id;
 				$d_id = request()->get('d_id');
 				// $d_id = $actions->row->destinations()->pivot()->destination_id;
 				// dd($d_id);
-				$actions->prepend("<a href='" . $p_id . "/edit?c_id=" . $c_id . "&d_id=" . $d_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='products/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
 			$grid->id('ID')->sortable();
@@ -117,8 +118,15 @@ class ProductController extends Controller {
 				return "<img src='http://tourxun.test/uploads/$avatar' height='10%' width='20%' class='img img-thumbnail'>";
 			});
 			$grid->name('名称')->display(function ($name) {
-				return "<a href='/admin/products/1/edit?c_id=".$this->category_id."&d_id=".$this->destinations."'>$name</a>";
+				return "<a href='/admin/products/1/edit?c_id=" . $this->category_id . "&d_id=" . $this->destinations . "'>$name</a>";
 			});
+
+			// $grid->destinations('目的地')->display(function ($destinations) {
+			// 	$destinations = array_map(function ($destination) {
+			// 		return "{$destination['id']}";
+			// 	}, $destinations);
+			// 	return join('&nbsp;', $destinations);
+			// });
 
 			// $grid->pictureuri('图片')->image('http://tourxun.test/uploads/', 50, 50);
 			$grid->category()->name('分类')->label('danger');
@@ -134,7 +142,7 @@ class ProductController extends Controller {
 			})->style('max-width:300px;word-break:break-all;');
 			$grid->summary('概述');
 
-			// $grid->column('actions', '操作')->displayUsing(CustomActions::class);
+			$grid->column('actions', '操作')->displayUsing(CustomActions::class);
 
 			// $grid->content('正文')->limit(30);
 			// $grid->active('激活');
@@ -160,7 +168,7 @@ class ProductController extends Controller {
 				Category::parents()->pluck('name', 'id')
 			)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
-			$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
+			$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id)->default($d_id);
 
 			// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
 
@@ -170,12 +178,12 @@ class ProductController extends Controller {
 			// 	return Destination::options($id);
 			// })->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
 
-			$form->multipleSelect('city_id', '游览城市')->options(function ($id) {
-				$city = Worldcity::find($id);
-				if ($city) {
-					return [$city->id => $city->cn_city];
-				}
-			})->ajax('/api/v1/worldcities/all');
+			// $form->multipleSelect('city_id', '游览城市')->options(function ($id) {
+			// 	$city = Worldcity::find($id);
+			// 	if ($city) {
+			// 		return [$city->id => $city->cn_city];
+			// 	}
+			// })->ajax('/api/v1/worldcities/all');
 
 			// $form->multipleSelect('city', '地区')->options(function ($id) {
 			// 	$country = Country::find($id);
@@ -327,7 +335,7 @@ class ProductController extends Controller {
 				Category::parents()->pluck('name', 'id')
 			)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
-			$form->multipleSelect('destinations', '目的地')->options(Category::find($c_id)->destinations()->pluck('name', 'id'))->default($d_id);
+			$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
 
 			// $form->multipleSelect('city_id', '游览城市')->options(function ($id) {
 			// 	$city = Worldcity::find($id);

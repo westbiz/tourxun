@@ -4,10 +4,10 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Destination;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use App\Models\Destination;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
@@ -189,7 +189,7 @@ class CategoryController extends Controller {
 		$grid->destinations('线路')->display(function ($destinations) {
 
 			$destinations = array_map(function ($destination) {
-				return "<a href='products/list?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
 			}, $destinations);
 			return join('&nbsp;', $destinations);
 		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
@@ -277,7 +277,6 @@ class CategoryController extends Controller {
 
 		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
-
 
 		$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'));
 
