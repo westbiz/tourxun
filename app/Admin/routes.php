@@ -18,7 +18,7 @@ Route::group([
 
 	$router->resource('destinations', 'DestinationController');
 
-	$router->get('products/list', 'ProductController@list');
+	// $router->get('products/list', 'ProductController@list');
 
 	// $router->get('products/{id}/edit', 'ProductController@edit');
 

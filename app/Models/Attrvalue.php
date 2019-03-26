@@ -20,7 +20,7 @@ class Attrvalue extends Model {
 	//
 	//多个商品属性值
 	public function product() {
-		return $this->belongsToMany(Product::class, 'product_attrbutevalues', 'product_id', 'attribute_id');
+		return $this->belongsToMany(Product::class, 'p_product_attrvalues', 'attrvalue_id', 'product_id');
 	}
 
 }

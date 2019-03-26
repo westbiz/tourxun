@@ -79,7 +79,7 @@ class ProductController extends Controller {
 		return Admin::content(function (Content $content) use ($id) {
 			$content->header('产品');
 			$content->description('编辑');
-			$content->body($this->editform()->edit($id));
+			$content->body($this->form()->edit($id));
 		});
 	}
 	/**
