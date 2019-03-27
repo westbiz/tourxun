@@ -33,13 +33,13 @@ class ProductController extends Controller {
 		});
 	}
 
-	public function list() {
-		return Admin::content(function (Content $content) {
-			$content->header('产品');
-			$content->description('列表');
-			$content->body($this->grid());
-		});
-	}
+	// public function list() {
+	// 	return Admin::content(function (Content $content) {
+	// 		$content->header('产品');
+	// 		$content->description('列表');
+	// 		$content->body($this->grid());
+	// 	});
+	// }
 
 	public function show($id) {
 		return Admin::content(function (Content $content) use ($id) {
@@ -200,27 +200,29 @@ class ProductController extends Controller {
 				})->get();
 			// dd($cates);
 			foreach ($cates as $cate) {
-				if ($cate->inputtype == 'checkbox') {
-					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
-							->where('status', '1')
-							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'select') {
-					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'radio') {
-					$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} else {
-					$form->text('catavalues.attrvalue', $cate->name);
-				}
+				// if ($cate->inputtype == 'checkbox') {
+
+				$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+						->where('status', '1')
+						->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+
+				// } elseif ($cate->inputtype == 'select') {
+				// 	$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				// } elseif ($cate->inputtype == 'radio') {
+				// 	$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				// } else {
+				// 	$form->text('catavalues.attrvalue', $cate->name);
+				// }
 
 			}
 
 			// $categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
 			// $form->select('category_id', '分类')->options($categories);
 			// $form->select('category_id', '分类')->options('/api/v1/categories/all');
-			$form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
-				// $constraint->aspectRatio();
-				$constraint->upsize();
-			})->removable();
+			// $form->image('avatar', '图片')->move('images')->fit(175, 256, function ($constraint) {
+			// 	// $constraint->aspectRatio();
+			// 	$constraint->upsize();
+			// })->removable();
 
 			// $form->multipleImage('pictureuri', '多图')->removable();
 			// $form->text('graphs.description', '图片描述');
@@ -283,7 +285,7 @@ class ProductController extends Controller {
 			$form->starRating('star', '推荐指数')->default(4);
 			// $form->slider('star', '评星')->options(['max' => 5, 'min' => 1, 'step' => 0.5, 'postfix' => '星级']);
 			$form->text('summary', '概述');
-			$form->file('route', '上传行程');
+			// $form->file('route', '上传行程');
 			$form->editor('content', '商品详情');
 			$form->switch('active', '激活？');
 

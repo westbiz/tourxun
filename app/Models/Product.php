@@ -29,7 +29,7 @@ class Product extends Model {
 
 	//多个属性值 多对多
 	public function catavalues() {
-		return $this->belongsToMany(Attrvalue::class, 'p_product_attrvalues',
+		return $this->belongsToMany(Attrvalue::class, 'p_attrvalue_products',
 			'product_id', 'attrvalue_id');
 	}
 

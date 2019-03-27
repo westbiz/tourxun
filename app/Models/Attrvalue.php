@@ -8,7 +8,7 @@ class Attrvalue extends Model {
 	protected $table = 'p_attrvalues';
 
 	protected $fillable = [
-		'product_id', 'catattr_id', 'attrvalue', 'order', 'status',
+		'catattr_id', 'attrvalue', 'order', 'status',
 	];
 
 	//
@@ -20,7 +20,7 @@ class Attrvalue extends Model {
 	//
 	//多个商品属性值
 	public function product() {
-		return $this->belongsToMany(Product::class, 'p_product_attrvalues', 'attrvalue_id', 'product_id');
+		return $this->belongsToMany(Product::class, 'p_attrvalue_products', 'attrvalue_id', 'product_id');
 	}
 
 }
