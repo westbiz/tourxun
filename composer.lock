@@ -1270,16 +1270,16 @@
         },
         {
             "name": "laravel-admin-ext/cropper",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/cropper.git",
-                "reference": "2d2bf480aea5dd166010a846c75a253669ed80fb"
+                "reference": "c1e43a76218790300c6bf7a056c5f6c17a2672fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/cropper/zipball/2d2bf480aea5dd166010a846c75a253669ed80fb",
-                "reference": "2d2bf480aea5dd166010a846c75a253669ed80fb",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/cropper/zipball/c1e43a76218790300c6bf7a056c5f6c17a2672fd",
+                "reference": "c1e43a76218790300c6bf7a056c5f6c17a2672fd",
                 "shasum": ""
             },
             "require": {
@@ -1320,7 +1320,7 @@
                 "image",
                 "laravel-admin"
             ],
-            "time": "2019-03-21T05:34:33+00:00"
+            "time": "2019-03-29T06:57:30+00:00"
         },
         {
             "name": "laravel-admin-ext/grid-lightbox",
