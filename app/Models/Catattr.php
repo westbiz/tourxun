@@ -29,7 +29,7 @@ class Catattr extends Model {
 
 	//父子一对多
 	public function childcatattr() {
-		return $this->hasMany(Catattr::class);
+		return $this->hasMany(Catattr::class, 'parent_id', 'id');
 	}
 
 	//值名反向

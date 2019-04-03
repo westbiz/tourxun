@@ -173,8 +173,8 @@ class CategoryController extends Controller {
 		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
 		// });
 
-		$grid->model()->where('parent_id', '0')
-			->orWhere('parent_id', null);
+		// $grid->model()->where('parent_id', '0')
+		// 	->orWhere('parent_id', null);
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
@@ -186,7 +186,7 @@ class CategoryController extends Controller {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
 		$grid->description('说明')->editable();
-		$grid->destinations('线路')->display(function ($destinations) {
+		$grid->destinations('目的地')->display(function ($destinations) {
 
 			$destinations = array_map(function ($destination) {
 				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
