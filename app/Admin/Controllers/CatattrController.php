@@ -81,31 +81,18 @@ class CatattrController extends Controller {
 			$actions->prepend("<a href='catattrs/create?parent_id=" . $p_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 		});
 
-		// $grid->model()->orderBy('parent_id', 'asc');
+
 		$grid->id('ID');
 		$grid->name('属性名称')->editable();
-		$grid->childcatattr('属性值')->pluck('name')->label();
-		// $grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;line-height:1.5em;word-break:break-all;');
-		// $grid->description('说明')->editable();
+		// $grid->childcatattr('属性值')->pluck('name')->label();
+		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;line-height:1.5em;word-break:break-all;');
+		$grid->description('说明')->editable();
 		$grid->parentcatattr()->name('属性类别')->label('danger');
 		$grid->categories('归属分类')->pluck('name')->label('warning');
 
-		// $grid->attrvalues('属性值')->pluck('attrvalue', 'id')->label();
-		// $grid->isrequired('必填')->using(['1' => '是', '0' => '否']);
-		// $grid->isrequired('必须？')->display(function ($isrequired) {
-		// 	return $isrequired ? '是' : '否';
-		// });
-		// $states = [
-		// 	'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
-		// 	'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
-		// ];
-		// $grid->isrequired('必填')->switch($states);
-		// $grid->isrequired('必须')->select(['1' => '是', '0' => '否']);
-		// $grid->active('激活')->using(['1' => '是', '0' => '否']);
-		// $grid->inputtype('控件')->select(['checkbox' => '复选框', 'text' => '文本框', 'select' => '下拉框', 'radio' => '单选']);
 
-		// $grid->created_at('Created at');
-		// $grid->updated_at('Updated at');
+
+
 
 		return $grid;
 	}
@@ -155,10 +142,10 @@ class CatattrController extends Controller {
 		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框'])->rules('required');
 		$form->radio('active', '激活')->options([1 => '是', 0 => '否'])->default(0);
 
-		$form->hasMany('childcatattr', '属性值', function (Form\NestedForm $form) {
-			$form->text('name', '值名');
-			$form->text('description', '说明');
-			$form->radio('active', '状态')->options([1 => '是', 0 => '否'])->default(0);
+		$form->hasMany('attrvalues', '属性值', function (Form\NestedForm $form) {
+			$form->text('attrvalue', '值名');
+			$form->text('order', '说明');
+			$form->radio('status', '状态')->options([1 => '是', 0 => '否'])->default(0);
 		});
 
 		// $form->display('Created at');

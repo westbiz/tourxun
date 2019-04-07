@@ -211,7 +211,7 @@ class ProductController extends Controller {
 		foreach ($cates as $cate) {
 			// if ($cate->inputtype == 'checkbox') {
 
-			$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+			$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
 					->where('status', '1')
 					->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 

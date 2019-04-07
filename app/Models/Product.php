@@ -33,6 +33,56 @@ class Product extends Model {
 			'product_id', 'attrvalue_id');
 	}
 
+	//多个属性值 映射 往返交通
+	public function transportations() {
+		return $this->catavalues();
+	}
+
+	//多个属性值 映射 出行方式
+	public function travelmodes() {
+		return $this->catavalues();
+	}
+
+	//多个属性值 映射 购物
+	public function shoppings() {
+		return $this->catavalues();
+	}
+
+
+	//多个属性值 映射 接送服务
+	public function transfers() {
+		return $this->catavalues();
+	}
+
+	//多个属性值 映射 适宜人群
+	public function persons() {
+		return $this->catavalues();
+	}
+
+
+	//多个属性值 映射 酒店等级
+	public function hotels() {
+		return $this->catavalues();
+	}
+
+
+	//多个属性值 映射 自费项目
+	public function extraitems() {
+		return $this->catavalues();
+	}
+
+
+	//多个属性值 映射 签证杂费
+	public function visataxes() {
+		return $this->catavalues();
+	}
+
+
+	
+
+
+
+
 	//多个属性
 	public function catattrs() {
 		return $this->hasMany(Catattr::class, 'product_id', 'id');
