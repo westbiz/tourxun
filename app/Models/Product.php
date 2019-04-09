@@ -48,7 +48,6 @@ class Product extends Model {
 		return $this->catavalues();
 	}
 
-
 	//多个属性值 映射 接送服务
 	public function transfers() {
 		return $this->catavalues();
@@ -59,29 +58,20 @@ class Product extends Model {
 		return $this->catavalues();
 	}
 
-
 	//多个属性值 映射 酒店等级
 	public function hotels() {
 		return $this->catavalues();
 	}
-
 
 	//多个属性值 映射 自费项目
 	public function extraitems() {
 		return $this->catavalues();
 	}
 
-
 	//多个属性值 映射 签证杂费
 	public function visataxes() {
 		return $this->catavalues();
 	}
-
-
-	
-
-
-
 
 	//多个属性
 	public function catattrs() {

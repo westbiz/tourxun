@@ -81,7 +81,6 @@ class CatattrController extends Controller {
 			$actions->prepend("<a href='catattrs/create?parent_id=" . $p_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 		});
 
-
 		$grid->id('ID');
 		$grid->name('属性名称')->editable();
 		// $grid->childcatattr('属性值')->pluck('name')->label();
@@ -89,10 +88,6 @@ class CatattrController extends Controller {
 		$grid->description('说明')->editable();
 		$grid->parentcatattr()->name('属性类别')->label('danger');
 		$grid->categories('归属分类')->pluck('name')->label('warning');
-
-
-
-
 
 		return $grid;
 	}
