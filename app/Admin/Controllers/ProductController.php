@@ -202,28 +202,34 @@ class ProductController extends Controller {
 		// })->ajax('/api/v1/countries/ajax')->rules('required');
 
 		// dd($c_id);
-		$cates = Catattr::with('categories')->where('parent_id', 1)
-			->whereHas('categories', function ($query) {
-				$c_id = request()->get('c_id');
-				$query->where('category_id', '=', $c_id);
-			})->get();
-		// dd($cates);
-		foreach ($cates as $cate) {
-			// if ($cate->inputtype == 'checkbox') {
 
-			$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
-					->where('status', '1')
-					->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+		$form->embeds('attributes', '属性', function ($form) {
+			$cates = Catattr::with('categories')->where('parent_id', 1)
+				->whereHas('categories', function ($query) {
+					$c_id = request()->get('c_id');
+					$query->where('category_id', '=', $c_id);
+				})->get();
+			// dd($cates);
+			foreach ($cates as $cate) {
+				// if ($cate->inputtype == 'checkbox') {
 
-			// } elseif ($cate->inputtype == 'select') {
-			//  $form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-			// } elseif ($cate->inputtype == 'radio') {
-			//  $form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-			// } else {
-			//  $form->text('catavalues.attrvalue', $cate->name);
-			// }
+				$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+						->where('status', '1')
+						->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 
-		}
+				// } elseif ($cate->inputtype == 'select') {
+				//  $form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				// } elseif ($cate->inputtype == 'radio') {
+				//  $form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				// } else {
+				//  $form->text('catavalues.attrvalue', $cate->name);
+				// }
+
+			}
+
+			// $form->text('name', '属性名');
+			// $form->text('value', '属性值');
+		});
 
 		// $categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
 		// $form->select('category_id', '分类')->options($categories);
