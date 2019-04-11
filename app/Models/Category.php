@@ -69,7 +69,6 @@ class Category extends Model {
 		return $this->belongsToMany(Catattr::class, 'p_catattr_category', 'category_id', 'catattr_id');
 	}
 
-
 	//一对多
 	public function attributes() {
 		return $this->belongsToMany(Catattr::class, 'p_catattr_category', 'category_id', 'catattr_id');

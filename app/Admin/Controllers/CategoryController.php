@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Destination;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -117,6 +118,9 @@ class CategoryController extends Controller {
 		});
 		$grid->id('ID')->sortable();
 		$grid->name('名称')->editable();
+
+		$grid->catattrs('属性')->pluck('name')->label();
+
 		$grid->parentcategory('父类')->display(function ($parentcategory) {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
@@ -182,9 +186,12 @@ class CategoryController extends Controller {
 		});
 		$grid->id('ID')->sortable();
 		$grid->name('名称')->editable();
-		$grid->parentcategory('父类')->display(function ($parentcategory) {
-			return "<span class='label label-info'>{$parentcategory['name']}</span>";
-		});
+
+		$grid->catattrs('属性')->pluck('name')->label()->style('max-width:180px;line-height:1.6em;word-break:break-all;');
+
+		// $grid->parentcategory('父类')->display(function ($parentcategory) {
+		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
+		// });
 		$grid->description('说明')->editable();
 		$grid->destinations('目的地')->display(function ($destinations) {
 
@@ -277,6 +284,8 @@ class CategoryController extends Controller {
 
 		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
+
+		$form->multipleSelect('catattrs', '属性')->options(Catattr::where('parent_id', '1')->pluck('name', 'id'));
 
 		$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'));
 

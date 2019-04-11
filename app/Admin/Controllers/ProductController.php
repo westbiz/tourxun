@@ -174,7 +174,7 @@ class ProductController extends Controller {
 		$form->text('name', '名称')->rules('required|min:3');
 
 		$form->select('category_id', '分类')->options(
-			Category::parents()->pluck('name', 'id')
+			Category::pluck('name', 'id')
 		)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
 		$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
