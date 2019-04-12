@@ -211,19 +211,19 @@ class ProductController extends Controller {
 				})->get();
 			// dd($cates);
 			foreach ($cates as $cate) {
-				// if ($cate->inputtype == 'checkbox') {
+				if ($cate->inputtype == 'checkbox') {
 
-				$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
-						->where('status', '1')
-						->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+					$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+							->where('status', '1')
+							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 
-				// } elseif ($cate->inputtype == 'select') {
-				//  $form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				// } elseif ($cate->inputtype == 'radio') {
-				//  $form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				// } else {
-				//  $form->text('catavalues.attrvalue', $cate->name);
-				// }
+				} elseif ($cate->inputtype == 'select') {
+					$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} elseif ($cate->inputtype == 'radio') {
+					$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} else {
+					$form->text($cate->description, $cate->name);
+				}
 
 			}
 
