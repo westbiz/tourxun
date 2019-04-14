@@ -12,6 +12,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Widgets\Table;
 
 class CategoryController extends Controller {
 	use HasResourceActions;
@@ -171,6 +172,7 @@ class CategoryController extends Controller {
 	protected function rootlist() {
 		$grid = new Grid(new Category);
 
+		// $grid->model()->load('catattrs');
 		// $grid->filter(function ($filter) {
 		// 	$filter->disableIdFilter();
 		// 	$categories = Category::where('parent_id', 1)->pluck('name', 'id');
@@ -182,10 +184,18 @@ class CategoryController extends Controller {
 		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
-			$actions->prepend("<a href='destinations/create?category=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			$actions->append("<a href='categories/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus'></i>子类</a>&nbsp;");
+			$actions->prepend("<a href='destinations/create?category=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i>目的地</a>&nbsp;");
 		});
 		$grid->id('ID')->sortable();
+
 		$grid->name('名称')->editable();
+		// $grid->name('名称')->expand(function($model){
+		// 	$catattrs = $model->catattrs()->take(10)->get()->map(function($catattr){
+		// 		return $catattr->only(['id','name']);
+		// 	});
+		// 	return new Table(['ID', '属性名称'], $catattrs->toArray());
+		// });
 
 		$grid->catattrs('属性')->pluck('name')->label()->style('max-width:180px;line-height:1.6em;word-break:break-all;');
 
@@ -193,17 +203,17 @@ class CategoryController extends Controller {
 		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		// });
 		$grid->description('说明')->editable();
-		$grid->destinations('目的地')->display(function ($destinations) {
+		// $grid->destinations('目的地')->display(function ($destinations) {
 
-			$destinations = array_map(function ($destination) {
-				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
-			}, $destinations);
-			return join('&nbsp;', $destinations);
-		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
+		// 	$destinations = array_map(function ($destination) {
+		// 		return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+		// 	}, $destinations);
+		// 	return join('&nbsp;', $destinations);
+		// })->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
-		// $grid->countries()->pluck('pivot')->map(function($item,$key){
-		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
-		// })->label('warning');
+		$grid->countries()->pluck('pivot')->map(function($item,$key){
+			return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
+		})->label('warning');
 
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
@@ -282,8 +292,8 @@ class CategoryController extends Controller {
 		$p_id = request()->get('parent_id');
 		// $form->display('id', 'ID');
 
-		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
+		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 
 		$form->multipleSelect('catattrs', '属性')->options(Catattr::where('parent_id', '1')->pluck('name', 'id'));
 
@@ -295,7 +305,7 @@ class CategoryController extends Controller {
 			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
 			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
 		];
-		$form->switch('promotion', '推荐')->states($states);
+		$form->switch('promotion', '推荐')->states($states)->default(1);
 		$form->textarea('description', '说明')->help('请输入2-50个字符！');
 
 		// $form->display('created_at', 'Created At');

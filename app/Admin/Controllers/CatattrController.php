@@ -88,6 +88,7 @@ class CatattrController extends Controller {
 		$grid->description('说明')->editable();
 		$grid->parentcatattr()->name('属性类别')->label('danger');
 		$grid->categories('归属分类')->pluck('name')->label('warning');
+		$grid->inputtype('控件名');
 
 		return $grid;
 	}
