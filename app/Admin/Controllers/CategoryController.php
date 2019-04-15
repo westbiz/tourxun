@@ -191,25 +191,25 @@ class CategoryController extends Controller {
 
 		// $grid->name('名称')->editable();
 		$grid->name('名称')->expand(function ($model) {
-			$catattrs = $model->catattrs()->take(10)->get()->map(function ($catattr) {
-				return $catattr->only(['id', 'name']);
+			$destinations = $model->destinations()->take(10)->get()->map(function ($destination) {
+				return $destination->only(['id', 'name']);
 			});
-			return new Table(['ID', '属性名称'], $catattrs->toArray());
+			return new Table(['ID', '目的地'], $destinations->toArray());
 		});
 
 		// $grid->catattrs('属性')->pluck('name')->label()->style('max-width:180px;line-height:1.6em;word-break:break-all;');
 
-		// $grid->parentcategory('父类')->display(function ($parentcategory) {
-		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
-		// });
+		$grid->parentcategory('父类')->display(function ($parentcategory) {
+			return "<span class='label label-info'>{$parentcategory['name']}</span>";
+		});
 		$grid->description('说明')->editable();
-		$grid->destinations('目的地')->display(function ($destinations) {
+		// $grid->destinations('目的地')->display(function ($destinations) {
 
-			$destinations = array_map(function ($destination) {
-				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
-			}, $destinations);
-			return join('&nbsp;', $destinations);
-		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
+		// 	$destinations = array_map(function ($destination) {
+		// 		return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+		// 	}, $destinations);
+		// 	return join('&nbsp;', $destinations);
+		// })->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
 		// $grid->countries()->pluck('pivot')->map(function($item,$key){
 		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
@@ -297,6 +297,8 @@ class CategoryController extends Controller {
 		$form = new Form(new Category);
 
 		$p_id = request()->get('parent_id');
+		// $c_id = request()->route()->parameters('categories');
+		// dd($c_id);
 		// $form->display('id', 'ID');
 
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);

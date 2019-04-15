@@ -172,7 +172,9 @@ class DestinationController extends Controller {
 		}
 		
 
-		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', 0)->pluck('name', 'id'))->default($c_id)->rules('required');
+		$form->multipleSelect('categories', '分类')->options(Category::where('parent_id', 0)
+			->orWhere('parent_id',null)
+			->pluck('name', 'id'))->default($c_id)->rules('required');
 		$form->text('description', '说明');
 		$states = [
 			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
