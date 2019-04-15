@@ -11,8 +11,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Support\Facades\DB;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller {
 	use HasResourceActions;
@@ -189,31 +189,31 @@ class CategoryController extends Controller {
 		});
 		$grid->id('ID')->sortable();
 
-		$grid->name('名称')->editable();
-		// $grid->name('名称')->expand(function($model){
-		// 	$catattrs = $model->catattrs()->take(10)->get()->map(function($catattr){
-		// 		return $catattr->only(['id','name']);
-		// 	});
-		// 	return new Table(['ID', '属性名称'], $catattrs->toArray());
-		// });
+		// $grid->name('名称')->editable();
+		$grid->name('名称')->expand(function ($model) {
+			$catattrs = $model->catattrs()->take(10)->get()->map(function ($catattr) {
+				return $catattr->only(['id', 'name']);
+			});
+			return new Table(['ID', '属性名称'], $catattrs->toArray());
+		});
 
-		$grid->catattrs('属性')->pluck('name')->label()->style('max-width:180px;line-height:1.6em;word-break:break-all;');
+		// $grid->catattrs('属性')->pluck('name')->label()->style('max-width:180px;line-height:1.6em;word-break:break-all;');
 
 		// $grid->parentcategory('父类')->display(function ($parentcategory) {
 		// 	return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		// });
 		$grid->description('说明')->editable();
-		// $grid->destinations('目的地')->display(function ($destinations) {
+		$grid->destinations('目的地')->display(function ($destinations) {
 
-		// 	$destinations = array_map(function ($destination) {
-		// 		return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
-		// 	}, $destinations);
-		// 	return join('&nbsp;', $destinations);
-		// })->style('max-width:200px;line-height:1.6em;word-break:break-all;');
+			$destinations = array_map(function ($destination) {
+				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+			}, $destinations);
+			return join('&nbsp;', $destinations);
+		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
-		$grid->countries()->pluck('pivot')->map(function($item,$key){
-			return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
-		})->label('warning');
+		// $grid->countries()->pluck('pivot')->map(function($item,$key){
+		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
+		// })->label('warning');
 
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
@@ -239,6 +239,13 @@ class CategoryController extends Controller {
 		// $show->countries()->cname();
 		// $show->order('排序');
 		// $show->description('描述');
+
+		$show->destinations('目的地', function ($destinations) {
+			$destinations->resource('/admin/destinations');
+			$destinations->id();
+			$destinations->name();
+			$destinations->description();
+		});
 
 		$show->childcategories('所有子类', function ($child) {
 			$child->resource('/admin/categories');
