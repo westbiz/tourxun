@@ -16,7 +16,7 @@ class Destination extends Model {
 
 	//多对多，父类
 	public function categories() {
-		return $this->belongsToMany(Category::class, 'tx_category_destinations', 'destination_id', 'category_id');
+		return $this->belongsToMany(Category::class, 'tx_category_destinations', 'destination_id', 'category_id')->withPivot('category_id', 'destination_id');
 	}
 
 	//多对多
@@ -51,6 +51,11 @@ class Destination extends Model {
 			return [];
 		}
 		return $self->brothers()->pluck('name', 'id');
+	}
+
+	//
+	public function scopeAbroad($query, $category_id) {
+		return $query->where('id', $category_id);
 	}
 
 }
