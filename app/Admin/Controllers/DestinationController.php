@@ -135,7 +135,7 @@ class DestinationController extends Controller {
 		// })->rules('nullable');
 
 		if ($c_id == 1) {
-			$form->select('country_id', '国家地区')->options(
+			$form->select('country_id', '国家/地区')->options(
 				Country::china()->orderBy('cname', 'asc')->pluck('cname', 'id')
 			)->rules('required')
 				->load('city_id', '/api/v1/worldcities/getcities');
@@ -143,7 +143,7 @@ class DestinationController extends Controller {
 				return Worldcity::china()->pluck('cn_name', 'id');
 			})->rules('nullable');
 		} elseif ($c_id == 2 || $c_id == 4) {
-			$form->select('country_id', '国家地区')->options(
+			$form->select('country_id', '国家/地区')->options(
 				Country::outofchina()->orderBy('cname', 'asc')->pluck('cname', 'id')
 			)->rules('required')
 				->load('city_id', '/api/v1/worldcities/getcities');
@@ -151,6 +151,10 @@ class DestinationController extends Controller {
 			$form->select('city_id', '城市')->options(function ($id) {
 				return Worldcity::options($id);
 			})->rules('nullable');
+		} elseif ($c_id == 5) {
+			$form->select('country_id', '国家/地区')->options(
+				Country::outofchina()->orderBy('cname', 'asc')->pluck('cname', 'id')
+			)->rules('required');
 		} elseif ($c_id == 3) {
 			$form->select('country_id', '港澳台地区')->options(
 				Country::gangaotai()->orderBy('cname', 'asc')->pluck('cname', 'id')
@@ -161,7 +165,7 @@ class DestinationController extends Controller {
 			// 	return Worldcity::options($id);
 			// })->rules('nullable');
 		} else {
-			$form->select('country_id', '国家地区')->options(
+			$form->select('country_id', '国家/地区')->options(
 				Country::orderBy('cname', 'asc')->pluck('cname', 'id')
 			)->load('city_id', '/api/v1/worldcities/getcities')
 				->rules('required');
