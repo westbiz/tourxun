@@ -142,12 +142,20 @@ class DestinationController extends Controller {
 			$form->select('city_id', '城市')->options(function ($id) {
 				return Worldcity::china()->pluck('cn_name', 'id');
 			})->rules('nullable');
-		} elseif ($c_id == 2 || $c_id == 4) {
+		} elseif ($c_id == 2) {
 			$form->select('country_id', '国家/地区')->options(
 				Country::outofchina()->orderBy('cname', 'asc')->pluck('cname', 'id')
 			)->rules('required')
 				->load('city_id', '/api/v1/worldcities/getcities');
 			// $form->hidden('city_id')->default(0);
+			$form->select('city_id', '城市')->options(function ($id) {
+				return Worldcity::options($id);
+			})->rules('nullable');
+		} elseif ($c_id == 4) {
+			$form->select('country_id', '国家/地区')->options(
+				Country::orderBy('cname', 'asc')->pluck('cname', 'id')
+			)->rules('required')
+				->load('city_id', '/api/v1/worldcities/getcities');
 			$form->select('city_id', '城市')->options(function ($id) {
 				return Worldcity::options($id);
 			})->rules('nullable');

@@ -22,45 +22,37 @@ class Country extends Model {
 	}
 
 	//一对多反向，国家
-	public function worldcities() {
+	public function cities() {
 		return $this->hasMany(Worldcity::class, 'country_id', 'id');
 	}
 
-
 	//目的地，多对一
-	public function destination()
-	{
+	public function destination() {
 		return $this->hasMany(Destination::class, 'country_id', 'id');
 	}
 
 	//多对多，分类多国家
 	public function categorycountry() {
-		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id')->withPivot('line')->wherePivot('active',1);
+		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id')->withPivot('line')->wherePivot('active', 1);
 	}
 
-
 	//国内
-	public function scopeChina()
-	{
+	public function scopeChina() {
 		return $this->where('id', 101);
 	}
 
-
 	//境外国家地区
-	public function scopeOutofchina($query)
-	{
-		return $query->where('id','<>',101);
+	public function scopeOutofchina($query) {
+		//100台湾, 101中国, 71澳门, 75香港
+		$areas = collect([71, 75, 100, 101]);
+		return $query->whereNotIn('id', $areas);
 	}
-
 
 	//港澳台
-	public function scopeGangaotai($query)
-	{
-		return $query->where('id','=',100)
-					->orWhere('id','=',71)
-					->orWhere('id','=',75);
+	public function scopeGangaotai($query) {
+		$areas = collect([71, 75, 100]);
+		return $query->whereIn('id', $areas);
 	}
-
 
 	//联动
 	public function parent() {
@@ -82,7 +74,5 @@ class Country extends Model {
 		}
 		return $self->brothers()->pluck('cn_name', 'id');
 	}
-
-
 
 }

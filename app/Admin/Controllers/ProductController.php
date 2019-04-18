@@ -81,7 +81,7 @@ class ProductController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Product);
 
-		// $grid->disableActions();
+		$grid->disableActions();
 		// $grid->actions(function ($actions) {
 		// 	$p_id = $actions->getKey();
 

@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Continent;
 use App\Models\Country;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -119,7 +118,10 @@ class CountryController extends Controller {
 			// $filter->like('cname', '名称');
 		});
 		$grid->id('ID');
-		$grid->cname('中文');
+		$grid->cname('中文')->display(function () {
+			// $id = $actions->getKey();
+			return "<a href='worldcities?&country_id=" . $this->id . "'>" . $this->cname . "</a>";
+		});
 		// $grid->alias('别名');
 		$grid->continent()->cn_name('大洲')->label('info');
 		$grid->continentlocation('地理位置')->pluck('cn_name')->label('danger');
@@ -154,6 +156,17 @@ class CountryController extends Controller {
 		$show->full_name('英文全称');
 		$show->full_cname('中文全称');
 		$show->remark('简介')->limit(30);
+
+		$show->cities('城市', function ($cities) {
+			$cities->resource('/admin/worldcities');
+			$cities->id('ID');
+			$cities->cn_name('名称');
+			$cities->name('EN名称');
+			$cities->country()->cname('国家')->label('info');
+			$cities->cn_state('省/州');
+			$cities->state('EN省/州');
+			$cities->lower_name('en小写');
+		});
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
 
@@ -175,10 +188,10 @@ class CountryController extends Controller {
 		$form->select('continent_id', '大洲')->options($continents);
 		$form->multipleSelect('continentlocation', '地理位置')->options(Continent::where('parent_id', '>', '0')->pluck('cn_name', 'id'));
 		// $form->multipleSelect('categorycountry', '目的地归类')->options(Category::where('parent_id', 0)->pluck('name', 'id'));
-		$form->text('name', 'en名称');
+		$form->text('name', 'EN名称');
 		$form->text('lower_name', '小写');
 		$form->text('country_code', '代码');
-		$form->text('full_name', 'en全称');
+		$form->text('full_name', 'EN全称');
 		$form->text('full_cname', '中文全称');
 		$form->textarea('remark', '简介');
 		// $form->display('Created at');
