@@ -42,7 +42,7 @@ class Country extends Model {
 	}
 
 	//境外国家地区
-	public function scopeOutofchina($query) {
+	public function scopeAbroad($query) {
 		//100台湾, 101中国, 71澳门, 75香港
 		$areas = collect([71, 75, 100, 101]);
 		return $query->whereNotIn('id', $areas);

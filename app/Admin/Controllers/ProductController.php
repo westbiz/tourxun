@@ -10,6 +10,7 @@ use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\Product;
+use App\Models\Worldcity;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -172,6 +173,7 @@ class ProductController extends Controller {
 		$d_id = request()->get('d_id');
 		$form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
+		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->pluck('cn_name', 'id'))->default($d_id);
 
 		$form->select('category_id', '分类')->options(
 			Category::pluck('name', 'id')

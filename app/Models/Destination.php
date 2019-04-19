@@ -54,8 +54,10 @@ class Destination extends Model {
 	}
 
 	//
-	public function scopeAbroad($query, $category_id) {
-		return $query->where('id', $category_id);
+	public function scopeAbroad($query) {
+		//100台湾, 101中国, 71澳门, 75香港
+		$areas = collect([71, 75, 100, 101]);
+		return $query->whereNotIn('country_id', $areas);
 	}
 
 }
