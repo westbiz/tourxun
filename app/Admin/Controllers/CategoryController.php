@@ -5,7 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Destination;
+use App\Models\Country;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -203,13 +203,13 @@ class CategoryController extends Controller {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
 		$grid->description('说明')->editable();
-		// $grid->destinations('目的地')->display(function ($destinations) {
+		$grid->destinations('目的地')->display(function ($destinations) {
 
-		// 	$destinations = array_map(function ($destination) {
-		// 		return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
-		// 	}, $destinations);
-		// 	return join('&nbsp;', $destinations);
-		// })->style('max-width:200px;line-height:1.6em;word-break:break-all;');
+			$destinations = array_map(function ($destination) {
+				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+			}, $destinations);
+			return join('&nbsp;', $destinations);
+		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
 		// $grid->countries()->pluck('pivot')->map(function($item,$key){
 		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
@@ -306,7 +306,11 @@ class CategoryController extends Controller {
 
 		$form->multipleSelect('catattrs', '属性')->options(Catattr::where('parent_id', '1')->pluck('name', 'id'));
 
-		$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'));
+		// $form->multipleSelect('destinations', '目的地')->options(Country::abroad()->pluck('cname', 'id'));
+
+		$form->embeds('toplaces', function ($form) {
+			$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
+		});
 
 		$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 		$form->text('order', '排序')->value($next_id[0]->Auto_increment);

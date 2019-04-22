@@ -47,15 +47,14 @@ class Worldcity extends Model {
 	}
 
 	//世界城市
-	public function scopeWorldcities() {
-		return $this->where('country_id', '<>', 101);
+	public function scopeWorldcities($query) {
+		return $query->whereNotIn('country_id', 101);
 	}
 
 	//港澳台
-	public function scopeGangaotai() {
-		return $this->where('country_id', 75)
-			->orWhere('country_id', 71)
-			->orWhere('country_id', 100);
+	public function scopeGangaotai($query) {
+		$areas = collect([71, 75, 100]);
+		return $query->whereIn('coutry_id', $areas);
 	}
 
 }
