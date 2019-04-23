@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catattr;
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\Worldcity;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -297,8 +298,9 @@ class CategoryController extends Controller {
 		$form = new Form(new Category);
 
 		$p_id = request()->get('parent_id');
-		// $c_id = request()->route()->parameters('categories');
-		// dd($c_id);
+		// $c_id = request()->get('categories');
+		$c_id = request()->route()->parameters('categories');
+		dd($c_id);
 		// $form->display('id', 'ID');
 
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
@@ -308,9 +310,17 @@ class CategoryController extends Controller {
 
 		// $form->multipleSelect('destinations', '目的地')->options(Country::abroad()->pluck('cname', 'id'));
 
-		$form->embeds('toplaces', function ($form) {
-			$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
-		});
+		if ($c_id == 1) {
+			$form->embeds('toplaces', '目的地', function ($form) {
+				$form->multipleSelect('countries', '国家地区')->options(Country::china()->pluck('cname', 'id'));
+				$form->multipleSelect('cityies', '城市')->options(Worldcity::chinacities()->pluck('cn_name', 'id'));
+			});
+		} else {
+			$form->embeds('toplaces', '目的地', function ($form) {
+				$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
+				$form->multipleSelect('cityies', '城市')->options(Worldcity::worldcities()->pluck('cn_name', 'id'));
+			});
+		}
 
 		$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 		$form->text('order', '排序')->value($next_id[0]->Auto_increment);

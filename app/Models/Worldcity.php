@@ -47,8 +47,8 @@ class Worldcity extends Model {
 	}
 
 	//世界城市
-	public function scopeWorldcities($query) {
-		return $query->whereNotIn('country_id', 101);
+	public function scopeWorldcities() {
+		return $this->where('country_id', '<>', 101);
 	}
 
 	//港澳台
