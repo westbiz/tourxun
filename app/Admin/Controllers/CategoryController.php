@@ -300,7 +300,7 @@ class CategoryController extends Controller {
 		$p_id = request()->get('parent_id');
 		// $c_id = request()->get('categories');
 		$c_id = request()->route()->parameters('categories');
-		dd($c_id);
+		// dd($c_id);
 		// $form->display('id', 'ID');
 
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
@@ -310,12 +310,22 @@ class CategoryController extends Controller {
 
 		// $form->multipleSelect('destinations', '目的地')->options(Country::abroad()->pluck('cname', 'id'));
 
-		if ($c_id == 1) {
+		if ($c_id['category'] == 1) {
 			$form->embeds('toplaces', '目的地', function ($form) {
 				$form->multipleSelect('countries', '国家地区')->options(Country::china()->pluck('cname', 'id'));
 				$form->multipleSelect('cityies', '城市')->options(Worldcity::chinacities()->pluck('cn_name', 'id'));
 			});
-		} else {
+		} elseif ($c_id['category'] == 2 || $c_id['category'] == 4) {
+			$form->embeds('toplaces', '目的地', function ($form) {
+				$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
+				$form->multipleSelect('cityies', '城市')->options(Worldcity::worldcities()->pluck('cn_name', 'id'));
+			});
+		} elseif ($c_id['category'] == 3) {
+			$form->embeds('toplaces', '目的地', function ($form) {
+				$form->multipleSelect('countries', '国家地区')->options(Country::gangaotai()->pluck('cname', 'id'));
+				// $form->multipleSelect('cityies', '城市')->options(Worldcity::gangaotai()->pluck('cn_name', 'id'));
+			});
+		} elseif ($c_id['category'] == 4) {
 			$form->embeds('toplaces', '目的地', function ($form) {
 				$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
 				$form->multipleSelect('cityies', '城市')->options(Worldcity::worldcities()->pluck('cn_name', 'id'));

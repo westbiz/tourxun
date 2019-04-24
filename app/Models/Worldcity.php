@@ -54,7 +54,7 @@ class Worldcity extends Model {
 	//港澳台
 	public function scopeGangaotai($query) {
 		$areas = collect([71, 75, 100]);
-		return $query->whereIn('coutry_id', $areas);
+		return $query->whereIn('country_id', $areas);
 	}
 
 }
