@@ -313,7 +313,7 @@ class CategoryController extends Controller {
 		if ($c_id['category'] == 1) {
 			$form->embeds('toplaces', '目的地', function ($form) {
 				// $form->multipleSelect('countries', '国家地区')->options(Country::china()->pluck('cname', 'id'));
-				$form->multipleSelect('cities', '城市')->options(Worldcity::chinacities()->pluck('cn_name', 'id'));
+				$form->multipleSelect('cities', '城市')->options(Worldcity::chinacities()->where('active',1)->pluck('cn_name', 'id'));
 			});
 		} elseif ($c_id['category'] == 2 || $c_id['category'] == 4) {
 			$form->embeds('toplaces', '目的地', function ($form) {

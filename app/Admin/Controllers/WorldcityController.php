@@ -159,6 +159,11 @@ class WorldcityController extends Controller {
 
 		$form->text('city_code', '城市代码');
 		$form->text('state_code', '州代码');
+		$states = [
+			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+		];
+		$form->switch('active', '激活')->states($states)->default(1);
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
