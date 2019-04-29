@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Continent;
+use App\Models\Country;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -131,6 +132,7 @@ class ContinentController extends Controller {
 		$form->select('parent_id', '大洲')->options(Continent::pluck('cn_name', 'id'));
 		$form->text('cn_name', '洲名');
 		$form->text('en_name', '英文名称');
+		$form->multipleSelect('continentcountries', '国家地区')->options(Country::pluck('cname', 'id'));
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
