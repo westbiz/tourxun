@@ -303,6 +303,8 @@ class CategoryController extends Controller {
 		// dd($c_id);
 		// $form->display('id', 'ID');
 
+		
+
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
 		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
 
@@ -315,7 +317,7 @@ class CategoryController extends Controller {
 				// $form->multipleSelect('countries', '国家地区')->options(Country::china()->pluck('cname', 'id'));
 				$form->multipleSelect('cities', '城市')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'));
 			});
-		} elseif ($c_id['category'] == 2 || $c_id['category'] == 4) {
+		} elseif ($c_id['category'] == 2) {
 			$form->embeds('toplaces', '目的地', function ($form) {
 				$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
 				$form->multipleSelect('cities', '城市')->options(Worldcity::worldcities()->where('active', 1)->pluck('cn_name', 'id'));
@@ -327,8 +329,8 @@ class CategoryController extends Controller {
 			});
 		} elseif ($c_id['category'] == 4) {
 			$form->embeds('toplaces', '目的地', function ($form) {
-				$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
-				$form->multipleSelect('cities', '城市')->options(Worldcity::worldcities()->where('active', 1)->pluck('cn_name', 'id'));
+				$form->multipleSelect('countries', '国家地区')->options(Country::island()->where('active', 1)->pluck('cname', 'id'));
+				$form->multipleSelect('cities', '城市')->options(Worldcity::island()->where('active', 1)->pluck('cn_name', 'id'));
 			});
 		}
 

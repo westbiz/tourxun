@@ -8,11 +8,16 @@ class Worldcity extends Model {
 	protected $table = 't_world_cities';
 
 	protected $fillable = [
-		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code',
+		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island',
 	];
 
 	public function scopeChina() {
 		return $this->where('country_id', 101);
+	}
+
+	//海岛
+	public function scopeIsland(){
+		return $this->where('is_island',1);
 	}
 
 	//一对多反向，国家

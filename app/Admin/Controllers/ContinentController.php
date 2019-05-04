@@ -128,11 +128,11 @@ class ContinentController extends Controller {
 	protected function form() {
 		$form = new Form(new Continent);
 
-		$form->display('ID');
-		$form->select('parent_id', '大洲')->options(Continent::pluck('cn_name', 'id'));
+		// $form->display('ID');
+		$form->select('parent_id', '父级名称')->options(Continent::where('parent_id',0)->pluck('cn_name', 'id'));
 		$form->text('cn_name', '洲名');
 		$form->text('en_name', '英文名称');
-		$form->multipleSelect('continentcountries', '国家地区')->options(Country::pluck('cname', 'id'));
+		$form->multipleSelect('continentcountries', '国家地区')->options(Country::where('continent_id','>',0)->pluck('cname', 'id'));
 		// $form->display('Created at');
 		// $form->display('Updated at');
 

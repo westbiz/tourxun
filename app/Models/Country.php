@@ -8,8 +8,14 @@ class Country extends Model {
 	protected $table = 't_countries';
 
 	protected $fillable = [
-		'continent_id', 'name', 'lower_name', 'country_code', 'full_name', 'cname', 'full_name', 'remark',
+		'continent_id', 'name', 'lower_name', 'country_code', 'full_name', 'cname', 'full_name', 'remark', 'active', 'is_island',
 	];
+
+	//海岛
+	public function scopeIsland(){
+		return $this->where('is_island',1);
+	}
+
 
 	//一对多，大洲
 	public function continent() {

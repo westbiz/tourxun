@@ -109,7 +109,8 @@ class WorldcityController extends Controller {
 			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
 			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 		];
-		$grid->active('激活')->switch($states);
+		$grid->is_island('海岛')->switch($states);
+		$grid->active('激活')->switch($states);		
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 
@@ -163,7 +164,8 @@ class WorldcityController extends Controller {
 			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
 			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
 		];
-		$form->switch('active', '激活')->states($states)->default(1);
+		$form->switch('active', '激活')->states($states)->default(0);
+		$form->switch('is_island', '海岛')->states($states)->default(0);
 		// $form->display('Created at');
 		// $form->display('Updated at');
 

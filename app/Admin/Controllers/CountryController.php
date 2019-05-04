@@ -132,6 +132,12 @@ class CountryController extends Controller {
 		// $grid->full_name('en全称');
 		$grid->full_cname('全称');
 		$grid->remark('简介')->limit(30);
+		$states = [
+			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+		];
+		$grid->is_island('海岛')->switch($states);
+		$grid->active('激活')->switch($states);		
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 
@@ -194,6 +200,12 @@ class CountryController extends Controller {
 		$form->text('full_name', 'EN全称');
 		$form->text('full_cname', '中文全称');
 		$form->textarea('remark', '简介');
+		$states = [
+			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+		];
+		$form->switch('active', '激活')->states($states)->default(0);
+		$form->switch('is_island', '海岛')->states($states)->default(0);
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
