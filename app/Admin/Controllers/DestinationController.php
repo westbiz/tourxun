@@ -80,6 +80,7 @@ class DestinationController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('名称')->editable();
+		$grid->type('类型')->label('info');
 		$grid->country()->cname('国家');
 		$grid->city()->cn_name('所属城市');
 		$grid->description('说明')->editable();
@@ -124,6 +125,7 @@ class DestinationController extends Controller {
 				return 'required|unique:tx_destinations';
 			}
 		});
+		$form->select('type', '类型')->options([1 => '国家地区', 2 => '城市', 3 => '景点']);
 		$c_id = request()->get('category');
 
 		// $form->select('country_id','国家地区')->options(

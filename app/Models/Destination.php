@@ -11,7 +11,7 @@ class Destination extends Model {
 	// protected $hidden = ['pivot'];
 
 	protected $fillable = [
-		'name', 'parent_id', 'country_id', 'city_id', 'order', 'promotion', 'description',
+		'name', 'type', 'parent_id', 'country_id', 'city_id', 'order', 'promotion', 'description',
 	];
 
 	//多对多，父类
