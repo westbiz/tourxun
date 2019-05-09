@@ -86,6 +86,7 @@ class DestinationController extends Controller {
 		$grid->description('说明')->editable();
 		$grid->categories('分类')->pluck('name')->label('info');
 		$grid->promotion('推荐');
+		$grid->sort('排序')->editable();
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 
@@ -189,7 +190,10 @@ class DestinationController extends Controller {
 			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
 		];
 		$form->switch('promotion', '推荐')->states($states);
-		// $form->text('promotion','推荐');
+		$form->text('sort', '排序')->rules('required|regex:/^\d+$/|min:1', [
+			'regex' => '必须全部为数字',
+			'min' => '不能少于一位',
+		]);
 		// $form->display('Created at');
 		// $form->display('Updated at');
 

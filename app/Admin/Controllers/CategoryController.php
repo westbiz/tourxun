@@ -243,9 +243,15 @@ class CategoryController extends Controller {
 
 		$show->destinations('目的地', function ($destinations) {
 			$destinations->resource('/admin/destinations');
-			$destinations->id();
-			$destinations->name();
-			$destinations->description();
+			$destinations->id('ID');
+			$destinations->name('名称');
+			$destinations->description('描述');
+			$destinations->sort('排序')->editable();
+			$states = [
+				'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+				'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+			];
+			$destinations->promotion('推荐')->switch($states);
 		});
 
 		$show->childcategories('所有子类', function ($child) {
@@ -302,8 +308,6 @@ class CategoryController extends Controller {
 		$c_id = request()->route()->parameters('categories');
 		// dd($c_id);
 		// $form->display('id', 'ID');
-
-		
 
 		$form->select('parent_id', '父类')->options(Category::pluck('name', 'id'))->default($p_id);
 		$form->text('name', '分类名称')->rules('required|min:2|max:20')->help('请输入2-20个字符！');
