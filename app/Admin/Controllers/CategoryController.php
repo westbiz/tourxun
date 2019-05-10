@@ -246,12 +246,12 @@ class CategoryController extends Controller {
 			$destinations->id('ID');
 			$destinations->name('名称');
 			$destinations->description('描述');
-			$destinations->sort('排序')->editable();
 			$states = [
 				'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
 				'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 			];
 			$destinations->promotion('推荐')->switch($states);
+			$destinations->sort('排序')->sortable()->editable();
 		});
 
 		$show->childcategories('所有子类', function ($child) {
