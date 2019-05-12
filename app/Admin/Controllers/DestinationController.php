@@ -80,7 +80,6 @@ class DestinationController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('名称')->editable();
-		$grid->type('类型')->label('info');
 		$grid->country()->cname('国家');
 		$grid->city()->cn_name('所属城市');
 		$grid->description('说明')->editable();
@@ -126,7 +125,7 @@ class DestinationController extends Controller {
 				return 'required|unique:tx_destinations';
 			}
 		});
-		$form->select('type', '类型')->options([1 => '国家地区', 2 => '城市', 3 => '景点']);
+
 		$c_id = request()->get('category');
 
 		// $form->select('country_id','国家地区')->options(
@@ -138,13 +137,15 @@ class DestinationController extends Controller {
 		// })->rules('nullable');
 
 		if ($c_id == 1) {
-			$form->select('country_id', '国家/地区')->options(
-				Country::china()->orderBy('cname', 'asc')->pluck('cname', 'id')
-			)->rules('required')
-				->load('city_id', '/api/v1/worldcities/getcities');
-			$form->select('city_id', '城市')->options(function ($id) {
-				return Worldcity::china()->pluck('cn_name', 'id');
-			})->rules('nullable');
+			// $form->select('country_id', '国家/地区')->options(
+			// 	Country::china()->orderBy('cname', 'asc')->pluck('cname', 'id')
+			// )->rules('required')
+			// 	->load('city_id', '/api/v1/worldcities/getcities');
+			// $form->select('city_id', '城市')->options(function ($id) {
+			// 	return Worldcity::china()->pluck('cn_name', 'id');
+			// })->rules('nullable');
+			$form->hidden('country_id',101);
+			$form->select('city_id', '城市')->options(Worldcity::chinacities()->pluck('cn_name','id'));
 		} elseif ($c_id == 2) {
 			$form->select('country_id', '国家/地区')->options(
 				Country::abroad()->orderBy('cname', 'asc')->pluck('cname', 'id')

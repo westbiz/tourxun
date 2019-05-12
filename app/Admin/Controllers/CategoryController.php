@@ -316,27 +316,27 @@ class CategoryController extends Controller {
 
 		// $form->multipleSelect('destinations', '目的地')->options(Country::abroad()->pluck('cname', 'id'));
 
-		if ($c_id['category'] == 1) {
-			$form->embeds('toplaces', '目的地', function ($form) {
-				// $form->multipleSelect('countries', '国家地区')->options(Country::china()->pluck('cname', 'id'));
-				$form->multipleSelect('cities', '城市')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'));
-			});
-		} elseif ($c_id['category'] == 2) {
-			$form->embeds('toplaces', '目的地', function ($form) {
-				$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
-				$form->multipleSelect('cities', '城市')->options(Worldcity::worldcities()->where('active', 1)->pluck('cn_name', 'id'));
-			});
-		} elseif ($c_id['category'] == 3) {
-			$form->embeds('toplaces', '目的地', function ($form) {
-				$form->multipleSelect('countries', '国家地区')->options(Country::gangaotai()->pluck('cname', 'id'));
-				// $form->multipleSelect('cities', '城市')->options(Worldcity::gangaotai()->pluck('cn_name', 'id'));
-			});
-		} elseif ($c_id['category'] == 4) {
-			$form->embeds('toplaces', '目的地', function ($form) {
-				$form->multipleSelect('countries', '国家地区')->options(Country::island()->where('active', 1)->pluck('cname', 'id'));
-				$form->multipleSelect('cities', '城市')->options(Worldcity::island()->where('active', 1)->pluck('cn_name', 'id'));
-			});
-		}
+		// if ($c_id['category'] == 1) {
+		// 	$form->embeds('toplaces', '目的地', function ($form) {
+		// 		// $form->multipleSelect('countries', '国家地区')->options(Country::china()->pluck('cname', 'id'));
+		// 		$form->multipleSelect('cities', '城市')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'));
+		// 	});
+		// } elseif ($c_id['category'] == 2) {
+		// 	$form->embeds('toplaces', '目的地', function ($form) {
+		// 		$form->multipleSelect('countries', '国家地区')->options(Country::abroad()->pluck('cname', 'id'));
+		// 		$form->multipleSelect('cities', '城市')->options(Worldcity::worldcities()->where('active', 1)->pluck('cn_name', 'id'));
+		// 	});
+		// } elseif ($c_id['category'] == 3) {
+		// 	$form->embeds('toplaces', '目的地', function ($form) {
+		// 		$form->multipleSelect('countries', '国家地区')->options(Country::gangaotai()->pluck('cname', 'id'));
+		// 		// $form->multipleSelect('cities', '城市')->options(Worldcity::gangaotai()->pluck('cn_name', 'id'));
+		// 	});
+		// } elseif ($c_id['category'] == 4) {
+		// 	$form->embeds('toplaces', '目的地', function ($form) {
+		// 		$form->multipleSelect('countries', '国家地区')->options(Country::island()->where('active', 1)->pluck('cname', 'id'));
+		// 		$form->multipleSelect('cities', '城市')->options(Worldcity::island()->where('active', 1)->pluck('cn_name', 'id'));
+		// 	});
+		// }
 
 		$next_id = DB::select("SHOW TABLE STATUS LIKE 'tx_categories'");
 		$form->text('order', '排序')->value($next_id[0]->Auto_increment);
