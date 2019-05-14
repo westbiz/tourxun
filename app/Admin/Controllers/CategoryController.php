@@ -218,6 +218,11 @@ class CategoryController extends Controller {
 
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
+		$states = [
+			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+		];
+		$grid->active('激活')->switch($states);	
 
 		// $grid->deleted_at();
 		// $grid->created_at();
