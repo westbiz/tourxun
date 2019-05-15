@@ -5,8 +5,6 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Catattr;
 use App\Models\Category;
-use App\Models\Country;
-use App\Models\Worldcity;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -148,7 +146,7 @@ class CategoryController extends Controller {
 			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
 			'off' => ['value' => 2, 'text' => '否', 'color' => 'default'],
 		];
-		$grid->promotion('推荐')->switch($states);
+
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
 
@@ -222,7 +220,7 @@ class CategoryController extends Controller {
 			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
 			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 		];
-		$grid->active('激活')->switch($states);	
+		$grid->active('激活')->switch($states);
 
 		// $grid->deleted_at();
 		// $grid->created_at();
@@ -349,8 +347,9 @@ class CategoryController extends Controller {
 			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
 			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
 		];
-		$form->switch('promotion', '推荐')->states($states)->default(1);
 		$form->textarea('description', '说明')->help('请输入2-50个字符！');
+
+		$form->switch('active', '激活')->states($states);
 
 		// $form->display('created_at', 'Created At');
 		// $form->display('updated_at', 'Updated At');

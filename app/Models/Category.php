@@ -21,7 +21,7 @@ class Category extends Model {
 	];
 
 	protected $fillable = [
-		'name', 'parent_id', 'order', 'promotion', 'description', 'active',
+		'name', 'parent_id', 'order', 'description', 'active',
 	];
 
 	public function scopeParents($query) {
