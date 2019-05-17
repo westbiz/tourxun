@@ -8,6 +8,7 @@ use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Destination;
 use App\Models\Product;
 use App\Models\Worldcity;
@@ -173,13 +174,22 @@ class ProductController extends Controller {
 		$d_id = request()->get('d_id');
 		$form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
-		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active',1)->pluck('cn_name', 'id'))->default($d_id);
+		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'))->default($d_id);
 
 		$form->select('category_id', '分类')->options(
 			Category::pluck('name', 'id')
 		)->load('destinations', '/api/v1/categories/children')->rules('required')->default($c_id);
 
 		$form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
+		if ($c_id == 1) {
+			$form->multipleSelect('countries', '目的地 地区')->options(Country::china()->pluck('cname', 'id'));
+		} elseif ($c_id == 2) {
+			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->pluck('cname', 'id'));
+		} else {
+			$form->multipleSelect('countries', '目的地 地区')->options(Country::gangaotai()->pluck('cname', 'id'));
+		}
+
+		// $form->multipleSelect('cities', '目的地 城市')->options(Worldcity::pluck('cn_name', 'id'));
 
 		// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
 
