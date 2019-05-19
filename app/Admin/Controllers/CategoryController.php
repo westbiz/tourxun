@@ -171,24 +171,13 @@ class CategoryController extends Controller {
 	protected function rootlist() {
 		$grid = new Grid(new Category);
 
-		// $grid->model()->load('catattrs');
-		// $grid->filter(function ($filter) {
-		// 	$filter->disableIdFilter();
-		// 	$categories = Category::where('parent_id', 1)->pluck('name', 'id');
-		// 	$filter->expand()->equal('parent_id', '选择分类')->select($categories);
-		// });
-
-		// $grid->model()->where('parent_id', '0')
-		// 	->orWhere('parent_id', null);
-		// $grid->model()->with('attrvalues');
 		$grid->actions(function ($actions) {
 			$c_id = $actions->getKey();
 			$actions->append("<a href='categories/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus'></i>子类</a>&nbsp;");
-			$actions->prepend("<a href='destinations/create?category=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i>目的地</a>&nbsp;");
+			$actions->prepend("<a href='products/create?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i>商品</a>&nbsp;");
 		});
 		$grid->id('ID')->sortable();
 
-		// $grid->name('名称')->editable();
 		$grid->name('名称')->expand(function ($model) {
 			$destinations = $model->destinations()->take(10)->get()->map(function ($destination) {
 				return $destination->only(['id', 'name']);
@@ -202,17 +191,17 @@ class CategoryController extends Controller {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
 		$grid->description('说明')->editable();
-		$grid->destinations('目的地')->display(function ($destinations) {
+		// $grid->destinations('目的地')->display(function ($destinations) {
 
-			$destinations = array_map(function ($destination) {
-				return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
-			}, $destinations);
-			return join('&nbsp;', $destinations);
-		})->style('max-width:200px;line-height:1.6em;word-break:break-all;');
+		// 	$destinations = array_map(function ($destination) {
+		// 		return "<a href='products/create?c_id=" . $this->id . "&d_id={$destination['id']}'><span class='label label-danger'>{$destination['name']}</span></a>";
+		// 	}, $destinations);
+		// 	return join('&nbsp;', $destinations);
+		// })->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
-		// $grid->countries()->pluck('pivot')->map(function($item,$key){
-		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
-		// })->label('warning');
+		$grid->countries()->pluck('pivot')->map(function($item,$key){
+			return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
+		})->label('warning');
 
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
