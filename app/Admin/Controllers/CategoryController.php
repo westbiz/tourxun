@@ -10,7 +10,6 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Encore\Admin\Widgets\Table;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller {
@@ -178,12 +177,13 @@ class CategoryController extends Controller {
 		});
 		$grid->id('ID')->sortable();
 
-		$grid->name('名称')->expand(function ($model) {
-			$destinations = $model->destinations()->take(10)->get()->map(function ($destination) {
-				return $destination->only(['id', 'name']);
-			});
-			return new Table(['ID', '目的地'], $destinations->toArray());
-		});
+		$grid->name('名称')->editable();
+		// ->expand(function ($model) {
+		// 	$destinations = $model->destinations()->take(10)->get()->map(function ($destination) {
+		// 		return $destination->only(['id', 'name']);
+		// 	});
+		// 	return new Table(['ID', '目的地'], $destinations->toArray());
+		// });
 
 		// $grid->catattrs('属性')->pluck('name')->label()->style('max-width:180px;line-height:1.6em;word-break:break-all;');
 
@@ -199,9 +199,9 @@ class CategoryController extends Controller {
 		// 	return join('&nbsp;', $destinations);
 		// })->style('max-width:200px;line-height:1.6em;word-break:break-all;');
 
-		$grid->countries()->pluck('pivot')->map(function($item,$key){
-			return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
-		})->label('warning');
+		// $grid->countries()->pluck('pivot')->map(function($item,$key){
+		// 	return "<a href='products/create?c_id=".$item['category_id']."&d_id=".$item['country_id']."'>".$item['line']."</a>";
+		// })->label('warning');
 
 		// $grid->childcategories('子类')->count()->label('danger');
 		$grid->order('排序')->editable();
