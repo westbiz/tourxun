@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model {
@@ -36,11 +37,11 @@ class Country extends Model {
 		return $this->hasMany(Destination::class, 'country_id', 'id');
 	}
 
-	//商品多对多
-	//
-	public function products() {
-		return $this->belongsToMany(Product::class, 'tx_country_products', 'country_id', 'product_id');
-	}
+	// //商品多对多
+	// //
+	// public function products() {
+	// 	return $this->belongsToMany(Product::class, 'tx_country_products', 'city_id', 'product_id');
+	// }
 
 	//多对多，分类多国家
 	public function categorycountry() {

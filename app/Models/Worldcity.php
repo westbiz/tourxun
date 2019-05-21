@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Worldcity extends Model {
@@ -14,6 +15,13 @@ class Worldcity extends Model {
 	public function scopeChina() {
 		return $this->where('country_id', 101);
 	}
+
+
+	// //商品多对多
+	// //
+	// public function products() {
+	// 	return $this->belongsToMany(Product::class, 'tx_country_products', 'city_id', 'product_id');
+	// }
 
 	//海岛
 	public function scopeIsland() {

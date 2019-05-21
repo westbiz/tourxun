@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Picture;
+use App\Models\Country;
+use App\Models\Worldcity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
