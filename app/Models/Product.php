@@ -97,6 +97,16 @@ class Product extends Model {
 		return $this->belongsToMany(Destination::class, 'tx_destination_products', 'product_id', 'destination_id');
 	}
 
+	//目的地国家地区，多对多
+	public function countries() {
+		return $this->belongsToMany(Country::class, 'tx_country_products', 'product_id', 'country_id');
+	}
+
+	//目的地城市，多对多
+	public function cities() {
+		return $this->belongsToMany(Worldcity::class, 'tx_city_products', 'product_id', 'city_id');
+	}
+
 	//多图、文件上传的时候提交的数据为文件路径数组,可以直接用mysql的JSON类型字段存储,定义字段的mutator
 	public function setPictureuriAttribute($pictureuri) {
 		if (is_array($pictureuri)) {

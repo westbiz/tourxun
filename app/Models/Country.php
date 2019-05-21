@@ -12,10 +12,9 @@ class Country extends Model {
 	];
 
 	//海岛
-	public function scopeIsland(){
-		return $this->where('is_island',1);
+	public function scopeIsland() {
+		return $this->where('is_island', 1);
 	}
-
 
 	//一对多，大洲
 	public function continent() {
@@ -37,6 +36,12 @@ class Country extends Model {
 		return $this->hasMany(Destination::class, 'country_id', 'id');
 	}
 
+	//商品多对多
+	//
+	public function products() {
+		return $this->belongsToMany(Product::class, 'tx_country_products', 'country_id', 'product_id');
+	}
+
 	//多对多，分类多国家
 	public function categorycountry() {
 		return $this->belongsToMany(Category::class, 't_category_countries', 'country_id', 'category_id')->withPivot('line')->wherePivot('active', 1);
@@ -44,20 +49,20 @@ class Country extends Model {
 
 	//国内
 	public function scopeChina() {
-		return $this->where('id', 101);
+		return $this->where('id', 101)->where('active', 1);
 	}
 
 	//境外国家地区
 	public function scopeAbroad($query) {
 		//100台湾, 101中国, 71澳门, 75香港
 		$areas = collect([71, 75, 100, 101]);
-		return $query->whereNotIn('id', $areas);
+		return $query->whereNotIn('id', $areas)->where('active', 1);
 	}
 
 	//港澳台
 	public function scopeGangaotai($query) {
 		$areas = collect([71, 75, 100]);
-		return $query->whereIn('id', $areas);
+		return $query->whereIn('id', $areas)->where('active', 1);
 	}
 
 	//联动

@@ -173,7 +173,7 @@ class ProductController extends Controller {
 		$d_id = request()->get('d_id');
 		$form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
-		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'))->default($d_id);
+		// $form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'))->default($d_id);
 
 		$form->select('category_id', '分类')->options(
 			Category::pluck('name', 'id')
@@ -182,7 +182,7 @@ class ProductController extends Controller {
 		// $form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
 		if ($c_id == 1) {
 			$form->multipleSelect('countries', '目的地 地区')->options(Country::china()->pluck('cname', 'id'));
-			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::china()->pluck('cn_name', 'id'));
+			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::chinacities()->pluck('cn_name', 'id'));
 		} elseif ($c_id == 2) {
 			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->pluck('cname', 'id'));
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->pluck('cn_name', 'id'));

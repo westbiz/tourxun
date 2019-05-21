@@ -16,8 +16,8 @@ class Worldcity extends Model {
 	}
 
 	//海岛
-	public function scopeIsland(){
-		return $this->where('is_island',1);
+	public function scopeIsland() {
+		return $this->where('is_island', 1);
 	}
 
 	//一对多反向，国家
@@ -46,20 +46,20 @@ class Worldcity extends Model {
 		return $self->brothers()->pluck('cn_name', 'id');
 	}
 
-	//国内城市
+	//国内城市 激活的
 	public function scopeChinacities() {
-		return $this->where('country_id', 101);
+		return $this->where('country_id', 101)->where('active', 1);
 	}
 
 	//世界城市
 	public function scopeWorldcities() {
-		return $this->where('country_id', '<>', 101);
+		return $this->where('country_id', '<>', 101)->where('active', 1);
 	}
 
 	//港澳台
 	public function scopeGangaotai($query) {
 		$areas = collect([71, 75, 100]);
-		return $query->whereIn('country_id', $areas);
+		return $query->whereIn('country_id', $areas)->where('active', 1);
 	}
 
 }
