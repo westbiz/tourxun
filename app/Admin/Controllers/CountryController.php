@@ -137,7 +137,8 @@ class CountryController extends Controller {
 			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
 		];
 		$grid->is_island('海岛')->switch($states);
-		$grid->active('激活')->switch($states);		
+		$grid->active('激活')->switch($states);
+		$grid->promotion('推荐')->switch($states);
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 
@@ -206,6 +207,7 @@ class CountryController extends Controller {
 		];
 		$form->switch('active', '激活')->states($states)->default(0);
 		$form->switch('is_island', '海岛')->states($states)->default(0);
+		$form->switch('promotion', '推荐')->states($states)->default(0);
 		// $form->display('Created at');
 		// $form->display('Updated at');
 

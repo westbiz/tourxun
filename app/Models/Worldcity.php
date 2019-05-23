@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Worldcity extends Model {
 	protected $table = 't_world_cities';
 
 	protected $fillable = [
-		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island',
+		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion',
 	];
 
 	public function scopeChina() {
 		return $this->where('country_id', 101);
 	}
-
 
 	// //商品多对多
 	// //
