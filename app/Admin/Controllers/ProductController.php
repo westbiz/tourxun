@@ -173,7 +173,7 @@ class ProductController extends Controller {
 		$d_id = request()->get('d_id');
 		$form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
-		// $form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active', 1)->pluck('cn_name', 'id'))->default($d_id);
+		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active', 1)->departure()->pluck('cn_name', 'id'))->default($d_id);
 
 		$form->select('category_id', '分类')->options(
 			Category::pluck('name', 'id')
@@ -182,23 +182,23 @@ class ProductController extends Controller {
 		// $form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
 		if ($c_id == 1) {
 			// $form->multipleSelect('countries', '目的地 地区')->options(Country::china()->pluck('cname', 'id'));
-			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::chinacities()->pluck('cn_name', 'id'));
+			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		} elseif ($c_id == 2) {
-			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->pluck('cname', 'id'));
-			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->pluck('cn_name', 'id'));
+			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
+			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		} elseif ($c_id == 3) {
 			$form->multipleSelect('countries', '目的地 地区')->options(Country::gangaotai()->pluck('cname', 'id'));
 		} elseif ($c_id == 4) {
-			$form->multipleSelect('countries', '目的地 地区')->options(Country::island()->pluck('cname', 'id'));
-			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::island()->pluck('cn_name', 'id'));
+			$form->multipleSelect('countries', '目的地 地区')->options(Country::island()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
+			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::island()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		} elseif ($c_id == 5) {
-			$form->multipleSelect('countries', '国家名称')->options(Country::abroad()->pluck('cname', 'id'));
+			$form->multipleSelect('countries', '国家名称')->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 		} elseif ($c_id == 6) {
 
-			$form->multipleSelect('cities', '出发城市')->options(Worldcity::chinacities()->pluck('cn_name', 'id'));
+			$form->multipleSelect('cities', '出发城市')->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		} else {
-			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->pluck('cname', 'id'));
-			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->pluck('cn_name', 'id'));
+			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
+			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		}
 
 		// $form->multipleSelect('cities', '目的地 城市')->options(Worldcity::pluck('cn_name', 'id'));

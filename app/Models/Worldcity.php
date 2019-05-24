@@ -8,7 +8,7 @@ class Worldcity extends Model {
 	protected $table = 't_world_cities';
 
 	protected $fillable = [
-		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion',
+		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion', 'is_departure',
 	];
 
 	public function scopeChina() {
@@ -24,6 +24,11 @@ class Worldcity extends Model {
 	//海岛
 	public function scopeIsland() {
 		return $this->where('is_island', 1);
+	}
+
+	//开放始发地城市
+	public function scopeDeparture() {
+		return $this->where('is_departure', 1);
 	}
 
 	//一对多反向，国家
