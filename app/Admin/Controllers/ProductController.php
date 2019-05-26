@@ -173,7 +173,7 @@ class ProductController extends Controller {
 		$d_id = request()->get('d_id');
 		$form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
-		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->where('active', 1)->departure()->pluck('cn_name', 'id'))->default($d_id);
+		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'))->default($d_id);
 
 		$form->select('category_id', '分类')->options(
 			Category::pluck('name', 'id')

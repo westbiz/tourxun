@@ -98,11 +98,11 @@ class WorldcityController extends Controller {
 		});
 		$grid->id('ID');
 		$grid->cn_name('城市名');
-		$grid->name('EN名称');
+		$grid->name('EN名称')->limit(15);
 		$grid->country()->cname('国家/地区')->label('info');
 		$grid->cn_state('省/州');
 		$grid->state('EN省/州');
-		$grid->lower_name('en小写');
+		$grid->lower_name('en小写')->limit(25);;
 		$grid->city_code('代码');
 		$grid->state_code('州代码');
 		$states = [
@@ -112,7 +112,8 @@ class WorldcityController extends Controller {
 		$grid->is_island('海岛')->switch($states);
 		$grid->active('激活')->switch($states);
 		$grid->promotion('推荐')->switch($states);
-		$grid->is_departure('开放')->switch($states);
+		$grid->capital('首府')->switch($states);
+		$grid->is_departure('出发地')->switch($states);
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 
@@ -169,7 +170,8 @@ class WorldcityController extends Controller {
 		$form->switch('active', '激活')->states($states)->default(0);
 		$form->switch('is_island', '海岛')->states($states)->default(0);
 		$form->switch('promotion', '推荐')->states($states)->default(0);
-		$form->switch('is_departure', '开放')->states($states)->default(0);
+		$form->switch('capital', '首府')->states($states)->default(0);
+		$form->switch('is_departure', '出发地')->states($states)->default(0);
 		// $form->display('Created at');
 		// $form->display('Updated at');
 
