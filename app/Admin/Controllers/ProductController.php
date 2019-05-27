@@ -4,7 +4,6 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\CustomActions;
 use App\Http\Controllers\Controller;
-use App\Models\Area;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
 use App\Models\Category;
@@ -173,7 +172,6 @@ class ProductController extends Controller {
 		$d_id = request()->get('d_id');
 		$form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
-		$form->multipleSelect('departure', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'))->default($d_id);
 
 		$form->select('category_id', '分类')->options(
 			Category::pluck('name', 'id')
@@ -330,7 +328,7 @@ class ProductController extends Controller {
 
 		$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
 			$form->text('taocan', '套餐名|属性名|...');
-			$form->select('start', '出发地')->options(Area::where('active', 1)->pluck('areaName', 'id'))->default('2809');
+			$form->select('departure_id', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
 			// $form->number('night', '晚数')->min(0);

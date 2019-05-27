@@ -126,12 +126,12 @@ class CountryController extends Controller {
 		$grid->continent()->cn_name('大洲')->label('info');
 		$grid->continentlocation('地理位置')->pluck('cn_name')->label('danger');
 		// $grid->categorycountry('归类')->pluck('name')->label();
-		$grid->name('英文');
+		$grid->name('英文')->limit(15);
 		// $grid->lower_name('en小写');
 		$grid->country_code('代码');
 		// $grid->full_name('en全称');
-		$grid->full_cname('全称');
-		$grid->remark('简介')->limit(30);
+		$grid->full_cname('全称')->limit(15);
+		$grid->remark('简介')->limit(25);
 		$states = [
 			'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
 			'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
