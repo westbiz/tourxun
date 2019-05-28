@@ -170,7 +170,7 @@ class ProductController extends Controller {
 
 		$c_id = request()->get('c_id');
 		$d_id = request()->get('d_id');
-		$form->display('id', 'ID');
+		// $form->display('id', 'ID');
 		$form->text('name', '名称')->rules('required|min:3');
 
 		$form->select('category_id', '分类')->options(
@@ -199,12 +199,6 @@ class ProductController extends Controller {
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		}
 
-		// $form->multipleSelect('cities', '目的地 城市')->options(Worldcity::pluck('cn_name', 'id'));
-
-		// $form->select('categorycountry','目的地')->options(Category::find($c_id)->countries()->pluck('cname','id'));
-
-		// $form->multipleSelect('destination', '目的地')->options(Destination::pluck('name','id'))->default($d_id);
-
 		// $form->multipleSelect('destination', '目的地')->options(function ($id) {
 		//  return Destination::options($id);
 		// })->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
@@ -225,6 +219,7 @@ class ProductController extends Controller {
 
 		// dd($c_id);
 
+		////销售属性
 		$form->embeds('attributes', '属性', function ($form) {
 			$cates = Catattr::with('categories')->where('parent_id', 1)
 				->whereHas('categories', function ($query) {
@@ -248,9 +243,6 @@ class ProductController extends Controller {
 				}
 
 			}
-
-			// $form->text('name', '属性名');
-			// $form->text('value', '属性值');
 		});
 
 		// $categories = Category::whereDoesntHave('childcategories')->pluck('name', 'id');
@@ -288,26 +280,25 @@ class ProductController extends Controller {
 		// $form->select('category_id', '父类')->options($parents)->load('children', '/api/v1/categories/children');
 		// $form->select('children', '分类');
 
+		/////下拉菜单分组
 		// $group = [
-		//  [
-		//      'label' => 'xxxx',
-		//      'options' => [
-		//          1 => 'foo',
-		//          2 => 'bar',
-		//      ],
-		//  ],
-
-		//  [
-		//      'label' => 'aaaa',
-		//      'options' => [
-		//          3 => 'doo',
-		//          4 => 'fffar',
-		//          5 => 'doo',
-		//          6 => 'fffar',
-		//      ],
-		//  ],
+		// 	[
+		// 		'label' => 'xxxx',
+		// 		'options' => [
+		// 			1 => 'foo',
+		// 			2 => 'bar',
+		// 		],
+		// 	],
+		// 	[
+		// 		'label' => 'aaaa',
+		// 		'options' => [
+		// 			3 => 'doo',
+		// 			4 => 'fffar',
+		// 			5 => 'doo',
+		// 			6 => 'fffar',
+		// 		],
+		// 	],
 		// ];
-
 		// $form->select('category_id')->options()->groups($group);
 
 		//选项过多的ajax 方法加载方法
@@ -327,7 +318,7 @@ class ProductController extends Controller {
 		$form->switch('active', '激活？');
 
 		$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
-			$form->text('taocan', '套餐名|属性名|...');
+			$form->text('taocan', '套餐名|属性名...');
 			$form->select('departure_id', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
