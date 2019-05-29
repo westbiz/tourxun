@@ -220,7 +220,7 @@ class ProductController extends Controller {
 		// dd($c_id);
 
 		////销售属性
-		$form->embeds('attributes', '属性', function ($form) {
+		$form->embeds('attributes', '销售属性', function ($form) {
 			$cates = Catattr::with('categories')->where('parent_id', 1)
 				->whereHas('categories', function ($query) {
 					$c_id = request()->get('c_id');
@@ -241,7 +241,6 @@ class ProductController extends Controller {
 				} else {
 					$form->text($cate->description, $cate->name);
 				}
-
 			}
 		});
 
@@ -334,15 +333,18 @@ class ProductController extends Controller {
 			$cates = Catattr::where('parent_id', 2)->orderBy('order', 'desc')->get();
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
-					$form->checkbox('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->where('status', '1')->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'select') {
-					$form->select('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'radio') {
-					$form->radio('catavalues', $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} else {
-					$form->text('catavalues.attrvalue', $cate->name);
-				}
 
+					$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+							->where('status', '1')
+							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+
+				} elseif ($cate->inputtype == 'select') {
+					$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} elseif ($cate->inputtype == 'radio') {
+					$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} else {
+					$form->text($cate->description, $cate->name);
+				}
 			}
 		});
 
