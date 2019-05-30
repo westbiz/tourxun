@@ -330,22 +330,24 @@ class ProductController extends Controller {
 			$form->date('schedule', '团期');
 			$form->text('quantity', '数量');
 			$form->text('remark', '说明');
-			$cates = Catattr::where('parent_id', 2)->orderBy('order', 'desc')->get();
-			foreach ($cates as $cate) {
-				if ($cate->inputtype == 'checkbox') {
+			$form->embeds('attributes', '价格属性', function ($form) {
+				$cates = Catattr::where('parent_id', 2)->orderBy('order', 'desc')->get();
+				foreach ($cates as $cate) {
+					if ($cate->inputtype == 'checkbox') {
 
-					$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
-							->where('status', '1')
-							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
+						$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+								->where('status', '1')
+								->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 
-				} elseif ($cate->inputtype == 'select') {
-					$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} elseif ($cate->inputtype == 'radio') {
-					$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
-				} else {
-					$form->text($cate->description, $cate->name);
+					} elseif ($cate->inputtype == 'select') {
+						$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					} elseif ($cate->inputtype == 'radio') {
+						$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					} else {
+						$form->text($cate->description, $cate->name);
+					}
 				}
-			}
+			});
 		});
 
 		return $form;
