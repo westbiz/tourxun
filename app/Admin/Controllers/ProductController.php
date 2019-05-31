@@ -317,7 +317,7 @@ class ProductController extends Controller {
 		$form->switch('active', '激活？');
 
 		$form->hasMany('prices', '价格', function (Form\NestedForm $form) {
-			$form->text('taocan', '套餐名|属性名...');
+			$form->text('name', '套餐名|属性名...');
 			$form->select('departure_id', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
 
 			$form->number('day', '天数')->min(1)->max(90)->default(1);
