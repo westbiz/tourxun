@@ -149,12 +149,13 @@ class ProductController extends Controller {
 		// $show->content('内容')->as(function ($content) {
 		//  return "<pre>{$content}</pre>";
 		// });
-		$show->prices('价格', function ($price) {
-			$price->id('ID');
-			$price->schedule('出发日期');
-			$price->quantity('数量');
-			$price->price('价格');
-			$price->remark('备注');
+		$show->prices('价格', function ($prices) {
+			$prices->resource('/admin/prices');
+			$prices->id('ID');
+			$prices->schedule('出发日期');
+			$prices->quantity('数量');
+			$prices->price('价格');
+			$prices->remark('备注');
 		});
 
 		return $show;
@@ -331,7 +332,11 @@ class ProductController extends Controller {
 			$form->text('quantity', '数量');
 			$form->text('remark', '说明');
 			$form->embeds('attributes', '价格属性', function ($form) {
-				$cates = Catattr::where('parent_id', 2)->orderBy('order', 'desc')->get();
+				$cates = Catattr::with('categories')->where('parent_id', 2)
+						->whereHas('categories', function ($query) {
+							$c_id = request()->get('c_id');
+							$query->where('category_id', '=', $c_id);
+						})->get();
 				foreach ($cates as $cate) {
 					if ($cate->inputtype == 'checkbox') {
 
@@ -345,6 +350,10 @@ class ProductController extends Controller {
 						$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} else {
 						$form->text($cate->description, $cate->name);
+						// $form->table('attributes', function($table){
+						// 	$table->text('key');
+						// 	$table->text('value');
+						// });
 					}
 				}
 			});
