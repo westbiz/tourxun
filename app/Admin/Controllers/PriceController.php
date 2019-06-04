@@ -81,10 +81,10 @@ class PriceController extends Controller {
 			$grid->actions(function ($actions) {
 				$p_id = $actions->getKey();
 
-				$c_id = $actions->row->category_id;
+				$c_id = $actions->row->product->category_id;
 				// $d_id = request()->get('d_id');
 				// $d_id = $actions->row->destinations()->pivot()->destination_id;
-				// dd($d_id);
+				// dd($actions->row->product->category_id);
 				$actions->prepend("<a href='prices/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加价格'><i class='fa fa-plus-square'></i></a>&nbsp;");
 			});
 
@@ -92,7 +92,7 @@ class PriceController extends Controller {
 			$grid->product()->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
 			});
-			$grid->column('name')->display(function ($category) {
+			$grid->column('类别')->display(function ($category) {
 				return $this->product->category->name;
 			});
 			$grid->product()->name('商品名称');
