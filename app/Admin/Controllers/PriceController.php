@@ -3,10 +3,10 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Price;
-use App\Models\Worldcity;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
+use App\Models\Price;
+use App\Models\Worldcity;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -77,19 +77,23 @@ class PriceController extends Controller {
 	protected function grid() {
 		return Admin::grid(Price::class, function (Grid $grid) {
 
+			$grid->model()->with('product.category');
 			$grid->actions(function ($actions) {
-			$p_id = $actions->getKey();
+				$p_id = $actions->getKey();
 
-			$c_id = $actions->row->category_id;
-			// $d_id = request()->get('d_id');
-			// $d_id = $actions->row->destinations()->pivot()->destination_id;
-			// dd($d_id);
-			$actions->prepend("<a href='prices/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加价格'><i class='fa fa-plus-square'></i></a>&nbsp;");
-		});
+				$c_id = $actions->row->category_id;
+				// $d_id = request()->get('d_id');
+				// $d_id = $actions->row->destinations()->pivot()->destination_id;
+				// dd($d_id);
+				$actions->prepend("<a href='prices/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加价格'><i class='fa fa-plus-square'></i></a>&nbsp;");
+			});
 
 			$grid->id('ID')->sortable();
 			$grid->product()->avatar('图片')->display(function ($avatar) {
 				return "<img src='http://tourxun.test/uploads/$avatar' alt='$this->name' height='10%' width='10%' class='img img-thumbnail'>";
+			});
+			$grid->column('name')->display(function ($category) {
+				return $this->product->category->name;
 			});
 			$grid->product()->name('商品名称');
 			$grid->departure_id('出发地');
@@ -112,6 +116,7 @@ class PriceController extends Controller {
 
 			$c_id = request()->get('c_id');
 			// $form->display('id', 'ID');
+
 			$form->text('name', '套餐名|属性名...');
 			$form->select('departure_id', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
 			$form->image('product.avatar');
@@ -121,10 +126,10 @@ class PriceController extends Controller {
 			$form->textarea('remark', '说明');
 			$form->embeds('attributes', '价格属性', function ($form) {
 				$cates = Catattr::with('categories')->where('parent_id', 2)
-						->whereHas('categories', function ($query) {
-							$c_id = request()->get('c_id');
-							$query->where('category_id', '=', $c_id);
-						})->get();
+					->whereHas('categories', function ($query) {
+						$c_id = request()->get('c_id');
+						$query->where('category_id', '=', $c_id);
+					})->get();
 				foreach ($cates as $cate) {
 					if ($cate->inputtype == 'checkbox') {
 

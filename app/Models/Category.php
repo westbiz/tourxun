@@ -32,6 +32,11 @@ class Category extends Model {
 		return $this->belongsToMany(Destination::class, 'tx_category_destinations', 'category_id', 'destination_id');
 	}
 
+	//远层一对多
+	public function prices() {
+		return $this->hasManyThrough(Product::class, Price::class, 'category_id', 'product_id', 'id', 'id');
+	}
+
 	//
 	// public function cities()
 	// {

@@ -19,16 +19,19 @@ class Price extends Model {
 		return $this->belongsTo(Product::class, 'product_id');
 	}
 
-
+	//远层一对多
+	public function category() {
+		return $this->hasManyThrough(Category::class, Product::class);
+	}
 
 	//
 	// public function getAttributesAttribute($attributes)
- //    {
- //        return array_values(json_decode($attributes, true) ?: []);
- //    }
+	//    {
+	//        return array_values(json_decode($attributes, true) ?: []);
+	//    }
 
- //    public function setAttributesAttribute($attributes)
- //    {
- //        $this->attributes['attributes'] = json_encode(array_values($attributes));
- //    }
+	//    public function setAttributesAttribute($attributes)
+	//    {
+	//        $this->attributes['attributes'] = json_encode(array_values($attributes));
+	//    }
 }
