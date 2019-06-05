@@ -20,9 +20,9 @@ class Price extends Model {
 	}
 
 	//远层一对多
-	public function category() {
-		return $this->hasManyThrough(Category::class, Product::class);
-	}
+	// public function category() {
+	// 	return $this->hasManyThrough(Category::class, Product::class);
+	// }
 
 	//
 	// public function getAttributesAttribute($attributes)

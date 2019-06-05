@@ -77,7 +77,7 @@ class PriceController extends Controller {
 	protected function grid() {
 		return Admin::grid(Price::class, function (Grid $grid) {
 
-			$grid->model()->with('product.category');
+			// $grid->model()->with('product.category');
 			$grid->actions(function ($actions) {
 				$p_id = $actions->getKey();
 
