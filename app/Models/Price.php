@@ -8,11 +8,11 @@ class Price extends Model {
 	protected $table = 'tx_prices';
 
 	protected $casts = [
-		'attributes' => 'json',
+		'properties' => 'json',
 	];
 
 	protected $fillable = [
-		'product_id', 'name', 'shop_id', 'departure_id', 'star', 'sku', 'price', 'start_date', 'end_date', 'quantity', 'schedule', 'remark', 'attributes',
+		'product_id', 'name', 'shop_id', 'departure_id', 'star', 'sku', 'price', 'start_date', 'end_date', 'quantity', 'schedule', 'remark', 'properties',
 	];
 
 	public function product() {

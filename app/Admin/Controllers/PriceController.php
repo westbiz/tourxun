@@ -124,7 +124,7 @@ class PriceController extends Controller {
 			$form->currency('childprice', '儿童价格')->symbol('￥');
 			$form->date('schedule', '团期');
 			$form->textarea('remark', '说明');
-			$form->embeds('attributes', '价格属性', function ($form) {
+			$form->embeds('properties', '价格属性', function ($form) {
 				$cates = Catattr::with('categories')->where('parent_id', 2)
 					->whereHas('categories', function ($query) {
 						$c_id = request()->get('c_id');
@@ -136,17 +136,12 @@ class PriceController extends Controller {
 						$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
 								->where('status', '1')
 								->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
-
 					} elseif ($cate->inputtype == 'select') {
 						$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} elseif ($cate->inputtype == 'radio') {
 						$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} else {
 						$form->text($cate->description, $cate->name);
-						// $form->table('attributes', function($table){
-						// 	$table->text('key');
-						// 	$table->text('value');
-						// });
 					}
 				}
 			});

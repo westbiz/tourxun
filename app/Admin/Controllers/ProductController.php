@@ -326,34 +326,29 @@ class ProductController extends Controller {
 			$form->currency('price', '成人价格')->symbol('￥');
 			$form->currency('childprice', '儿童价格')->symbol('￥');
 			$form->text('chutuan', '发团方式')->default('天天');
-			$form->dateRange('start_date', 'end_date', 'Date range');
+			$form->dateRange('start_date', 'end_date', '有效期');
 
 			$form->date('schedule', '团期');
 			$form->text('quantity', '数量');
 			$form->text('remark', '说明');
-			$form->embeds('attributes', '价格属性', function ($form) {
+			$form->embeds('properties', '价格属性', function ($form) {
 				$cates = Catattr::with('categories')->where('parent_id', 2)
-						->whereHas('categories', function ($query) {
-							$c_id = request()->get('c_id');
-							$query->where('category_id', '=', $c_id);
-						})->get();
+					->whereHas('categories', function ($query) {
+						$c_id = request()->get('c_id');
+						$query->where('category_id', '=', $c_id);
+					})->get();
 				foreach ($cates as $cate) {
 					if ($cate->inputtype == 'checkbox') {
 
 						$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
 								->where('status', '1')
 								->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
-
 					} elseif ($cate->inputtype == 'select') {
 						$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} elseif ($cate->inputtype == 'radio') {
 						$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} else {
 						$form->text($cate->description, $cate->name);
-						// $form->table('attributes', function($table){
-						// 	$table->text('key');
-						// 	$table->text('value');
-						// });
 					}
 				}
 			});
