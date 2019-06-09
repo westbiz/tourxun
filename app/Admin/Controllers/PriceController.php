@@ -115,11 +115,13 @@ class PriceController extends Controller {
 		return Admin::form(Price::class, function (Form $form) {
 
 			$c_id = request()->get('c_id');
+			$p_id = request()->get('p_id');
 			// $form->display('id', 'ID');
+			// dd($p_id);			
 
 			$form->text('name', '套餐名|属性名...');
 			$form->select('departure_id', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
-			$form->image('product.avatar');
+			$form->image('product.avatar', '图片');
 			$form->currency('price', '价格')->symbol('￥');
 			$form->currency('childprice', '儿童价格')->symbol('￥');
 			$form->date('schedule', '团期');

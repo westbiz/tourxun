@@ -81,7 +81,7 @@ class ProductController extends Controller {
 	protected function grid() {
 		$grid = new Grid(new Product);
 
-		$grid->disableActions();
+		// $grid->disableActions();
 		// $grid->actions(function ($actions) {
 		// 	$p_id = $actions->getKey();
 
@@ -91,6 +91,13 @@ class ProductController extends Controller {
 		// 	// dd($d_id);
 		// 	$actions->prepend("<a href='products/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i></a>&nbsp;");
 		// });
+		$grid->actions(function ($actions) {
+			$actions->disableEdit();
+			$p_id = $actions->getKey();
+			$c_id = $actions->row->category_id;
+			$actions->prepend("<a href='products/" . $p_id . "/edit?c_id=" . $c_id . "' title='编辑'><i class='fa fa-edit'></i>编辑</a>&nbsp;");
+			$actions->prepend("<a href='prices/create?p_id=" . $p_id . "&c_id=" . $c_id . "' title='添加价格'><i class='fa fa-plus-square'></i>价格</a>&nbsp;");
+		});
 
 		$grid->id('ID')->sortable();
 		$grid->avatar('图片')->display(function ($avatar) {
@@ -121,7 +128,7 @@ class ProductController extends Controller {
 		})->style('max-width:300px;word-break:break-all;');
 		$grid->summary('概述');
 
-		$grid->column('actions', '操作')->displayUsing(CustomActions::class);
+		// $grid->column('actions', '操作')->displayUsing(CustomActions::class);
 
 		// $grid->content('正文')->limit(30);
 		// $grid->active('激活');
@@ -200,6 +207,8 @@ class ProductController extends Controller {
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		}
 
+		$form->text('day', '天数');
+		$form->text('night', '晚数');
 		// $form->multipleSelect('destination', '目的地')->options(function ($id) {
 		//  return Destination::options($id);
 		// })->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
