@@ -79,13 +79,14 @@ class PriceController extends Controller {
 
 			// $grid->model()->with('product.category');
 			$grid->actions(function ($actions) {
+				$actions->disableEdit();
 				$p_id = $actions->getKey();
 
 				$c_id = $actions->row->product->category_id;
 				// $d_id = request()->get('d_id');
 				// $d_id = $actions->row->destinations()->pivot()->destination_id;
 				// dd($actions->row->product->category_id);
-				$actions->prepend("<a href='prices/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加价格'><i class='fa fa-plus-square'></i></a>&nbsp;");
+				$actions->prepend("<a href='prices/" . $p_id . "/edit?c_id=" . $c_id . "' title='添加价格'><i class='fa fa-edit'></i>编辑</a>&nbsp;");
 			});
 
 			$grid->id('ID')->sortable();
@@ -117,7 +118,7 @@ class PriceController extends Controller {
 			$c_id = request()->get('c_id');
 			$p_id = request()->get('p_id');
 			// $form->display('id', 'ID');
-			// dd($p_id);			
+			// dd($p_id);
 
 			$form->text('name', '套餐名|属性名...');
 			$form->select('departure_id', '出发地')->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));

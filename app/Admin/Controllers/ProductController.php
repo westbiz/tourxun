@@ -2,7 +2,6 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\CustomActions;
 use App\Http\Controllers\Controller;
 use App\Models\Attrvalue;
 use App\Models\Catattr;
