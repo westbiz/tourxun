@@ -88,7 +88,13 @@ class CatattrController extends Controller {
 		$grid->description('说明')->editable();
 		$grid->parentcatattr()->name('属性类别')->label('danger');
 		$grid->categories('归属分类')->pluck('name')->label('warning');
-		$grid->inputtype('控件名');
+		// $grid->inputtype('控件名');
+		$grid->inputtype('控件类型')->select([
+			'checkbox' => '多选框',
+			'radio' => '单选框',
+			'select' => '下拉菜单',
+			'text' => '文本框',
+		]);
 
 		return $grid;
 	}
