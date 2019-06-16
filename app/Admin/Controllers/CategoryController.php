@@ -194,7 +194,7 @@ class CategoryController extends Controller {
 		$grid->parentcategory('父类')->display(function ($parentcategory) {
 			return "<span class='label label-info'>{$parentcategory['name']}</span>";
 		});
-		$grid->description('说明')->editable();
+		$grid->description('说明')->limit(40)->editable();
 		// $grid->destinations('目的地')->display(function ($destinations) {
 
 		// 	$destinations = array_map(function ($destination) {
