@@ -171,9 +171,13 @@ class CategoryController extends Controller {
 		$grid = new Grid(new Category);
 
 		$grid->actions(function ($actions) {
+			$actions->disableEdit();
 			$c_id = $actions->getKey();
-			$actions->append("<a href='categories/create?parent_id=" . $actions->getKey() . "' title='添加子类'><i class='fa fa-plus'></i>子类</a>&nbsp;");
-			$actions->prepend("<a href='products/create?c_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus-square'></i>商品</a>&nbsp;");
+			
+			$actions->prepend("<a href='categories/" . $c_id . "/edit' title='编辑'><i class='fa fa-edit'></i>编辑</a>&nbsp;");
+			$actions->prepend("<a href='products/create?c_id=" . $c_id . "' title='添加商品'><i class='fa fa-plus-square'></i>商品</a>&nbsp;");
+			$actions->prepend("<a href='categories/create?parent_id=" . $c_id . "' title='添加子类'><i class='fa fa-plus'></i>子类</a>&nbsp;");
+
 		});
 		$grid->id('ID')->sortable();
 
@@ -294,7 +298,7 @@ class CategoryController extends Controller {
 	 */
 	protected function form() {
 		$form = new Form(new Category);
-
+		
 		$p_id = request()->get('parent_id');
 		// $c_id = request()->get('categories');
 		$c_id = request()->route()->parameters('categories');
