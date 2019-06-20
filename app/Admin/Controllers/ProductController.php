@@ -244,7 +244,15 @@ class ProductController extends Controller {
 							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 
 				} elseif ($cate->inputtype == 'select') {
-					$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					if ($cate->description == 'departures') {
+						$form->select($cate->description, $cate->name)->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
+					} elseif ($cate->description == 'cities') {
+						echo "cities";
+						// $form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					} else {
+						echo "123";
+					}
+
 				} elseif ($cate->inputtype == 'radio') {
 					$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} else {
