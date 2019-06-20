@@ -246,11 +246,11 @@ class ProductController extends Controller {
 				} elseif ($cate->inputtype == 'select') {
 					if ($cate->description == 'departures') {
 						$form->select($cate->description, $cate->name)->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
-					} elseif ($cate->description == 'cities') {
-						echo "cities";
-						// $form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					} elseif ($cate->description == 'countries') {
+						
+						$form->select($cate->description, $cate->name)->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 					} else {
-						echo "123";
+						$form->select($cate->description, $cate->name)->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 					}
 
 				} elseif ($cate->inputtype == 'radio') {
