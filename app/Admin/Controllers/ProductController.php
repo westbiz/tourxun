@@ -297,25 +297,29 @@ class ProductController extends Controller {
 		// $form->select('children', '分类');
 
 		/////下拉菜单分组
-		// $group = [
-		// 	[
-		// 		'label' => 'xxxx',
-		// 		'options' => [
-		// 			1 => 'foo',
-		// 			2 => 'bar',
-		// 		],
-		// 	],
-		// 	[
-		// 		'label' => 'aaaa',
-		// 		'options' => [
-		// 			3 => 'doo',
-		// 			4 => 'fffar',
-		// 			5 => 'doo',
-		// 			6 => 'fffar',
-		// 		],
-		// 	],
-		// ];
-		// $form->select('category_id')->options()->groups($group);
+		$labs = Worldcity::worldcities()->get();
+		// ,'country_id'
+		dd($labs->groupBy('country_id'));
+		// ->groupBy('country_id')
+		$group = [
+			[
+				'label' => $labs,
+				'options' => [
+					1 => 'foo',
+					2 => 'bar',
+				],
+			],
+			// [
+			// 	'label' => 'aaaa',
+			// 	'options' => [
+			// 		3 => 'doo',
+			// 		4 => 'fffar',
+			// 		5 => 'doo',
+			// 		6 => 'fffar',
+			// 	],
+			// ],
+		];
+		$form->select('country-city')->options()->groups($group);
 
 		//选项过多的ajax 方法加载方法
 		// $form->select('category_id', '父类')->options(function ($id) {
