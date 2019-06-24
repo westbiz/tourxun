@@ -297,13 +297,13 @@ class ProductController extends Controller {
 		// $form->select('children', '分类');
 
 		/////下拉菜单分组
-		$labs = Worldcity::worldcities()->get();
+		$labs = Worldcity::with('country')->worldcities()->get();
 		// ,'country_id'
-		dd($labs->groupBy('country_id'));
+		// dd($labs[0]->cn_name);
 		// ->groupBy('country_id')
 		$group = [
 			[
-				'label' => $labs,
+				'label' => $labs[0]->country->cname,
 				'options' => [
 					1 => 'foo',
 					2 => 'bar',
