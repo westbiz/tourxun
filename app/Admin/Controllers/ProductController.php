@@ -239,24 +239,24 @@ class ProductController extends Controller {
 			foreach ($cates as $cate) {
 				if ($cate->inputtype == 'checkbox') {
 
-					$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+					$form->checkbox($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
 							->where('status', '1')
 							->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 
 				} elseif ($cate->inputtype == 'select') {
-					if ($cate->description == 'departures') {
-						$form->select($cate->description, $cate->name)->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
-					} elseif ($cate->description == 'countries') {
+					if ($cate->en_name == 'departures') {
+						$form->select($cate->en_name, $cate->name)->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
+					} elseif ($cate->en_name == 'countries') {
 
-						$form->select($cate->description, $cate->name)->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
+						$form->select($cate->en_name, $cate->name)->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 					} else {
-						$form->select($cate->description, $cate->name)->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
+						$form->select($cate->en_name, $cate->name)->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 					}
 
 				} elseif ($cate->inputtype == 'radio') {
-					$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+					$form->radio($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} else {
-					$form->text($cate->description, $cate->name);
+					$form->text($cate->en_name, $cate->name);
 				}
 			}
 		});
@@ -360,15 +360,15 @@ class ProductController extends Controller {
 				foreach ($cates as $cate) {
 					if ($cate->inputtype == 'checkbox') {
 
-						$form->checkbox($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
+						$form->checkbox($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)
 								->where('status', '1')
 								->orderBy('order', 'asc')->pluck('attrvalue', 'id'));
 					} elseif ($cate->inputtype == 'select') {
-						$form->select($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+						$form->select($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} elseif ($cate->inputtype == 'radio') {
-						$form->radio($cate->description, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+						$form->radio($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 					} else {
-						$form->text($cate->description, $cate->name);
+						$form->text($cate->en_name, $cate->name);
 					}
 				}
 			});

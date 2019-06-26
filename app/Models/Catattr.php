@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Catattr extends Model {
 	protected $table = 'p_catattrs';
 
+	protected $casts = [
+        'list' => 'json',
+    ];
+
 	protected $fillable = [
-		'name', 'parent_id', 'description', 'category_id', 'isrequired', 'inputtype', 'order', 'active',
+		'name', 'en_name', 'parent_id', 'category_id', 'isrequired', 'inputtype', 'inputformat', 'order', 'active', 'list',
 	];
 
 	//多个属性
