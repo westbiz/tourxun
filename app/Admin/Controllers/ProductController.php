@@ -247,7 +247,7 @@ class ProductController extends Controller {
 					if ($cate->description == 'departures') {
 						$form->select($cate->description, $cate->name)->options(Worldcity::chinacities()->departure()->pluck('cn_name', 'id'));
 					} elseif ($cate->description == 'countries') {
-						
+
 						$form->select($cate->description, $cate->name)->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 					} else {
 						$form->select($cate->description, $cate->name)->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
@@ -297,29 +297,29 @@ class ProductController extends Controller {
 		// $form->select('children', '分类');
 
 		/////下拉菜单分组
-		$labs = Worldcity::with('country')->worldcities()->get();
-		// ,'country_id'
-		// dd($labs[0]->cn_name);
-		// ->groupBy('country_id')
-		$group = [
-			[
-				'label' => $labs[0]->country->cname,
-				'options' => [
-					1 => 'foo',
-					2 => 'bar',
-				],
-			],
-			// [
-			// 	'label' => 'aaaa',
-			// 	'options' => [
-			// 		3 => 'doo',
-			// 		4 => 'fffar',
-			// 		5 => 'doo',
-			// 		6 => 'fffar',
-			// 	],
-			// ],
-		];
-		$form->select('country-city')->options()->groups($group);
+		// $labs = Worldcity::with('country')->worldcities()->get();
+		// // ,'country_id'
+		// // dd($labs[0]->cn_name);
+		// // ->groupBy('country_id')
+		// $group = [
+		// 	[
+		// 		'label' => $labs[0]->country->cname,
+		// 		'options' => [
+		// 			1 => 'foo',
+		// 			2 => 'bar',
+		// 		],
+		// 	],
+		// 	// [
+		// 	// 	'label' => 'aaaa',
+		// 	// 	'options' => [
+		// 	// 		3 => 'doo',
+		// 	// 		4 => 'fffar',
+		// 	// 		5 => 'doo',
+		// 	// 		6 => 'fffar',
+		// 	// 	],
+		// 	// ],
+		// ];
+		// $form->select('country-city')->options()->groups($group);
 
 		//选项过多的ajax 方法加载方法
 		// $form->select('category_id', '父类')->options(function ($id) {
