@@ -255,6 +255,10 @@ class ProductController extends Controller {
 
 				} elseif ($cate->inputtype == 'radio') {
 					$form->radio($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
+				} elseif ($cate->inputtype == 'text' && $cate->inputformat == 'number') {
+					// dd($cate->inputformat == 'number');
+
+					$form->number($cate->en_name, $cate->name)->min(1)->max(90)->default(1);
 				} else {
 					$form->text($cate->en_name, $cate->name);
 				}

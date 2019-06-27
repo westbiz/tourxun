@@ -83,7 +83,7 @@ class CatattrController extends Controller {
 
 		$grid->id('ID');
 		$grid->name('属性名称')->editable();
-		$grid->en_name('说明')->editable();		
+		$grid->en_name('说明')->editable();
 		// $grid->childcatattr('属性值')->pluck('name')->label();
 		$grid->attrvalues('属性值')->pluck('attrvalue')->label('info')->style('max-width:200px;line-height:1.5em;word-break:break-all;');
 
@@ -96,7 +96,16 @@ class CatattrController extends Controller {
 			'select' => '下拉菜单',
 			'text' => '文本框',
 		]);
-		$grid->inputformat('控件数据格式');
+		$grid->inputformat('控件格式')->label();
+		// ->select([
+		// 	'date' => '日期',
+		// 	'datetime' => '时间',
+		// 	'dateRange' => '日期范围',
+		// 	'timeRange' => '时间范围',
+		// 	'number' => '数字',
+		// 	'currency' => '货币',
+		// 	'text' => '文本',
+		// ]);
 
 		return $grid;
 	}
@@ -146,15 +155,15 @@ class CatattrController extends Controller {
 		$form->select('inputtype', '控件类型')->options(['select' => '下拉框', 'checkbox' => '复选框', 'radio' => '单选框', 'text' => '文本框'])->rules('required');
 		$form->select('inputformat', '控件格式')
 			->options([
-				'date' => '日期', 
-				'datetime' => '日期时间', 
-				'dateRange' => '日期范围', 
+				'date' => '日期',
+				'datetime' => '日期时间',
+				'dateRange' => '日期范围',
 				'timeRange' => '时间范围',
 				'number' => '数字输入',
 				'currency' => '货币',
 				'text' => '文本',
-			])->rules('required');	
-		// $form->list('list');	
+			])->rules('required');
+		// $form->list('list');
 		$form->radio('active', '激活')->options([1 => '是', 0 => '否'])->default(0);
 
 		$form->hasMany('attrvalues', '属性值', function (Form\NestedForm $form) {
