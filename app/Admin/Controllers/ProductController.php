@@ -256,9 +256,12 @@ class ProductController extends Controller {
 				} elseif ($cate->inputtype == 'radio') {
 					$form->radio($cate->en_name, $cate->name)->options(Attrvalue::where('catattr_id', $cate->id)->pluck('attrvalue', 'id'));
 				} elseif ($cate->inputtype == 'text' && $cate->inputformat == 'number') {
-					// dd($cate->inputformat == 'number');
+					$min=$cate->extra[0]['value'];
+					$max=$cate->extra[1]['value'];
 
-					$form->number($cate->en_name, $cate->name)->min(1)->max(90)->default(1);
+					$form->number($cate->en_name, $cate->name)->min($min)->max($max)->default(1);
+				} elseif ($cate->inputtype == 'text' && $cate->inputformat == 'date'){
+					$form->date($cate->en_name, $cate->name);
 				} else {
 					$form->text($cate->en_name, $cate->name);
 				}

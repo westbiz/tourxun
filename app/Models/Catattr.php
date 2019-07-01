@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Catattr extends Model {
 	protected $table = 'p_catattrs';
 
-	protected $casts = [
+	// protected $casts = [
+ //        'list' => 'json',
+ //    ];
+
+    protected $extra = [
         'list' => 'json',
     ];
 
 	protected $fillable = [
-		'name', 'en_name', 'parent_id', 'category_id', 'isrequired', 'inputtype', 'inputformat', 'order', 'active', 'list',
+		'name', 'en_name', 'parent_id', 'category_id', 'isrequired', 'inputtype', 'inputformat', 'order', 'active', 'extra',
 	];
 
 	//多个属性
@@ -47,5 +51,16 @@ class Catattr extends Model {
 	public function parentcatattr() {
 		return $this->belongsTo(Catattr::class, 'parent_id', 'id');
 	}
+
+
+	public function getExtraAttribute($extra)
+    {
+        return array_values(json_decode($extra, true) ?: []);
+    }
+
+    public function setExtraAttribute($extra)
+    {
+        $this->attributes['extra'] = json_encode(array_values($extra));
+    }
 
 }
