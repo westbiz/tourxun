@@ -172,11 +172,10 @@ class CatattrController extends Controller {
 			$form->radio('status', '状态')->options([1 => '是', 0 => '否'])->default(0);
 		});
 
-
-		$form->table('extra','扩展项', function ($table) {
-		    $table->text('key');
-		    $table->text('value');
-		    $table->text('desc');
+		$form->table('extra', '扩展项', function ($table) {
+			$table->text('key');
+			$table->text('value');
+			$table->text('desc');
 		});
 
 		// $form->display('Created at');
