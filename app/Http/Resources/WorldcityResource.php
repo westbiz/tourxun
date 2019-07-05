@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Country;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorldcityResource extends JsonResource {
@@ -17,6 +18,7 @@ class WorldcityResource extends JsonResource {
 			'id' => $this->id,
 			'label' => $this->name,
 			'cn_city' => $this->cn_city,
+			'country' => Country::collection($this->cname),
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 		];

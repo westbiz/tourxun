@@ -85,8 +85,6 @@ class WorldcityController extends Controller {
 		return Worldcity::where('country_id', $q)->get(['id', DB::raw('cn_name as text')]);
 	}
 
-
-
 	//选项过多，可通过ajax方式动态分页载入选项
 	public function allcities(Request $request) {
 		$q = $request->get('q');
@@ -119,6 +117,11 @@ class WorldcityController extends Controller {
 		// ->orWhere('city_code', 'like', "%$q%")
 		// ->orWhere('cn_state', 'like', "%$q%")
 			->paginate(null, ['id', 'cn_name as text']);
+	}
+
+	public function worldcitieswithcountry(Request $request) {
+		$q = $request->get('q');
+		return Worldcity::with('country')->find(1);
 	}
 
 }

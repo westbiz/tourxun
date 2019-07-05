@@ -74,7 +74,6 @@ Route::get('area/district', 'AreaController@district')->name('district');
 
 Route::get('area/province', 'AreaController@province')->name('province');
 
-
 Route::get('worldcities/getcities', 'WorldcityController@getcities')->name('getcities');
 
 Route::get('worldcities/all', 'WorldcityController@allcities')->name('allcities');
@@ -82,5 +81,7 @@ Route::get('worldcities/all', 'WorldcityController@allcities')->name('allcities'
 Route::get('chinacities/ajax', 'WorldcityController@chinacities')->name('chinacities');
 
 Route::get('worldcities/ajax', 'WorldcityController@worldcities')->name('worldcities');
+
+Route::get('worldcities/worldcitieswithcountry', 'WorldcityController@worldcitieswithcountry')->name('worldcitieswithcountry');
 
 Route::get('countries/ajax', 'CountryController@countryajax')->name('ajax');
