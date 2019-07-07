@@ -3,6 +3,10 @@
 use App\Http\Resources\CategoryCollection;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Worldcity;
+use App\Models\Country;
+use App\Http\Resources\WorldcityResource;
+use App\Http\Resources\CountryResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,4 +88,13 @@ Route::get('worldcities/ajax', 'WorldcityController@worldcities')->name('worldci
 
 Route::get('worldcities/worldcitieswithcountry', 'WorldcityController@worldcitieswithcountry')->name('worldcitieswithcountry');
 
+Route::get('worldcities', function(){
+	return new WorldcityResource(Worldcity::find(1));
+});
+
 Route::get('countries/ajax', 'CountryController@countryajax')->name('ajax');
+
+Route::get('countries/getcities', 'CountryController@getcities')->name('getcities');
+Route::get('countries', function(){
+	return CountryResource::collection(Country::all());
+});

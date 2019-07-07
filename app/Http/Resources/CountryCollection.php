@@ -20,7 +20,7 @@ class CountryCollection extends ResourceCollection
             'data' => $this->collection,
             // 'links' => [
             //  'self' => 'link-value',
-            ],
+            // ],
         ];
                
     }

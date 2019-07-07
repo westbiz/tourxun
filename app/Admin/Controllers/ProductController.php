@@ -187,7 +187,8 @@ class ProductController extends Controller {
 		// $form->multipleSelect('destinations', '目的地')->options(Destination::pluck('name', 'id'))->default($d_id);
 		if ($c_id == 1) {
 			// $form->multipleSelect('countries', '目的地 地区')->options(Country::china()->pluck('cname', 'id'));
-			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
+			// $form->multipleSelect('cities', '目的地 城市')->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
+			$form->select('cities', '目的地 城市')->options()->groups('/api/v1/countries/getcities');
 		} elseif ($c_id == 2) {
 			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));

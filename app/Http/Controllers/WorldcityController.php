@@ -121,7 +121,9 @@ class WorldcityController extends Controller {
 
 	public function worldcitieswithcountry(Request $request) {
 		$q = $request->get('q');
-		return Worldcity::with('country')->find(1);
+		return Worldcity::worldcities()
+				->with('country')
+				->paginate(null, ['id', 'cn_name as text','country_id']);
 	}
 
 }

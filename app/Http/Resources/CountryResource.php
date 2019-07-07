@@ -15,10 +15,11 @@ class CountryResource extends JsonResource {
 		// return parent::toArray($request);
 
 		return [
-			'id' => $this->id,
-			'name' => $this->name,
-			'country_code' => $this->country_code,
-			'cname' => $this->cname,
+			// 'id' => $this->id,
+			// 'name' => $this->name,
+			// 'country_code' => $this->country_code,
+			'label' => $this->cname,
+			'options' => WorldcityResource::collection($this->cities),
 		];
 	}
 }

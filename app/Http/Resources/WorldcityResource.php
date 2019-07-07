@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Country;
+use App\Http\Resources\CountryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorldcityResource extends JsonResource {
@@ -16,11 +17,12 @@ class WorldcityResource extends JsonResource {
 		// return parent::toArray($request);
 		return [
 			'id' => $this->id,
-			'label' => $this->name,
-			'cn_city' => $this->cn_city,
-			'country' => Country::collection($this->cname),
-			'created_at' => $this->created_at,
-			'updated_at' => $this->updated_at,
+			// 'name' => $this->name,
+			'cn_name' => $this->cn_name,
+			// 'country_id'=>$this->country_id,
+			// 'country_name' => CountryResource::collection($this->country_id),
+			// 'created_at' => $this->created_at,
+			// 'updated_at' => $this->updated_at,
 		];
 	}
 

@@ -16,7 +16,7 @@ class WorldcityCollection extends ResourceCollection {
 			'data' => $this->collection,
 			// 'links' => [
 			// 	'self' => 'link-value',
-			],
+			// ],
 		];
 	}
 }
