@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\CountryController;
-use App\Models\Country;
-use App\Models\Worldcity;
-use Illuminate\Http\Request;
 use App\Http\Resources\CountryResource;
+use App\Models\Country;
+use Illuminate\Http\Request;
 
 class CountryController extends Controller {
 	/**
@@ -88,11 +87,9 @@ class CountryController extends Controller {
 			->paginate(null, ['id', 'cname as text']);
 	}
 
-
 	public function getcities(Request $request) {
-		
+
 		return CountryResource::collection(Country::all());
 	}
-
 
 }

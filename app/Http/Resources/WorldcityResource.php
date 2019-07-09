@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Country;
-use App\Http\Resources\CountryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorldcityResource extends JsonResource {
