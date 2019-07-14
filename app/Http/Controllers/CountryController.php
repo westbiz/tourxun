@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\CountryController;
 use App\Http\Resources\CountryResource;
 use App\Models\Country;
+use App\Models\Worldcity;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller {
@@ -85,6 +86,13 @@ class CountryController extends Controller {
 			->orWhere('country_code', 'like', "%$q%")
 		// ->orWhere('cn_state', 'like', "%$q%")
 			->paginate(null, ['id', 'cname as text']);
+	}
+
+
+	public function getcitiesbycountry(Request $request) {
+		$q = $request->get('q');
+		return Worldcity::where('country_id', $q)
+			->get(['id', 'cn_name as text']);
 	}
 
 	public function getcities(Request $request) {

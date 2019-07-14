@@ -16,9 +16,9 @@ class WorldcityResource extends JsonResource {
 		return [
 			'id' => $this->id,
 			// 'name' => $this->name,
-			'cn_name' => $this->cn_name,
+			'text' => $this->cn_name,
 			// 'country_id'=>$this->country_id,
-			// 'country_name' => CountryResource::collection($this->country_id),
+			// 'country_name' => CountryResource::collection($this->whenLoaded('cities')),
 			// 'created_at' => $this->created_at,
 			// 'updated_at' => $this->updated_at,
 		];
@@ -28,7 +28,7 @@ class WorldcityResource extends JsonResource {
 	public function with($request) {
 		return [
 			'link' => [
-				'self' => url('api/v1/worldcities/ajax' . $this->id),
+				'self' => url('api/v1/worldcities/ajax/' . $this->id),
 			],
 		];
 	}

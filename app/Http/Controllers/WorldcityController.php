@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WorldcityController;
 use App\Models\Worldcity;
+use App\Http\Resources\WorldcityResource;
 // use App\Http\Controllers\Worldcity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -97,7 +98,7 @@ class WorldcityController extends Controller {
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项
-	public function chinacities(Request $request) {
+	public function citiesofchina(Request $request) {
 		$q = $request->get('q');
 		// return Worldcity::chinacities()
 		return Worldcity::chinacities()
@@ -119,11 +120,9 @@ class WorldcityController extends Controller {
 			->paginate(null, ['id', 'cn_name as text']);
 	}
 
-	public function worldcitieswithcountry(Request $request) {
+	public function getcitieswithcountry(Request $request) {
 		$q = $request->get('q');
-		return Worldcity::worldcities()
-				->with('country')
-				->paginate(null, ['id', 'cn_name as text','country_id']);
+		return WorldcityResource::collection(Worldcity::all());
 	}
 
 }

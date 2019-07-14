@@ -82,15 +82,17 @@ Route::get('worldcities/getcities', 'WorldcityController@getcities')->name('getc
 
 Route::get('worldcities/all', 'WorldcityController@allcities')->name('allcities');
 
-Route::get('chinacities/ajax', 'WorldcityController@chinacities')->name('chinacities');
+Route::get('citiesofchina/ajax', 'WorldcityController@citiesofchina')->name('citiesofchina');
 
 Route::get('worldcities/ajax', 'WorldcityController@worldcities')->name('worldcities');
 
-Route::get('worldcities/worldcitieswithcountry', 'WorldcityController@worldcitieswithcountry')->name('worldcitieswithcountry');
+Route::get('worldcities/getcitieswithcountry', 'WorldcityController@getcitieswithcountry')->name('getcitieswithcountry');
 
-Route::get('worldcities', function () {
-	return new WorldcityResource(Worldcity::find(1));
-});
+// Route::get('worldcities', function () {
+// 	return new WorldcityResource(Worldcity::find(1));
+// });
+
+Route::get('countries/getcitiesbycountry', 'CountryController@getcitiesbycountry')->name('getcitiesbycountry');
 
 Route::get('countries/ajax', 'CountryController@countryajax')->name('ajax');
 
