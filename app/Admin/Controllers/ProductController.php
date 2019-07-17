@@ -203,7 +203,13 @@ class ProductController extends Controller {
 			$form->multipleSelect('countries', '目的地 地区')->options(Country::island()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::island()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		} elseif ($c_id == 5) {
-			$form->multipleSelect('countries', '国家名称')->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
+			//周边游
+			$form->multipleSelect('cities', '目的地 城市')->options(function($id){
+				$city = Worldcity::china()->find($id);
+				if ($city) {
+					return [$city->id => $city->cn_name];
+				}
+			})->ajax('/api/v1/citiesofchina/ajax');
 		} elseif ($c_id == 6) {
 
 			$form->multipleSelect('cities', '出发城市')->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
@@ -212,8 +218,8 @@ class ProductController extends Controller {
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		}
 
-		$form->text('day', '天数');
-		$form->text('night', '晚数');
+		$form->number('day', '天数')->min(1)->default(1);
+		$form->number('night', '晚数')->min(0)->default(0);
 		// $form->multipleSelect('destination', '目的地')->options(function ($id) {
 		//  return Destination::options($id);
 		// })->help('没有需要的分类？前往<a href="/admin/categories/create">创建</a>');
