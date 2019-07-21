@@ -193,7 +193,7 @@ class ProductController extends Controller {
 				if ($city) {
 					return [$city->id => $city->cn_name];
 				}
-			})->ajax('/api/v1/citiesofchina/ajax');
+			})->ajax('/api/v1/chinacities/ajax');
 		} elseif ($c_id == 2) {
 			$form->multipleSelect('countries', '目的地 地区')->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
@@ -204,18 +204,20 @@ class ProductController extends Controller {
 			$form->multipleSelect('cities', '目的地 城市')->options(Worldcity::island()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 		} elseif ($c_id == 5) {
 			//周边游
-			$form->select('departure', '出发城市')->options(function($id){
-				$city = Worldcity::china()->find($id);
-				if ($city) {
-					return [$city->id => $city->cn_name];
-				}
-			})->ajax('/api/v1/citiesofchina/ajax');
-			$form->multipleSelect('cities', '目的地 城市')->options(function($id){
-				$city = Worldcity::china()->find($id);
-				if ($city) {
-					return [$city->id => $city->cn_name];
-				}
-			})->ajax('/api/v1/citiesofchina/ajax');
+			// $form->select('departure', '出发城市')->options(function($id){
+			// 	$city = Worldcity::china()->find($id);
+			// 	if ($city) {
+			// 		return [$city->id => $city->cn_name];
+			// 	}
+			// })->ajax('/api/v1/chinacities/ajax');
+			$form->select('departure', '出发城市')->options(Worldcity::chinacities()->pluck('cn_name','id'))->load('cities','/api/v1/worldcities/aroundcities');
+			$form->select('cities','目的地');
+			// $form->multipleSelect('cities', '目的地 城市')->options(function($id){
+			// 	$city = Worldcity::china()->find($id);
+			// 	if ($city) {
+			// 		return [$city->id => $city->cn_name];
+			// 	}
+			// })->ajax('/api/v1/chinacities/ajax');
 		} elseif ($c_id == 6) {
 
 			$form->multipleSelect('cities', '出发城市')->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
