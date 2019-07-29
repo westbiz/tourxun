@@ -124,7 +124,13 @@ class WorldcityController extends Controller {
 		$q = $request->get('q');
 		$prv = Worldcity::where('id',$q)->pluck('cn_state');
 		return Worldcity::where('cn_state', $prv)->get(['id', DB::raw('cn_name as text')]);
-	}	
+	}
+
+	public function getprovince(Request $request) {
+		$q = $request->get('q');
+		
+		return Worldcity::chinacities()->get(['id', DB::raw('cn_name as text'),DB::raw('cn_state')])->groupBy('cn_state')->all();
+	}
 
 	public function getcitieswithcountry(Request $request) {
 		$q = $request->get('q');

@@ -90,6 +90,8 @@ Route::get('worldcities/getcitieswithcountry', 'WorldcityController@getcitieswit
 
 Route::get('worldcities/aroundcities', 'WorldcityController@aroundcities')->name('aroundcities');
 
+Route::get('worldcities/getprovince', 'WorldcityController@getprovince')->name('getprovince');
+
 // Route::get('worldcities', function () {
 // 	return new WorldcityResource(Worldcity::find(1));
 // });

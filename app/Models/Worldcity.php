@@ -7,9 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class Worldcity extends Model {
 	protected $table = 't_world_cities';
 
-	protected $fillable = [
-		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion', 'capital', 'is_departure',
+	protected $casts = [
+		'neighbour' => 'json',
 	];
+
+	protected $fillable = [
+		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion', 'capital', 'is_departure', 'neighbour',
+	];
+
+
+	public function neighbour()
+	{
+		return $this->belongsTo(Worldcity::class,'id','id');
+	}
+
+	public function neighbours()
+	{
+		return $this->hasMany(Worldcity::class,'id','id');
+	}
+
 
 	public function scopeChina() {
 		return $this->where('country_id', 101);
@@ -66,7 +82,7 @@ class Worldcity extends Model {
 
 	//国内城市 激活的
 	public function scopeChinacities() {
-		return $this->where('country_id', 101)->where('active', 1);
+		return $this->where('country_id', 101);
 	}
 
 	//世界城市

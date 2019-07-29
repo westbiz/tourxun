@@ -14,6 +14,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller {
 	use HasResourceActions;
@@ -210,8 +211,9 @@ class ProductController extends Controller {
 			// 		return [$city->id => $city->cn_name];
 			// 	}
 			// })->ajax('/api/v1/chinacities/ajax');
-			$form->select('departure', '出发城市')->options(Worldcity::chinacities()->pluck('cn_name','id'))->load('cities','/api/v1/worldcities/aroundcities');
-			$form->select('cities','目的地');
+			$form->select('departure', '出发城市')->options(Worldcity::chinacities()->departure()->pluck('cn_name','id'))->load('cities','/api/v1/worldcities/aroundcities');
+			$form->multipleSelect('cities','目的地')->rules('required');
+
 			// $form->multipleSelect('cities', '目的地 城市')->options(function($id){
 			// 	$city = Worldcity::china()->find($id);
 			// 	if ($city) {
