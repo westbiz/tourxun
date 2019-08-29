@@ -55,15 +55,15 @@ class Country extends Model {
 
 	//境外国家地区
 	public function scopeAbroad($query) {
-		//100台湾, 101中国, 71澳门, 75香港
+		//除100台湾, 101中国, 71澳门, 75香港以外
 		$areas = collect([71, 75, 100, 101]);
 		return $query->whereNotIn('id', $areas)->where('active', 1);
 	}
 
 	//港澳台
 	public function scopeGangaotai($query) {
-		$areas = collect([71, 75, 100]);
-		return $query->whereIn('id', $areas)->where('active', 1);
+		$areas = collect(['香港', '澳门', '台湾']);
+		return $query->whereIn('cname', $areas)->where('active', 1);
 	}
 
 	//联动

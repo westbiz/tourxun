@@ -114,7 +114,7 @@ class WorldcityController extends Controller {
 		$grid->promotion('推荐')->switch($states);
 		$grid->capital('首府')->switch($states);
 		$grid->is_departure('出发地')->switch($states);
-		$grid->neighbour()->cn_name()->label();
+		
 		// $grid->created_at('Created at');
 		// $grid->updated_at('Updated at');
 
@@ -139,6 +139,7 @@ class WorldcityController extends Controller {
 		$show->lower_name('en小写');
 		$show->city_code('代码');
 		$show->state_code('州代码');
+		$show->neighbour()->label();
 		// $show->created_at('Created at');
 		// $show->updated_at('Updated at');
 
@@ -164,7 +165,7 @@ class WorldcityController extends Controller {
 
 		$form->text('city_code', '城市代码');
 		$form->text('state_code', '州代码');
-		$form->multipleSelect('neighbour', '出省周边目的地')->options(Worldcity::chinacities()->pluck('cn_name','id'));
+		
 		$states = [
 			'on' => ['value' => 1, 'text' => '打开', 'color' => 'success'],
 			'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],

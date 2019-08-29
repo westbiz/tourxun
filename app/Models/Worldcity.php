@@ -12,19 +12,11 @@ class Worldcity extends Model {
 	];
 
 	protected $fillable = [
-		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion', 'capital', 'is_departure', 'neighbour',
+		'country_id', 'state', 'name', 'lower_name', 'cn_state', 'cn_name', 'city_code', 'state_code', 'active', 'is_island', 'promotion', 'capital', 'is_departure', 
 	];
 
 
-	public function neighbour()
-	{
-		return $this->belongsTo(Worldcity::class,'id','id');
-	}
 
-	public function neighbours()
-	{
-		return $this->hasMany(Worldcity::class,'id','id');
-	}
 
 
 	public function scopeChina() {
@@ -91,9 +83,15 @@ class Worldcity extends Model {
 	}
 
 	//港澳台
+	// public function scopeGangaotai($query) {
+	// 	$areas = collect([71, 75, 100]);
+	// 	return $query->whereIn('country_id', $areas)->where('active', 1);
+	// }
+
 	public function scopeGangaotai($query) {
-		$areas = collect([71, 75, 100]);
-		return $query->whereIn('country_id', $areas)->where('active', 1);
+		$areas = collect(['香港', '澳门', '台湾']);
+		return $query->whereIn('cn_state', $areas)->where('active', 1);
 	}
+
 
 }

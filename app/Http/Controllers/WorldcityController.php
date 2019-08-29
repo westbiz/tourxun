@@ -101,12 +101,17 @@ class WorldcityController extends Controller {
 	public function chinacities(Request $request) {
 		$q = $request->get('q');
 		// return Worldcity::chinacities()
-		return Worldcity::chinacities()
-			->where('cn_name', 'like', "%$q%")
+		return Worldcity::
+			where('country_id',101)->where('cn_name', 'like', "%$q%")
+			->orWhere('country_id',101)->where('cn_state', 'like', "%$q%")
+			->paginate(null, ['id', 'cn_name as text']);
+
+			
 		// ->orWhere('name', 'like', "%$q%")
 		// ->orWhere('city_code', 'like', "%$q%")
-		// ->orWhere('cn_state', 'like', "%$q%")
-			->paginate(null, ['id', 'cn_name as text']);
+		//可搜索省名
+		
+			
 	}
 
 	//选项过多，可通过ajax方式动态分页载入选项
@@ -114,9 +119,9 @@ class WorldcityController extends Controller {
 		$q = $request->get('q');
 		return Worldcity::worldcities()
 			->where('cn_name', 'like', "%$q%")
-		// ->orWhere('name', 'like', "%$q%")
-		// ->orWhere('city_code', 'like', "%$q%")
-		// ->orWhere('cn_state', 'like', "%$q%")
+		->orWhere('state_code', 'like', "%$q%")
+		->orWhere('city_code', 'like', "%$q%")
+		->orWhere('cn_state', 'like', "%$q%")
 			->paginate(null, ['id', 'cn_name as text']);
 	}
 

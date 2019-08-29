@@ -29,7 +29,7 @@ class CountryController extends Controller {
 	 */
 	public function index(Content $content) {
 		return $content
-			->header('国家管理')
+			->header('国家|地区管理')
 			->description('列表')
 			->body($this->grid());
 	}
