@@ -400,7 +400,7 @@ class ProductController extends Controller {
 			// $form->number('night', '晚数')->min(0);
 			$form->currency('price', '成人价格')->symbol('￥');
 			$form->currency('childprice', '儿童价格')->symbol('￥');
-			$form->text('chutuan', '发团方式')->default('天天');
+			$form->select('chutuan', '发团方式')->options([1=>'天天', 2=>'定期', 3=>'每周' ])->default(1);
 			$form->dateRange('start_date', 'end_date', '有效期');
 
 			$form->date('schedule', '团期');
