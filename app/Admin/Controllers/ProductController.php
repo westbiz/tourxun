@@ -276,7 +276,10 @@ class ProductController extends Controller {
 					} elseif ($cate->en_name == 'countries') {
 
 						$form->select($cate->en_name, $cate->name)->options(Country::abroad()->orderBy('promotion', 'desc')->pluck('cname', 'id'));
-					} else {
+					} elseif ($cate->en_name == 'chinacities') {
+						$form->select($cate->en_name, $cate->name)->options(Worldcity::chinacities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
+					}
+					 else {
 						$form->select($cate->en_name, $cate->name)->options(Worldcity::worldcities()->orderBy('promotion', 'desc')->pluck('cn_name', 'id'));
 					}
 
