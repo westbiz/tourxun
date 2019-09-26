@@ -156,6 +156,15 @@ return [
 			'disk' => 'public',
 		],
 
+		// 如果要关掉这个扩展，设置为false
+		'wang-editor' => [
+			'enable' => false,
+		],
+
+		'wang-editor2' => [
+			'enable' => true,
+		],
+
 		'api-tester' => [
 			//route prefix for APIs
 			'prefix' => 'api',
