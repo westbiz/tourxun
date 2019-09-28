@@ -1494,16 +1494,16 @@
         },
         {
             "name": "laravel-admin-ext/helpers",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/helpers.git",
-                "reference": "67b2573029f90ca1873e1598a2d46ae8d9acca66"
+                "reference": "773b6441d653a46f78fb3d99502bd0fe84e20d79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/67b2573029f90ca1873e1598a2d46ae8d9acca66",
-                "reference": "67b2573029f90ca1873e1598a2d46ae8d9acca66",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/773b6441d653a46f78fb3d99502bd0fe84e20d79",
+                "reference": "773b6441d653a46f78fb3d99502bd0fe84e20d79",
                 "shasum": ""
             },
             "require": {
@@ -1542,7 +1542,7 @@
                 "helpers",
                 "laravel-admin"
             ],
-            "time": "2018-10-24T15:21:11+00:00"
+            "time": "2019-09-27T07:33:13+00:00"
         },
         {
             "name": "laravel-admin-ext/media-manager",
